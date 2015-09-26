@@ -6,8 +6,9 @@
 //  Copyright © 2015 Cameron Little. All rights reserved.
 //
 
-import UIKit
+import AVFoundation
 import Photos
+import UIKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -60,14 +61,6 @@ class PhotoGridViewController: UICollectionViewController {
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         options.predicate =  NSPredicate(format: "mediaSubtype = %i", 8)// PHAssetMediaSubtype.PhotoLive.rawValue
         assets = PHAsset.fetchAssetsWithOptions(options)
-        
-        for var i = 0; i < assets.count; i++ {
-            let asset = assets[i] as? PHAsset
-            
-            print(asset?.creationDate)
-            print(asset?.mediaSubtypes)
-            print(asset?.mediaType)
-        }
     }
     
     // MARK: UICollectionViewDataSource
@@ -82,10 +75,9 @@ class PhotoGridViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoGridCell
         let photoRequestOptions = PHImageRequestOptions()
-        print(indexPath.row)
         photoRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
         photoRequestOptions.resizeMode = PHImageRequestOptionsResizeMode.Exact
-        self.manager.requestImageForAsset(assets[indexPath.item] as! PHAsset,
+        manager.requestImageForAsset(assets[indexPath.item] as! PHAsset,
             targetSize: cell.frame.size,
             contentMode: PHImageContentMode.AspectFill,
             options: photoRequestOptions) { (image: UIImage?, info: [NSObject : AnyObject]?) in
@@ -102,12 +94,71 @@ class PhotoGridViewController: UICollectionViewController {
             selectedCell = nil
         } else {
             selectedCell = indexPath
+            let asset = assets[indexPath.item]
             print("selected \(indexPath.row)")
+            manager.requestLivePhotoForAsset(asset, CGSize(300, 300), PHImageContentMode.AspectFit, nil) { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) in {
+                let resources = PHAssetResource.AssetResourcesForLivePhoto(livePhoto)
+                var movieFile: PHAssetResource?
+                for item in resources {
+                    print(item.type.rawValue)
+                    if item.uniformTypeIdentifier == "com.apple.quicktime-movie" {
+                        movieFile = item
+                        break
+                    }
+                }
+                let movResourceOptions = PHAssetResourceRequestOptions()
+                movResourceOptions.networkAccessAllowed = true
+                PHAssetResourceManager.defaultManager().requestDataForAssetResource(movieFile!, options: movResourceOptions, dataReceivedHandler: { (data: NSData) -> Void in
+                    let tempFileName = "temp_\(movieFile!.assetLocalIdentifier)_\(movieFile!.originalFilename)"
+                    let tempFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(tempFileName))
+                    print(tempFileUrl)
+                    data.writeToURL(tempFileUrl, atomically: true)
+                    let movAsset = AVAsset(URL: tempFileUrl)
+                    let metadata = movAsset.metadata
+                    for data in metadata {
+                        print(data)
+                    }
+                    print(metadata)
+                    let generator = AVAssetImageGenerator(asset: movAsset)
+
+                    }, completionHandler: { (error: NSError?) -> Void in
+                        if error != nil {
+                            // TODO: handle
+                        }
+                })
+            }
+            /*
+            let resources = PHAssetResource.assetResourcesForAsset(asset as! PHAsset)
+            var movieFile: PHAssetResource?
+            for item in resources {
+                print(item.type.rawValue)
+                if item.uniformTypeIdentifier == "com.apple.quicktime-movie" {
+                    movieFile = item
+                    break
+                }
+            }
+            let movResourceOptions = PHAssetResourceRequestOptions()
+            movResourceOptions.networkAccessAllowed = true
+            PHAssetResourceManager.defaultManager().requestDataForAssetResource(movieFile!, options: movResourceOptions, dataReceivedHandler: { (data: NSData) -> Void in
+                let tempFileName = "temp_\(movieFile!.assetLocalIdentifier)_\(movieFile!.originalFilename)"
+                let tempFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(tempFileName))
+                print(tempFileUrl)
+                data.writeToURL(tempFileUrl, atomically: true)
+                let movAsset = AVAsset(URL: tempFileUrl)
+                let metadata = movAsset.metadata
+                for data in metadata {
+                    print(data)
+                }
+                print(metadata)
+                let generator = AVAssetImageGenerator(asset: movAsset)
+
+            }, completionHandler: { (error: NSError?) -> Void in
+                if error != nil {
+                    // TODO: handle
+                }
+            })*/
             let sheet = UIActivityViewController(activityItems: [], applicationActivities: nil)
-            sheet.excludedActivityTypes =
-                [UIActivityTypePrint,
-                UIActivityTypeSaveToCameraRoll,
-                UIActivityTypePostToFlickr]
+            sheet.excludedActivityTypes = [UIActivityTypePrint]
             self.presentViewController(sheet, animated: true, completion: nil)
         }
         return false
