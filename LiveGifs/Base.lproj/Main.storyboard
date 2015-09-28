@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hx5-oS-oxS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9052" systemVersion="15B17c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hx5-oS-oxS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -28,23 +28,32 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZMe-ch-kre">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlv-Gk-7O0" customClass="PHLivePhotoView">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <animations/>
-                                        </imageView>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="B7g-Sx-UJR">
+                                            <rect key="frame" x="8" y="24" width="34" height="2.5"/>
+                                            <animations/>
+                                        </progressView>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="bottomMargin" secondItem="ZMe-ch-kre" secondAttribute="bottom" constant="-8" id="Had-zk-WxO"/>
-                                    <constraint firstItem="ZMe-ch-kre" firstAttribute="top" secondItem="ici-lB-Nrk" secondAttribute="topMargin" constant="-8" id="Pwa-hR-tWt"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="ZMe-ch-kre" secondAttribute="trailing" constant="-8" id="VCm-S8-Xxk"/>
-                                    <constraint firstItem="ZMe-ch-kre" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" constant="-8" id="bEI-JG-Flh"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="rlv-Gk-7O0" secondAttribute="bottom" constant="-8" id="Dxf-0F-vFH"/>
+                                    <constraint firstItem="B7g-Sx-UJR" firstAttribute="trailing" secondItem="ici-lB-Nrk" secondAttribute="trailingMargin" id="Goj-ji-Orw"/>
+                                    <constraint firstItem="B7g-Sx-UJR" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" id="Jbj-2F-8pk"/>
+                                    <constraint firstItem="B7g-Sx-UJR" firstAttribute="centerY" secondItem="ici-lB-Nrk" secondAttribute="centerY" id="MTu-rn-Lb1"/>
+                                    <constraint firstItem="rlv-Gk-7O0" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" constant="-8" id="aef-Uy-gVh"/>
+                                    <constraint firstItem="rlv-Gk-7O0" firstAttribute="top" secondItem="ici-lB-Nrk" secondAttribute="topMargin" constant="-8" id="c1g-Yo-v62"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="rlv-Gk-7O0" secondAttribute="trailing" constant="-8" id="uT0-XQ-tc1"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="imageView" destination="ZMe-ch-kre" id="61h-Py-BIg"/>
+                                    <outlet property="livePhotoView" destination="rlv-Gk-7O0" id="CEH-If-eDw"/>
+                                    <outlet property="progressBar" destination="B7g-Sx-UJR" id="3d0-fx-WFK"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

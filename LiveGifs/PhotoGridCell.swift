@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import PhotosUI
 
 class PhotoGridCell: UICollectionViewCell {
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
+    @IBOutlet weak var livePhotoView: PHLivePhotoView!
+    @IBOutlet weak var progressBar: UIProgressView!
 }
