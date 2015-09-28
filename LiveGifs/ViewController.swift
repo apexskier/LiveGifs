@@ -11,7 +11,6 @@ import Photos
 import ImageIO
 import MobileCoreServices
 import UIKit
-import Regift
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -28,6 +27,8 @@ class ViewController: UIViewController {
 
 class PhotoGridViewController: UICollectionViewController {
     private let reuseIdentifier = "PhotoGridCell"
+
+    var running = false
 
     let fileManager = NSFileManager.defaultManager()
     let resourceManager = PHAssetResourceManager.defaultManager()
@@ -85,8 +86,8 @@ class PhotoGridViewController: UICollectionViewController {
         let photoRequestOptions = PHImageRequestOptions()
         photoRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
         photoRequestOptions.resizeMode = PHImageRequestOptionsResizeMode.Exact
-        imageManager.requestLivePhotoForAsset(assets[indexPath.item] as! PHAsset, targetSize: cell.frame.size, contentMode: PHImageContentMode.AspectFill, options: nil) { (photo: PHLivePhoto?, info: [NSObject : AnyObject]?) -> Void in
-            cell.livePhotoView.livePhoto = photo
+        imageManager.requestImageForAsset(assets[indexPath.item] as! PHAsset, targetSize: cell.frame.size, contentMode: PHImageContentMode.AspectFill, options: photoRequestOptions) { (image: UIImage?, info: [NSObject : AnyObject]?) in
+            cell.imageView.image = image
         }
         cell.backgroundColor = UIColor.grayColor()
         // cell.imageView.image = photo...
@@ -95,157 +96,27 @@ class PhotoGridViewController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if selectedCell == indexPath {
-            selectedCell = nil
-        } else {
-            selectedCell = indexPath
+        if !running {
+            self.running = true
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoGridCell
             cell.progressBar.hidden = false
             let asset = assets[indexPath.item]
-            print("selected \(indexPath.row)")
             let screenBounds = UIScreen.mainScreen().bounds
             let optionsPH = PHLivePhotoRequestOptions()
             optionsPH.deliveryMode = .HighQualityFormat
             optionsPH.networkAccessAllowed = true
             optionsPH.progressHandler = { (progress: Double, error: NSError?, object: UnsafeMutablePointer<ObjCBool>, info: [NSObject : AnyObject]?) in
-                cell.progressBar.progress = Float(progress)
+                print("lp download progress: \(progress)")
+                cell.progressBar.setProgress(Float(progress), animated: true)
             }
-            imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: CGSize(width: screenBounds.size.width, height: screenBounds.size.height), contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
-                let resources = PHAssetResource.assetResourcesForLivePhoto(livePhoto!)
-                var movieFile: PHAssetResource?
-                var jpegFile: PHAssetResource?
-                for item in resources {
-                    switch item.type {
-                    case .Photo:
-                        jpegFile = item as PHAssetResource
-                    case .PairedVideo:
-                        movieFile = item as PHAssetResource
-                    default:
-                        break
-                    }
-                }
-
-                if movieFile == nil || jpegFile == nil {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        let alert = UIAlertController(title: "Error", message: "No movie file found for this photo.", preferredStyle: UIAlertControllerStyle.Alert)
-                        UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-                    })
-                    return
-                }
-
-                // get the image
-                let jpegResourceOptions = PHAssetResourceRequestOptions()
-                jpegResourceOptions.networkAccessAllowed = true
-                jpegResourceOptions.progressHandler = { (progress: Double) in
-                    dispatch_async(dispatch_get_main_queue(), {
-                        cell.progressBar.progress = Float(progress) / 2 + 0.5
-                    })
-                }
-                let jpegFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(jpegFile!.originalFilename))
-                // delete any old files
-                do { try self.fileManager.removeItemAtURL(jpegFileUrl) }
-                catch {}
-
-                self.resourceManager.writeDataForAssetResource(jpegFile!, toFile: jpegFileUrl, options: jpegResourceOptions, completionHandler: { (error: NSError?) -> Void in
-                    if error != nil {
-                        let alert = UIAlertController(title: "Error", message: "Failed to get movie file.", preferredStyle: UIAlertControllerStyle.Alert)
-                        UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-                        print(error?.usefulDescription)
-                        return
-                    }
-                    let liveImageJpeg = UIImage(contentsOfFile: jpegFileUrl.path!)!
-                    let orientation = liveImageJpeg.imageOrientation
-                    let targetHeight = liveImageJpeg.size.height
-                    let targetWidth = liveImageJpeg.size.width
-
-                    let movResourceOptions = PHAssetResourceRequestOptions()
-                    movResourceOptions.networkAccessAllowed = true
-                    movResourceOptions.progressHandler = { (progress: Double) in
-                        dispatch_async(dispatch_get_main_queue(), {
-                            cell.progressBar.progress = Float(progress) / 2
-                        })
-                    }
-                    let movFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(movieFile!.originalFilename))
-                    // delete any old files
-                    do { try self.fileManager.removeItemAtURL(movFileUrl) }
-                    catch {}
-                    self.resourceManager.writeDataForAssetResource(movieFile!, toFile: movFileUrl, options: movResourceOptions, completionHandler: { (error: NSError?) -> Void in
-                        if error != nil {
-                            let alert = UIAlertController(title: "Error", message: "Failed to get movie file.", preferredStyle: UIAlertControllerStyle.Alert)
-                            UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-                            print(error?.usefulDescription)
-                            return
-                        }
-
-                        let movAsset = AVAsset(URL: movFileUrl)
-                        // let videoTrack = movAsset.tracks[0]
-                        let frameRate = Float(2) // videoTrack.nominalFrameRate
-                        let frameCount = frameRate * Float(movAsset.duration.seconds)
-                        print("frameRate: \(frameRate), frameCount: \(frameCount), length: \(movAsset.duration.seconds)")
-
-                        var times: [CMTime] = []
-                        for i in 1...Int(frameCount) {
-                            times.append(CMTime(seconds: Double(i) / Double(frameRate), preferredTimescale: 6000))
-                        }
-                        let lastTime = times[times.count - 1]
-
-                        let movFilename: NSString = movieFile!.originalFilename
-                        let gifFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("\(movFilename.stringByDeletingPathExtension).gif"))
-                        print(gifFileUrl)
-                        do { try self.fileManager.removeItemAtURL(gifFileUrl) }
-                        catch {}
-
-                        let destination = CGImageDestinationCreateWithURL(gifFileUrl, kUTTypeGIF, Int(frameCount), nil)
-                        let gifProperties: CFDictionaryRef = [
-                            kCGImagePropertyGIFDictionary as String: [
-                                kCGImagePropertyGIFLoopCount as String: 0, // loop forever
-                            ]
-                        ]
-                        let frameProperties: CFDictionaryRef = [
-                            kCGImagePropertyGIFDictionary as String: [
-                                kCGImagePropertyGIFDelayTime as String: 1 / Float(frameRate)
-                                // kCGImagePropertyGIFHasGlobalColorMap as String: false
-                            ]
-                        ]
-                        CGImageDestinationSetProperties(destination!, gifProperties)
-
-                        let generator = AVAssetImageGenerator(asset: movAsset)
-                        var count = 0
-
-                        for time in times {
-                            do {
-                                let imageFrame = try generator.copyCGImageAtTime(time, actualTime: nil) //.rotate(orientation, targetWidth: Int(targetWidth), targetHeight: Int(targetHeight))
-
-                                // DEBUG
-                                /*let imgPath = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("\(movieFile!.originalFilename).\(count).gif"))
-                                do { try self.fileManager.removeItemAtURL(imgPath) }
-                                catch {}
-                                let imgDest = CGImageDestinationCreateWithURL(imgPath, kUTTypeGIF, 1, nil)
-                                CGImageDestinationAddImage(imgDest!, imageFrame, nil)
-                                CGImageDestinationFinalize(imgDest!)*/
-
-                                CGImageDestinationAddImage(destination!, imageFrame, frameProperties)
-
-                                cell.progressBar.progress = Float(time.seconds / lastTime.seconds)
-
-                                print("\(count) -- requestedTime: \(time.seconds)")
-                                count++
-                            } catch let error as NSError {
-                                let alert = UIAlertController(title: "Error", message: "Failed to get movie file.", preferredStyle: UIAlertControllerStyle.Alert)
-                                UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-                                print(error.usefulDescription)
-                                return
-                            }
-                        }
-                        CGImageDestinationSetProperties(destination!, gifProperties)
-                        CGImageDestinationFinalize(destination!)
-                        
-                        let sheet = UIActivityViewController(activityItems: [gifFileUrl], applicationActivities: nil)
-                        sheet.excludedActivityTypes = [UIActivityTypePrint]
-                        self.presentViewController(sheet, animated: true, completion: {
-                            cell.progressBar.hidden = true
-                        })
-                    })
+            imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2), contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
+                let overlayController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewController") as! OverlayViewController
+                self.presentViewController(overlayController, animated: true, completion: { () -> Void in
+                    print("presented overlay controller")
+                    overlayController.livephotoView.livePhoto = livePhoto
+                    self.running = false
+                    cell.progressBar.hidden = true
+                    cell.progressBar.progress = 0
                 })
             })
         }

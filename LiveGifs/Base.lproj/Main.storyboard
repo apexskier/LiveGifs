@@ -15,26 +15,25 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zu7-ye-NC2">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="133" height="133"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="LiveGifs" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="64" width="133" height="133"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlv-Gk-7O0" customClass="PHLivePhotoView">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dPZ-Sf-xEt">
+                                            <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                             <animations/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        </imageView>
                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="B7g-Sx-UJR">
-                                            <rect key="frame" x="8" y="24" width="34" height="2.5"/>
+                                            <rect key="frame" x="8" y="66" width="117" height="2.5"/>
                                             <animations/>
                                         </progressView>
                                     </subviews>
@@ -43,16 +42,16 @@
                                 </view>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="bottomMargin" secondItem="rlv-Gk-7O0" secondAttribute="bottom" constant="-8" id="Dxf-0F-vFH"/>
                                     <constraint firstItem="B7g-Sx-UJR" firstAttribute="trailing" secondItem="ici-lB-Nrk" secondAttribute="trailingMargin" id="Goj-ji-Orw"/>
                                     <constraint firstItem="B7g-Sx-UJR" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" id="Jbj-2F-8pk"/>
                                     <constraint firstItem="B7g-Sx-UJR" firstAttribute="centerY" secondItem="ici-lB-Nrk" secondAttribute="centerY" id="MTu-rn-Lb1"/>
-                                    <constraint firstItem="rlv-Gk-7O0" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" constant="-8" id="aef-Uy-gVh"/>
-                                    <constraint firstItem="rlv-Gk-7O0" firstAttribute="top" secondItem="ici-lB-Nrk" secondAttribute="topMargin" constant="-8" id="c1g-Yo-v62"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="rlv-Gk-7O0" secondAttribute="trailing" constant="-8" id="uT0-XQ-tc1"/>
+                                    <constraint firstItem="dPZ-Sf-xEt" firstAttribute="top" secondItem="ici-lB-Nrk" secondAttribute="topMargin" constant="-8" id="bSq-hp-kg3"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="dPZ-Sf-xEt" secondAttribute="trailing" constant="-8" id="vju-oI-mbY"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="dPZ-Sf-xEt" secondAttribute="bottom" constant="-8" id="wcu-LT-tkA"/>
+                                    <constraint firstItem="dPZ-Sf-xEt" firstAttribute="leading" secondItem="ici-lB-Nrk" secondAttribute="leadingMargin" constant="-8" id="zV0-gT-jbW"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="livePhotoView" destination="rlv-Gk-7O0" id="CEH-If-eDw"/>
+                                    <outlet property="imageView" destination="dPZ-Sf-xEt" id="kf5-aa-JDp"/>
                                     <outlet property="progressBar" destination="B7g-Sx-UJR" id="3d0-fx-WFK"/>
                                 </connections>
                             </collectionViewCell>
@@ -69,6 +68,149 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-m7-UjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="924" y="403"/>
+        </scene>
+        <!--Overlay View Controller-->
+        <scene sceneID="i1y-W8-97r">
+            <objects>
+                <viewController storyboardIdentifier="OverlayViewController" modalPresentationStyle="pageSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ys7-6k-Ric" customClass="OverlayViewController" customModule="LiveGifs" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iLC-lp-XXZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="bwH-ns-yIt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nm6-T5-NRl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Zl-cM-mAj" customClass="PHLivePhotoView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4BF-6I-aJ4">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <animations/>
+                                <items>
+                                    <navigationItem title="Title" id="mPt-K2-TBs">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="oBt-P6-Dgy">
+                                            <connections>
+                                                <action selector="doneTap:" destination="ys7-6k-Ric" id="kF8-mF-ioi"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYe-9c-Cba">
+                                <rect key="frame" x="0.0" y="556" width="600" height="6"/>
+                                <subviews>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Raw-AM-fJk">
+                                        <rect key="frame" x="8" y="2" width="584" height="2"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="KEM-sF-f9A"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="KEM-sF-f9A"/>
+                                            </mask>
+                                        </variation>
+                                    </progressView>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="leading" secondItem="ZYe-9c-Cba" secondAttribute="leading" constant="8" id="0hI-ST-56T"/>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="top" constant="2" id="5HF-Hy-b26"/>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="top" constant="2" id="8Kh-QJ-43l"/>
+                                    <constraint firstAttribute="trailing" secondItem="Raw-AM-fJk" secondAttribute="trailing" constant="8" id="8fc-JU-fd7"/>
+                                    <constraint firstAttribute="bottom" secondItem="Raw-AM-fJk" secondAttribute="bottom" constant="2" id="PMB-JI-Mb5"/>
+                                    <constraint firstAttribute="trailing" secondItem="Raw-AM-fJk" secondAttribute="trailing" constant="8" id="RV1-eN-Zm3"/>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="leading" secondItem="ZYe-9c-Cba" secondAttribute="leading" constant="8" id="U0V-JM-1vb"/>
+                                    <constraint firstAttribute="trailing" secondItem="Raw-AM-fJk" secondAttribute="trailing" constant="8" id="Y3p-wP-4wL"/>
+                                    <constraint firstAttribute="height" constant="6" id="hWq-kW-2pp"/>
+                                    <constraint firstAttribute="bottom" secondItem="Raw-AM-fJk" secondAttribute="bottom" constant="2" id="o7r-NX-7wj"/>
+                                    <constraint firstAttribute="bottom" secondItem="Raw-AM-fJk" secondAttribute="bottom" constant="2" id="t5A-yb-vaX"/>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="top" constant="2" id="xhu-gC-JyV"/>
+                                    <constraint firstItem="Raw-AM-fJk" firstAttribute="leading" secondItem="ZYe-9c-Cba" secondAttribute="leading" constant="8" id="yOd-6i-msu"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="5HF-Hy-b26"/>
+                                        <exclude reference="PMB-JI-Mb5"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rx-Wh-DH9">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <barButtonItem title="Movie" id="3HU-Z6-bD8">
+                                        <connections>
+                                            <action selector="movieTap:" destination="ys7-6k-Ric" id="0bq-lV-R5I"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2EA-H8-d39"/>
+                                    <barButtonItem title="Silent Movie" id="ynO-8o-5GG">
+                                        <connections>
+                                            <action selector="silentMovTap:" destination="ys7-6k-Ric" id="Sy4-w3-Le1"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5Qc-Jb-ets"/>
+                                    <barButtonItem title="GIF" id="lnH-Q9-gvZ">
+                                        <connections>
+                                            <action selector="gifTap:" destination="ys7-6k-Ric" id="VBN-By-QLv"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="4G5-bT-L2W"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Aei-9F-zQF"/>
+                            <constraint firstItem="4BF-6I-aJ4" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="CIc-bI-NYr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="HTU-n2-cqK"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Kyq-rD-2dU"/>
+                            <constraint firstItem="6Zl-cM-mAj" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="OkI-pj-nKL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6Zl-cM-mAj" secondAttribute="trailing" constant="-20" id="RBi-Tm-hs4"/>
+                            <constraint firstItem="6Zl-cM-mAj" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="T6U-Uc-213"/>
+                            <constraint firstItem="4BF-6I-aJ4" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Til-VY-OI0"/>
+                            <constraint firstItem="4BF-6I-aJ4" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="UUf-tD-TQG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6rx-Wh-DH9" secondAttribute="trailing" constant="-20" id="UvU-lS-tJn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="XoZ-cj-AIl"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Xs9-Wf-90p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="arm-Qk-CHY"/>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" constant="38" id="hZF-OG-Qrp"/>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="iGK-nf-lMR"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="iJf-z4-LVi"/>
+                            <constraint firstItem="6Zl-cM-mAj" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="mbK-lf-bhz"/>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6rx-Wh-DH9" secondAttribute="bottom" id="pzC-YH-RKh"/>
+                            <constraint firstItem="6rx-Wh-DH9" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="sP5-Wf-cE7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4BF-6I-aJ4" secondAttribute="trailing" constant="-20" id="t0p-eQ-1Ho"/>
+                            <constraint firstItem="6rx-Wh-DH9" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" id="tgJ-Ya-XAX"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="tgJ-Ya-XAX"/>
+                                <exclude reference="iJf-z4-LVi"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="gifButton" destination="lnH-Q9-gvZ" id="gmJ-zc-peO"/>
+                        <outlet property="livephotoView" destination="6Zl-cM-mAj" id="00U-tY-57L"/>
+                        <outlet property="movieButton" destination="3HU-Z6-bD8" id="U13-aW-YQI"/>
+                        <outlet property="progressBar" destination="Raw-AM-fJk" id="gVJ-ZZ-0Ov"/>
+                        <outlet property="progressBarContainer" destination="ZYe-9c-Cba" id="aic-gr-Flh"/>
+                        <outlet property="toolbar" destination="6rx-Wh-DH9" id="6OL-6r-UAV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NO2-Dk-aOW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1653" y="403"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8ja-gT-bOe">

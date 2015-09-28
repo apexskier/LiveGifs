@@ -15,6 +15,8 @@
 		C50B6B6E1BB5DA5A0049E00E /* LiveGifsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50B6B6D1BB5DA5A0049E00E /* LiveGifsTests.swift */; };
 		C50B6B791BB5DA5A0049E00E /* LiveGifsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50B6B781BB5DA5A0049E00E /* LiveGifsUITests.swift */; };
 		C5301CC11BB60B9F000D9AC1 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */; };
+		C566BF941BB9AC13006BC19A /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */; };
+		C566BF961BB9BA5A006BC19A /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */; };
 		C5B8BA001BB87632009D58B4 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +52,8 @@
 		C50B6B781BB5DA5A0049E00E /* LiveGifsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGifsUITests.swift; sourceTree = "<group>"; };
 		C50B6B7A1BB5DA5A0049E00E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
+		C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoExtensions.swift; sourceTree = "<group>"; };
+		C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,7 +85,6 @@
 		99F227F39A4DF940084B05C1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C566BF911BB8BDD2006BC19A /* Regift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,7 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				C50B6B581BB5DA5A0049E00E /* AppDelegate.swift */,
+				C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */,
 				C50B6B5A1BB5DA5A0049E00E /* ViewController.swift */,
+				C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */,
 				C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */,
 				C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */,
 				C50B6B5C1BB5DA5A0049E00E /* Main.storyboard */,
@@ -266,9 +271,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		C50B6B511BB5DA5A0049E00E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -276,6 +278,8 @@
 			files = (
 				C5B8BA001BB87632009D58B4 /* CoreExtensions.swift in Sources */,
 				C50B6B5B1BB5DA5A0049E00E /* ViewController.swift in Sources */,
+				C566BF941BB9AC13006BC19A /* LivePhotoExtensions.swift in Sources */,
+				C566BF961BB9BA5A006BC19A /* OverlayViewController.swift in Sources */,
 				C5301CC11BB60B9F000D9AC1 /* PhotoGridCell.swift in Sources */,
 				C50B6B591BB5DA5A0049E00E /* AppDelegate.swift in Sources */,
 			);
