@@ -39,13 +39,6 @@
 			remoteGlobalIDString = C50B6B541BB5DA5A0049E00E;
 			remoteInfo = LiveGifs;
 		};
-		C5A1D9321BBA1DD4000A6652 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C50B6B4D1BB5DA590049E00E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C5A1D92A1BBA1DD4000A6652;
-			remoteInfo = LivePhotoToGif;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -208,7 +201,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C5A1D9331BBA1DD4000A6652 /* PBXTargetDependency */,
 			);
 			name = LiveGifs;
 			productName = LiveGifs;
@@ -402,11 +394,6 @@
 			isa = PBXTargetDependency;
 			target = C50B6B541BB5DA5A0049E00E /* LiveGifs */;
 			targetProxy = C50B6B751BB5DA5A0049E00E /* PBXContainerItemProxy */;
-		};
-		C5A1D9331BBA1DD4000A6652 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C5A1D92A1BBA1DD4000A6652 /* LivePhotoToGif */;
-			targetProxy = C5A1D9321BBA1DD4000A6652 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

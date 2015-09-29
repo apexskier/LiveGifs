@@ -27,9 +27,26 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
                     //if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeLivePhoto as String) {
                         //let loadOptions = [NSItemProviderPreferredImageSizeKey: NSValue(CGSize: CGSize(width: 200, height: 200))]
                     if !itemProvider.hasItemConformingToTypeIdentifier(kUTTypeLivePhoto as String) {
-                        print("No liveimage found")
+                        print("No livephoto found")
                         self.doneWithResults(nil)
                         return
+                    } else {
+                        itemProvider.loadItemForTypeIdentifier(kUTTypeLivePhoto as String, options: nil, completionHandler: { (item, error) in
+                            print(item)
+                            print(error)
+                            print((error as NSError).usefulDescription)
+                        })
+                        print("has livephoto")
+                    }
+                    if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeVideo as String) {
+                        print("has video")
+                    } else {
+                        print("no video found")
+                    }
+                    if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                        print("Has image")
+                    } else {
+                        print("no image found")
                     }
                     if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
                         itemProvider.loadItemForTypeIdentifier(kUTTypeImage as String, options: nil, completionHandler: { (item, error) in
