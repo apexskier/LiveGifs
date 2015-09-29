@@ -52,6 +52,8 @@ class PhotoGridViewController: UICollectionViewController {
         } else {
             PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
         }
+
+        title = NSBundle.mainBundle().infoDictionary?["CFBundleName"] as? String
     }
     
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
@@ -110,9 +112,9 @@ class PhotoGridViewController: UICollectionViewController {
                 cell.progressBar.setProgress(Float(progress), animated: true)
             }
             imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2), contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
-                let overlayController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewController") as! OverlayViewController
-                self.presentViewController(overlayController, animated: true, completion: { () -> Void in
-                    print("presented overlay controller")
+                let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
+                self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
+                    let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
                     overlayController.livephotoView.livePhoto = livePhoto
                     self.running = false
                     cell.progressBar.hidden = true
@@ -121,6 +123,11 @@ class PhotoGridViewController: UICollectionViewController {
             })
         }
         return false
+    }
+
+    @IBAction func getInfo(sender: UIBarButtonItem) {
+        let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("InfoNavigationController")
+        self.presentViewController(overlayNavController, animated: true, completion: nil)
     }
 }
 

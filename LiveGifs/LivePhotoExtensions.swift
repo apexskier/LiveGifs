@@ -131,7 +131,7 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
 
             CGImageDestinationSetProperties(destination!, gifProperties)
             CGImageDestinationFinalize(destination!)
-
+            progressHandler(1)
             completionHandler(gifFileUrl, nil)
         })
     })
@@ -153,14 +153,14 @@ func livePhotoToMovie(movieFile movieFile: PHAssetResource, progressHandler: (Do
     let movResourceOptions = PHAssetResourceRequestOptions()
     movResourceOptions.networkAccessAllowed = true
     movResourceOptions.progressHandler = { (progress: Double) in
-        progressHandler(progress)
+        progressHandler(progress / 2)
     }
     resourceManager.writeDataForAssetResource(movieFile, toFile: movFileUrl, options: movResourceOptions, completionHandler: { (error: NSError?) -> Void in
         if error != nil {
             print(error?.usefulDescription)
             return completionHandler(NSURL(), error)
         }
-
+        progressHandler(1)
         completionHandler(movFileUrl, nil)
     })
 }
@@ -182,7 +182,7 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
     let movResourceOptions = PHAssetResourceRequestOptions()
     movResourceOptions.networkAccessAllowed = true
     movResourceOptions.progressHandler = { (progress: Double) in
-        progressHandler(progress)
+        progressHandler(progress / 2)
     }
     resourceManager.writeDataForAssetResource(movieFile, toFile: movFileUrl, options: movResourceOptions, completionHandler: { (error: NSError?) -> Void in
         if error != nil {
@@ -191,6 +191,8 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
         }
 
         let movAsset = AVAsset(URL: movFileUrl)
+        let numTracks = Double(movAsset.tracks.count)
+        var count = Double(0)
         let movAssetEditable = AVMutableComposition()
         let movAssetEditableVideoTrack = movAssetEditable.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
         for track in movAsset.tracksWithMediaType(AVMediaTypeVideo) {
@@ -200,6 +202,8 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
             } catch {
                 print("something went wrong")
             }
+            progressHandler((count / numTracks) + 0.5)
+            count++
         }
         let movAssetEditableMetadataTrack = movAssetEditable.addMutableTrackWithMediaType(AVMediaTypeMetadata, preferredTrackID: kCMPersistentTrackID_Invalid)
         for track in movAsset.tracksWithMediaType(AVMediaTypeMetadata) {
@@ -208,6 +212,8 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
             } catch {
                 print("something went wrong")
             }
+            progressHandler((count / numTracks) + 0.5)
+            count++
         }
         let movAssetEditableTimecodeTrack = movAssetEditable.addMutableTrackWithMediaType(AVMediaTypeTimecode, preferredTrackID: kCMPersistentTrackID_Invalid)
         for track in movAsset.tracksWithMediaType(AVMediaTypeTimecode) {
@@ -216,12 +222,15 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
             } catch {
                 print("something went wrong")
             }
+            progressHandler((count / numTracks) + 0.5)
+            count++
         }
 
         let exportSession = AVAssetExportSession(asset: movAssetEditable, presetName: AVAssetExportPresetHighestQuality)!
         exportSession.outputURL = silentMovFileUrl
         exportSession.outputFileType = kUTTypeQuickTimeMovie as String
         exportSession.exportAsynchronouslyWithCompletionHandler({
+            progressHandler(1)
             completionHandler(silentMovFileUrl, nil)
         })
     })

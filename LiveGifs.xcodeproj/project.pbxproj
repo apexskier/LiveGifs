@@ -17,6 +17,10 @@
 		C5301CC11BB60B9F000D9AC1 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */; };
 		C566BF941BB9AC13006BC19A /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */; };
 		C566BF961BB9BA5A006BC19A /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */; };
+		C5A1D9261BB9FE09000A6652 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1D9251BB9FE09000A6652 /* InfoViewController.swift */; };
+		C5A1D92E1BBA1DD4000A6652 /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1D92D1BBA1DD4000A6652 /* ActionRequestHandler.swift */; };
+		C5A1D9341BBA1DD4000A6652 /* LivePhotoToGif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C5A1D9391BBA3AFD000A6652 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */; };
 		C5B8BA001BB87632009D58B4 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +39,28 @@
 			remoteGlobalIDString = C50B6B541BB5DA5A0049E00E;
 			remoteInfo = LiveGifs;
 		};
+		C5A1D9321BBA1DD4000A6652 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C50B6B4D1BB5DA590049E00E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5A1D92A1BBA1DD4000A6652;
+			remoteInfo = LivePhotoToGif;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C5A1D9381BBA1DD4000A6652 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C5A1D9341BBA1DD4000A6652 /* LivePhotoToGif.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C50B6B551BB5DA5A0049E00E /* LiveGifs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveGifs.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +79,10 @@
 		C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
 		C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoExtensions.swift; sourceTree = "<group>"; };
 		C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
+		C5A1D9251BB9FE09000A6652 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LivePhotoToGif.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5A1D92D1BBA1DD4000A6652 /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
+		C5A1D9311BBA1DD4000A6652 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +108,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5A1D9281BBA1DD4000A6652 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -95,6 +131,7 @@
 				C50B6B571BB5DA5A0049E00E /* LiveGifs */,
 				C50B6B6C1BB5DA5A0049E00E /* LiveGifsTests */,
 				C50B6B771BB5DA5A0049E00E /* LiveGifsUITests */,
+				C5A1D92C1BBA1DD4000A6652 /* LivePhotoToGif */,
 				C50B6B561BB5DA5A0049E00E /* Products */,
 				99F227F39A4DF940084B05C1 /* Frameworks */,
 			);
@@ -106,6 +143,7 @@
 				C50B6B551BB5DA5A0049E00E /* LiveGifs.app */,
 				C50B6B691BB5DA5A0049E00E /* LiveGifsTests.xctest */,
 				C50B6B741BB5DA5A0049E00E /* LiveGifsUITests.xctest */,
+				C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +157,7 @@
 				C566BF931BB9AC13006BC19A /* LivePhotoExtensions.swift */,
 				C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */,
 				C5301CC01BB60B9F000D9AC1 /* PhotoGridCell.swift */,
+				C5A1D9251BB9FE09000A6652 /* InfoViewController.swift */,
 				C50B6B5C1BB5DA5A0049E00E /* Main.storyboard */,
 				C50B6B5F1BB5DA5A0049E00E /* Assets.xcassets */,
 				C50B6B611BB5DA5A0049E00E /* LaunchScreen.storyboard */,
@@ -145,6 +184,15 @@
 			path = LiveGifsUITests;
 			sourceTree = "<group>";
 		};
+		C5A1D92C1BBA1DD4000A6652 /* LivePhotoToGif */ = {
+			isa = PBXGroup;
+			children = (
+				C5A1D92D1BBA1DD4000A6652 /* ActionRequestHandler.swift */,
+				C5A1D9311BBA1DD4000A6652 /* Info.plist */,
+			);
+			path = LivePhotoToGif;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -155,10 +203,12 @@
 				C50B6B511BB5DA5A0049E00E /* Sources */,
 				C50B6B521BB5DA5A0049E00E /* Frameworks */,
 				C50B6B531BB5DA5A0049E00E /* Resources */,
+				C5A1D9381BBA1DD4000A6652 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C5A1D9331BBA1DD4000A6652 /* PBXTargetDependency */,
 			);
 			name = LiveGifs;
 			productName = LiveGifs;
@@ -201,6 +251,23 @@
 			productReference = C50B6B741BB5DA5A0049E00E /* LiveGifsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		C5A1D92A1BBA1DD4000A6652 /* LivePhotoToGif */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5A1D9351BBA1DD4000A6652 /* Build configuration list for PBXNativeTarget "LivePhotoToGif" */;
+			buildPhases = (
+				C5A1D9271BBA1DD4000A6652 /* Sources */,
+				C5A1D9281BBA1DD4000A6652 /* Frameworks */,
+				C5A1D9291BBA1DD4000A6652 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LivePhotoToGif;
+			productName = LivePhotoToGif;
+			productReference = C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -222,6 +289,10 @@
 						CreatedOnToolsVersion = 7.0;
 						TestTargetID = C50B6B541BB5DA5A0049E00E;
 					};
+					C5A1D92A1BBA1DD4000A6652 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6D9DLTQJSN;
+					};
 				};
 			};
 			buildConfigurationList = C50B6B501BB5DA5A0049E00E /* Build configuration list for PBXProject "LiveGifs" */;
@@ -240,6 +311,7 @@
 				C50B6B541BB5DA5A0049E00E /* LiveGifs */,
 				C50B6B681BB5DA5A0049E00E /* LiveGifsTests */,
 				C50B6B731BB5DA5A0049E00E /* LiveGifsUITests */,
+				C5A1D92A1BBA1DD4000A6652 /* LivePhotoToGif */,
 			);
 		};
 /* End PBXProject section */
@@ -269,6 +341,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5A1D9291BBA1DD4000A6652 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -279,6 +358,7 @@
 				C5B8BA001BB87632009D58B4 /* CoreExtensions.swift in Sources */,
 				C50B6B5B1BB5DA5A0049E00E /* ViewController.swift in Sources */,
 				C566BF941BB9AC13006BC19A /* LivePhotoExtensions.swift in Sources */,
+				C5A1D9261BB9FE09000A6652 /* InfoViewController.swift in Sources */,
 				C566BF961BB9BA5A006BC19A /* OverlayViewController.swift in Sources */,
 				C5301CC11BB60B9F000D9AC1 /* PhotoGridCell.swift in Sources */,
 				C50B6B591BB5DA5A0049E00E /* AppDelegate.swift in Sources */,
@@ -301,6 +381,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5A1D9271BBA1DD4000A6652 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5A1D9391BBA3AFD000A6652 /* CoreExtensions.swift in Sources */,
+				C5A1D92E1BBA1DD4000A6652 /* ActionRequestHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -313,6 +402,11 @@
 			isa = PBXTargetDependency;
 			target = C50B6B541BB5DA5A0049E00E /* LiveGifs */;
 			targetProxy = C50B6B751BB5DA5A0049E00E /* PBXContainerItemProxy */;
+		};
+		C5A1D9331BBA1DD4000A6652 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5A1D92A1BBA1DD4000A6652 /* LivePhotoToGif */;
+			targetProxy = C5A1D9321BBA1DD4000A6652 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -423,10 +517,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LiveGifs/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -442,10 +534,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LiveGifs/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -503,6 +593,34 @@
 			};
 			name = Release;
 		};
+		C5A1D9361BBA1DD4000A6652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = LivePhotoToGif/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.camlittle.LiveGifs.LivePhotoToGif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C5A1D9371BBA1DD4000A6652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = LivePhotoToGif/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.camlittle.LiveGifs.LivePhotoToGif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -541,6 +659,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C5A1D9351BBA1DD4000A6652 /* Build configuration list for PBXNativeTarget "LivePhotoToGif" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5A1D9361BBA1DD4000A6652 /* Debug */,
+				C5A1D9371BBA1DD4000A6652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
