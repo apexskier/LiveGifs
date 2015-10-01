@@ -48,26 +48,43 @@ class PhotoGridViewController: UICollectionViewController {
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
         
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
-            createUserInterface()
+            reloadAssets()
         } else {
             PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
         }
 
         title = NSBundle.mainBundle().infoDictionary?["CFBundleName"] as? String
+
+        NSNotificationCenter.defaultCenter().addObserverForName("wakeUp", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.reloadAssets()
+                self.collectionView!.reloadData()
+            })
+        })
     }
     
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
-            print("authorized")
+            print("photos authorized")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.reloadAssets()
+                self.collectionView!.reloadData()
+            })
         } else {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 
-    func createUserInterface() {
+    func reloadAssets() {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
+        if #available(iOS 9.1, *) {
+            options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
+        } else {
+            // Fallback on earlier versions
+            let alert = UIAlertController(title: "Error", message: "This app requires iOS 9.1 or higher.", preferredStyle: .Alert)
+            self.presentViewController(alert, animated: true) {}
+        }
         assets = PHAsset.fetchAssetsWithOptions(options)
     }
     
@@ -104,23 +121,29 @@ class PhotoGridViewController: UICollectionViewController {
             cell.progressBar.hidden = false
             let asset = assets[indexPath.item]
             let screenBounds = UIScreen.mainScreen().bounds
-            let optionsPH = PHLivePhotoRequestOptions()
-            optionsPH.deliveryMode = .HighQualityFormat
-            optionsPH.networkAccessAllowed = true
-            optionsPH.progressHandler = { (progress: Double, error: NSError?, object: UnsafeMutablePointer<ObjCBool>, info: [NSObject : AnyObject]?) in
-                print("lp download progress: \(progress)")
-                cell.progressBar.setProgress(Float(progress), animated: true)
-            }
-            imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2), contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
-                let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
-                self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
-                    let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
-                    overlayController.livephotoView.livePhoto = livePhoto
-                    self.running = false
-                    cell.progressBar.hidden = true
-                    cell.progressBar.progress = 0
+            if #available(iOS 9.1, *) {
+                let optionsPH = PHLivePhotoRequestOptions()
+                optionsPH.deliveryMode = .HighQualityFormat
+                optionsPH.networkAccessAllowed = true
+                optionsPH.progressHandler = { (progress: Double, error: NSError?, object: UnsafeMutablePointer<ObjCBool>, info: [NSObject : AnyObject]?) in
+                    print("lp download progress: \(progress)")
+                    cell.progressBar.setProgress(Float(progress), animated: true)
+                }
+                imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2), contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
+                    let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
+                    self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
+                        let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
+                        overlayController.livephotoView.livePhoto = livePhoto
+                        self.running = false
+                        cell.progressBar.hidden = true
+                        cell.progressBar.progress = 0
+                    })
                 })
-            })
+            } else {
+                // Fallback on earlier versions
+                let alert = UIAlertController(title: "Error", message: "This app requires iOS 9.1 or higher.", preferredStyle: .Alert)
+                self.presentViewController(alert, animated: true) {}
+            }
         }
         return false
     }

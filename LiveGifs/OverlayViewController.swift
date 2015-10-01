@@ -9,6 +9,7 @@
 import UIKit
 import PhotosUI
 
+@available(iOS 9.1, *)
 class OverlayViewController: UIViewController {
     @IBOutlet weak var gifButton: UIBarButtonItem!
     @IBOutlet weak var movieButton: UIBarButtonItem!
@@ -68,6 +69,7 @@ class OverlayViewController: UIViewController {
         }
     }
 
+    @available(iOS 9.1, *)
     var livePhoto: PHLivePhoto {
         get {
             return self.livephotoView.livePhoto!

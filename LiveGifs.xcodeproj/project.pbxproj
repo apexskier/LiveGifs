@@ -19,7 +19,6 @@
 		C566BF961BB9BA5A006BC19A /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566BF951BB9BA5A006BC19A /* OverlayViewController.swift */; };
 		C5A1D9261BB9FE09000A6652 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1D9251BB9FE09000A6652 /* InfoViewController.swift */; };
 		C5A1D92E1BBA1DD4000A6652 /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1D92D1BBA1DD4000A6652 /* ActionRequestHandler.swift */; };
-		C5A1D9341BBA1DD4000A6652 /* LivePhotoToGif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C5A1D9391BBA3AFD000A6652 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */; };
 		C5B8BA001BB87632009D58B4 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8B9FF1BB87632009D58B4 /* CoreExtensions.swift */; };
 /* End PBXBuildFile section */
@@ -41,22 +40,8 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C5A1D9381BBA1DD4000A6652 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C5A1D9341BBA1DD4000A6652 /* LivePhotoToGif.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		C50B6B551BB5DA5A0049E00E /* LiveGifs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveGifs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C50B6B551BB5DA5A0049E00E /* Live Photo Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photo Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50B6B581BB5DA5A0049E00E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C50B6B5A1BB5DA5A0049E00E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C50B6B5D1BB5DA5A0049E00E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -133,7 +118,7 @@
 		C50B6B561BB5DA5A0049E00E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C50B6B551BB5DA5A0049E00E /* LiveGifs.app */,
+				C50B6B551BB5DA5A0049E00E /* Live Photo Share.app */,
 				C50B6B691BB5DA5A0049E00E /* LiveGifsTests.xctest */,
 				C50B6B741BB5DA5A0049E00E /* LiveGifsUITests.xctest */,
 				C5A1D92B1BBA1DD4000A6652 /* LivePhotoToGif.appex */,
@@ -189,22 +174,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C50B6B541BB5DA5A0049E00E /* LiveGifs */ = {
+		C50B6B541BB5DA5A0049E00E /* Live Photo Share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C50B6B7D1BB5DA5A0049E00E /* Build configuration list for PBXNativeTarget "LiveGifs" */;
+			buildConfigurationList = C50B6B7D1BB5DA5A0049E00E /* Build configuration list for PBXNativeTarget "Live Photo Share" */;
 			buildPhases = (
 				C50B6B511BB5DA5A0049E00E /* Sources */,
 				C50B6B521BB5DA5A0049E00E /* Frameworks */,
 				C50B6B531BB5DA5A0049E00E /* Resources */,
-				C5A1D9381BBA1DD4000A6652 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = LiveGifs;
+			name = "Live Photo Share";
 			productName = LiveGifs;
-			productReference = C50B6B551BB5DA5A0049E00E /* LiveGifs.app */;
+			productReference = C50B6B551BB5DA5A0049E00E /* Live Photo Share.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C50B6B681BB5DA5A0049E00E /* LiveGifsTests */ = {
@@ -300,7 +284,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C50B6B541BB5DA5A0049E00E /* LiveGifs */,
+				C50B6B541BB5DA5A0049E00E /* Live Photo Share */,
 				C50B6B681BB5DA5A0049E00E /* LiveGifsTests */,
 				C50B6B731BB5DA5A0049E00E /* LiveGifsUITests */,
 				C5A1D92A1BBA1DD4000A6652 /* LivePhotoToGif */,
@@ -387,12 +371,12 @@
 /* Begin PBXTargetDependency section */
 		C50B6B6B1BB5DA5A0049E00E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C50B6B541BB5DA5A0049E00E /* LiveGifs */;
+			target = C50B6B541BB5DA5A0049E00E /* Live Photo Share */;
 			targetProxy = C50B6B6A1BB5DA5A0049E00E /* PBXContainerItemProxy */;
 		};
 		C50B6B761BB5DA5A0049E00E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C50B6B541BB5DA5A0049E00E /* LiveGifs */;
+			target = C50B6B541BB5DA5A0049E00E /* Live Photo Share */;
 			targetProxy = C50B6B751BB5DA5A0049E00E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -504,12 +488,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LiveGifs/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.camlittle.LiveGifs;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -521,12 +504,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LiveGifs/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.camlittle.LiveGifs;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -620,7 +602,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C50B6B7D1BB5DA5A0049E00E /* Build configuration list for PBXNativeTarget "LiveGifs" */ = {
+		C50B6B7D1BB5DA5A0049E00E /* Build configuration list for PBXNativeTarget "Live Photo Share" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C50B6B7E1BB5DA5A0049E00E /* Debug */,
@@ -654,6 +636,7 @@
 				C5A1D9371BBA1DD4000A6652 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
