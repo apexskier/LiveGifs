@@ -1,14 +1,14 @@
 //
-//  LiveGifsUITests.swift
-//  LiveGifsUITests
+//  Live_Photo_ShareUITests.swift
+//  Live Photo ShareUITests
 //
-//  Created by Cameron Little on 9/25/15.
+//  Created by Cameron Little on 9/30/15.
 //  Copyright © 2015 Cameron Little. All rights reserved.
 //
 
 import XCTest
 
-class LiveGifsUITests: XCTestCase {
+class Live_Photo_ShareUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
