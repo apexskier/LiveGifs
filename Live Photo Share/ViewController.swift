@@ -13,7 +13,7 @@ import ImageIO
 import MobileCoreServices
 import UIKit
 
-let DEBUG = false
+let DEBUG = true
 
 class PhotoGridViewController: UICollectionViewController, UIViewControllerPreviewingDelegate {
     private let reuseIdentifier = "PhotoGridCell"
@@ -56,9 +56,10 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             })
         }))
 
-        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("mostRecent", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
+        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("trigger", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
             self.reloadAssets()
-            self.selectPhoto(NSIndexPath(forItem: 0, inSection: 0), progressHandler: {_ in }, completionHandler: {_ in })
+            let action = notification.object! as! Action
+            self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
         }))
     }
     
@@ -114,7 +115,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoGridCell
         cell.progressBar.hidden = false
-        selectPhoto(indexPath, progressHandler: { (progress: Double) -> Void in
+        selectPhoto(Action(indexPath: indexPath), progressHandler: { (progress: Double) -> Void in
             cell.progressBar.setProgress(Float(progress), animated: true)
         }) { (error: NSError?) -> Void in
             if error != nil {
@@ -131,25 +132,12 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
 
     // MARK: 3D touch
 
-    override func previewActionItems() -> [UIPreviewActionItem] {
-        let shareAsGif = UIPreviewAction(title: "Share as GIF", style: UIPreviewActionStyle.Selected) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
-            print("share as gif preview action")
-        }
-        let shareAsMov = UIPreviewAction(title: "Share as Movie", style: UIPreviewActionStyle.Selected) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
-            print("share as mov preview action")
-        }
-        let shareAsSilent = UIPreviewAction(title: "Share as Silent Movie", style: UIPreviewActionStyle.Selected) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
-            print("share as silent mov preview action")
-        }
-        return [shareAsGif, shareAsMov, shareAsSilent]
-    }
-
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
         print("previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController)")
         // self.presentViewController(viewControllerToCommit, animated: false, completion: nil)
         let vc = viewControllerToCommit as? PeekViewController
         if let path = vc?.indexPath {
-            selectPhoto(path, progressHandler: {_ in }, completionHandler: {_ in })
+            selectPhoto(Action(indexPath: path), progressHandler: {_ in }, completionHandler: {_ in })
         }
     }
 
@@ -217,10 +205,10 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
 
     // MARK: custom stuff
 
-    func selectPhoto(indexPath: NSIndexPath, progressHandler: (Double) -> Void, completionHandler: (NSError?) -> Void) {
+    func selectPhoto(action: Action, progressHandler: (Double) -> Void, completionHandler: (NSError?) -> Void) {
         if !running {
             self.running = true
-            let asset = assets[indexPath.item]
+            let asset = assets[action.indexPath.item]
             let screenBounds = UIScreen.mainScreen().bounds
             let targetSize = CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2)
             if #available(iOS 9.1, *) {
@@ -239,6 +227,9 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                     self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
                         let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
                         overlayController.livephotoView.livePhoto = livePhoto
+                        if action.action != "" {
+                            NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
+                        }
                         completionHandler(nil)
                     })
                 })
@@ -252,6 +243,9 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                 let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
                 self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
                     completionHandler(nil)
+                    if action.action != "" {
+                        NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
+                    }
                 })
                 completionHandler(nil)
                 self.running = false
@@ -300,6 +294,40 @@ extension PhotoGridViewController: PHPhotoLibraryChangeObserver {
     }
 }
 
+class Action: AnyObject {
+    let indexPath: NSIndexPath
+    let action: String
+
+    init(indexPath: NSIndexPath, action: String) {
+        self.indexPath = indexPath
+        self.action = action
+    }
+
+    init(indexPath: NSIndexPath) {
+        self.indexPath = indexPath
+        self.action = ""
+    }
+}
+
 class PeekViewController: UIViewController {
     var indexPath: NSIndexPath?
+
+    override func previewActionItems() -> [UIPreviewActionItem] {
+        let shareAsGif = UIPreviewAction(title: "Share as GIF", style: UIPreviewActionStyle.Selected) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
+            print("share as gif preview action")
+            let vc = previewViewController as! PeekViewController
+            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareGif"))
+        }
+        let shareAsMov = UIPreviewAction(title: "Share as Movie", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
+            print("share as mov preview action")
+            let vc = previewViewController as! PeekViewController
+            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareMov"))
+        }
+        let shareAsSilent = UIPreviewAction(title: "Share as Silent Movie", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
+            print("share as silent mov preview action")
+            let vc = previewViewController as! PeekViewController
+            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareSilentMov"))
+        }
+        return [shareAsGif, shareAsMov, shareAsSilent]
+    }
 }

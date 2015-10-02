@@ -21,8 +21,21 @@ class OverlayViewController: UIViewController {
     var running = false
     var progressIsUp = false
 
+    var observers: [AnyObject] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("shareGif", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+            self.gifTap(notification)
+        }))
+        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("shareMov", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+            self.movieTap(notification)
+        }))
+        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("shareSilentMov", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+            self.silentMovTap(notification)
+        }))
+
         // Do any additional setup after loading the view.
         progressBar.progress = 0
     }
@@ -103,7 +116,7 @@ class OverlayViewController: UIViewController {
         return (movieFile!, jpegFile!)
     }
 
-    @IBAction func movieTap(sender: UIBarButtonItem) {
+    @IBAction func movieTap(sender: AnyObject) {
         if self.livephotoView.livePhoto == nil {
             return
         }
@@ -142,7 +155,7 @@ class OverlayViewController: UIViewController {
         })
     }
 
-    @IBAction func gifTap(sender: UIBarButtonItem) {
+    @IBAction func gifTap(sender: AnyObject) {
         if self.livephotoView.livePhoto == nil {
             return
         }
@@ -181,7 +194,8 @@ class OverlayViewController: UIViewController {
         })
     }
 
-    @IBAction func silentMovTap(sender: UIBarButtonItem) {     if self.livephotoView.livePhoto == nil {
+    @IBAction func silentMovTap(sender: AnyObject) {
+        if self.livephotoView.livePhoto == nil {
             return
         }
         running = true
@@ -219,11 +233,11 @@ class OverlayViewController: UIViewController {
         })
     }
 
-    @IBAction func doneTap(sender: UIBarButtonItem) {
+    @IBAction func doneTap(sender: AnyObject) {
         if !self.running {
             dismissViewControllerAnimated(true) {
                 self.progressDown()
-                self.livephotoView.livePhoto = nil
+                // self.livephotoView.livePhoto = nil
             }
         }
     }

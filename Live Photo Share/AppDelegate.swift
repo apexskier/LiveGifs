@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         if shortcutItem.type == "\(NSBundle.mainBundle().bundleIdentifier!).most-recent" {
-            NSNotificationCenter.defaultCenter().postNotificationName("mostRecent", object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath:  NSIndexPath(forItem: 0, inSection: 0), action: ""))
         }
     }
 }
