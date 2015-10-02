@@ -109,10 +109,10 @@
 			children = (
 				C53681D31BBCE257004973A9 /* AppDelegate.swift */,
 				C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */,
-				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
 				C53682071BBCE303004973A9 /* PhotoGridCell.swift */,
 				C53682011BBCE2F6004973A9 /* CoreExtensions.swift */,
 				C53682021BBCE2F6004973A9 /* InfoViewController.swift */,
+				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
 				C53681D51BBCE257004973A9 /* ViewController.swift */,
 				C53681D71BBCE257004973A9 /* Main.storyboard */,
 				C53681DA1BBCE257004973A9 /* Assets.xcassets */,
@@ -367,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -406,7 +406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -505,6 +505,7 @@
 				C53681FA1BBCE257004973A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C53681FB1BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Photo ShareTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +514,7 @@
 				C53681FD1BBCE257004973A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C53681FE1BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Photo ShareUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +523,7 @@
 				C53682001BBCE257004973A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

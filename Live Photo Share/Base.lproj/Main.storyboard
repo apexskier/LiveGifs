@@ -8,7 +8,7 @@
         <!--Photo Grid View Controller-->
         <scene sceneID="LOj-RT-A77">
             <objects>
-                <collectionViewController id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="LiveGifs" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="13T-B4-Mfe">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,7 +21,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="LiveGifs" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="Live_Photo_Share" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="133" height="133"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -77,7 +77,7 @@
         <!--Info View Controller-->
         <scene sceneID="jlG-Ne-ZPp">
             <objects>
-                <viewController id="tlM-aY-C4g" customClass="InfoViewController" customModule="LiveGifs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tlM-aY-C4g" customClass="InfoViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3pm-N8-8o9"/>
                         <viewControllerLayoutGuide type="bottom" id="KND-QN-GSK"/>
@@ -111,7 +111,7 @@ Built by Cameron Little</string>
                                 <rect key="frame" x="20" y="84" width="560" height="32.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -154,7 +154,7 @@ Built by Cameron Little</string>
         <!--Overlay View Controller-->
         <scene sceneID="i1y-W8-97r">
             <objects>
-                <viewController storyboardIdentifier="OverlayViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ys7-6k-Ric" customClass="OverlayViewController" customModule="LiveGifs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OverlayViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ys7-6k-Ric" customClass="OverlayViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iLC-lp-XXZ"/>
                         <viewControllerLayoutGuide type="bottom" id="bwH-ns-yIt"/>
@@ -269,12 +269,12 @@ Built by Cameron Little</string>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="tgJ-Ya-XAX"/>
                                 <exclude reference="Kyq-rD-2dU"/>
                                 <exclude reference="XoZ-cj-AIl"/>
                                 <exclude reference="Xs9-Wf-90p"/>
                                 <exclude reference="arm-Qk-CHY"/>
                                 <exclude reference="iJf-z4-LVi"/>
-                                <exclude reference="tgJ-Ya-XAX"/>
                                 <exclude reference="4G5-bT-L2W"/>
                                 <exclude reference="aca-NW-b2t"/>
                                 <exclude reference="iGK-nf-lMR"/>
@@ -363,6 +363,25 @@ Built by Cameron Little</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCp-ls-FId" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="924" y="1174"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="utG-5r-lik">
+            <objects>
+                <viewController storyboardIdentifier="PeekViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="24M-sY-xex" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BYI-Qj-mfw"/>
+                        <viewControllerLayoutGuide type="bottom" id="16b-9m-i83"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZDo-ZV-YzM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jfk-pn-C5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1352" y="2102"/>
         </scene>
     </scenes>
 </document>
