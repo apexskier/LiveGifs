@@ -10,7 +10,6 @@ import AVFoundation
 import Photos
 import ImageIO
 import MobileCoreServices
-import UIKit
 
 let scale: CGFloat = 0.3
 

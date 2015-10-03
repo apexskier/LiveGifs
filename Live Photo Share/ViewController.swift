@@ -13,8 +13,6 @@ import ImageIO
 import MobileCoreServices
 import UIKit
 
-let DEBUG = true
-
 class PhotoGridViewController: UICollectionViewController, UIViewControllerPreviewingDelegate {
     private let reuseIdentifier = "PhotoGridCell"
 
@@ -155,7 +153,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
 
         let asset = assets[path!.item]
 
-        let targetSize = CGSize(width: viewController.view.bounds.width * 2, height: viewController.view.bounds.width * 2)
+        let targetSize = CGSize(width: viewController.view.bounds.width * uiScale, height: viewController.view.bounds.width * uiScale)
 
         if #available(iOS 9.1, *) {
             let optionsPH = PHLivePhotoRequestOptions()
@@ -210,7 +208,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             self.running = true
             let asset = assets[action.indexPath.item]
             let screenBounds = UIScreen.mainScreen().bounds
-            let targetSize = CGSize(width: screenBounds.size.width * 2, height: screenBounds.size.height * 2)
+            let targetSize = CGSize(width: screenBounds.size.width * uiScale, height: screenBounds.size.height * uiScale)
             if #available(iOS 9.1, *) {
                 let optionsPH = PHLivePhotoRequestOptions()
                 optionsPH.deliveryMode = .HighQualityFormat

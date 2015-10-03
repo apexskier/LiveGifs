@@ -19,6 +19,7 @@
 		C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
 		C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682061BBCE303004973A9 /* OverlayViewController.swift */; };
 		C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682071BBCE303004973A9 /* PhotoGridCell.swift */; };
+		C54E335A1BC0965D000A5817 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoExtensions.swift; sourceTree = "<group>"; };
 		C53682061BBCE303004973A9 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		C53682071BBCE303004973A9 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
+		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				C53682071BBCE303004973A9 /* PhotoGridCell.swift */,
 				C53682011BBCE2F6004973A9 /* CoreExtensions.swift */,
 				C53682021BBCE2F6004973A9 /* InfoViewController.swift */,
+				C54E33591BC0965D000A5817 /* Globals.swift */,
 				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
 				C53681D51BBCE257004973A9 /* ViewController.swift */,
 				C53681D71BBCE257004973A9 /* Main.storyboard */,
@@ -274,6 +277,7 @@
 				C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */,
 				C53682031BBCE2F6004973A9 /* CoreExtensions.swift in Sources */,
 				C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */,
+				C54E335A1BC0965D000A5817 /* Globals.swift in Sources */,
 				C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */,
 				C53682041BBCE2F6004973A9 /* InfoViewController.swift in Sources */,
 				C53681D41BBCE257004973A9 /* AppDelegate.swift in Sources */,

@@ -19,6 +19,14 @@ class InfoViewController: UIViewController {
         // textView.textContainerInset = UIEdgeInsetsZero
 
         headerView.text = NSBundle.mainBundle().infoDictionary?["CFBundleName"] as? String
+
+        let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
+        let build = NSBundle.mainBundle().infoDictionary?[kCFBundleVersionKey as String] as! String
+
+        textView.text = textView.text + "\n\nVersion \(version) (\(build))"
+        if DEBUG {
+            textView.text = textView.text + " Debug version"
+        }
     }
 
     override func didReceiveMemoryWarning() {
