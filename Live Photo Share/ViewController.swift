@@ -57,7 +57,13 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         observers.append(NSNotificationCenter.defaultCenter().addObserverForName("trigger", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
             self.reloadAssets()
             let action = notification.object! as! Action
-            self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
+            if self.presentedViewController == nil {
+                self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
+            } else {
+                self.dismissViewControllerAnimated(false, completion: {
+                    self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
+                })
+            }
         }))
     }
 
