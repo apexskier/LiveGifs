@@ -20,6 +20,11 @@
 		C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682061BBCE303004973A9 /* OverlayViewController.swift */; };
 		C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682071BBCE303004973A9 /* PhotoGridCell.swift */; };
 		C54E335A1BC0965D000A5817 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
+		C56D62BD1BC1A1C60012166D /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */; };
+		C56D62BF1BC1A1C60012166D /* Action.js in Resources */ = {isa = PBXBuildFile; fileRef = C56D62BE1BC1A1C60012166D /* Action.js */; };
+		C56D62C31BC1A1C60012166D /* Live Photo GIF Action.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C56D62C81BC1A2000012166D /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
+		C56D62C91BC1B9B30012166D /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +42,28 @@
 			remoteGlobalIDString = C53681CF1BBCE257004973A9;
 			remoteInfo = "Live Photo Share";
 		};
+		C56D62C11BC1A1C60012166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C53681C81BBCE257004973A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C56D62B91BC1A1C60012166D;
+			remoteInfo = "Live Photo GIF Action";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C56D62C71BC1A1C60012166D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C56D62C31BC1A1C60012166D /* Live Photo GIF Action.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C53681D01BBCE257004973A9 /* Live Photo Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photo Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +85,10 @@
 		C53682061BBCE303004973A9 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		C53682071BBCE303004973A9 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
 		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo GIF Action.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
+		C56D62BE1BC1A1C60012166D /* Action.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Action.js; sourceTree = "<group>"; };
+		C56D62C01BC1A1C60012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +113,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C56D62B71BC1A1C60012166D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -92,6 +129,7 @@
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681F21BBCE257004973A9 /* Live Photo ShareUITests */,
+				C56D62BB1BC1A1C60012166D /* Live Photo GIF Action */,
 				C53681D11BBCE257004973A9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +140,7 @@
 				C53681D01BBCE257004973A9 /* Live Photo Share.app */,
 				C53681E41BBCE257004973A9 /* Live Photo ShareTests.xctest */,
 				C53681EF1BBCE257004973A9 /* Live Photo ShareUITests.xctest */,
+				C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +182,16 @@
 			path = "Live Photo ShareUITests";
 			sourceTree = "<group>";
 		};
+		C56D62BB1BC1A1C60012166D /* Live Photo GIF Action */ = {
+			isa = PBXGroup;
+			children = (
+				C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */,
+				C56D62BE1BC1A1C60012166D /* Action.js */,
+				C56D62C01BC1A1C60012166D /* Info.plist */,
+			);
+			path = "Live Photo GIF Action";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,10 +202,12 @@
 				C53681CC1BBCE257004973A9 /* Sources */,
 				C53681CD1BBCE257004973A9 /* Frameworks */,
 				C53681CE1BBCE257004973A9 /* Resources */,
+				C56D62C71BC1A1C60012166D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C56D62C21BC1A1C60012166D /* PBXTargetDependency */,
 			);
 			name = "Live Photo Share";
 			productName = "Live Photo Share";
@@ -199,6 +250,23 @@
 			productReference = C53681EF1BBCE257004973A9 /* Live Photo ShareUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		C56D62B91BC1A1C60012166D /* Live Photo GIF Action */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C56D62C61BC1A1C60012166D /* Build configuration list for PBXNativeTarget "Live Photo GIF Action" */;
+			buildPhases = (
+				C56D62B61BC1A1C60012166D /* Sources */,
+				C56D62B71BC1A1C60012166D /* Frameworks */,
+				C56D62B81BC1A1C60012166D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Live Photo GIF Action";
+			productName = "Live Photo GIF Action";
+			productReference = C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -220,6 +288,10 @@
 						CreatedOnToolsVersion = 7.1;
 						TestTargetID = C53681CF1BBCE257004973A9;
 					};
+					C56D62B91BC1A1C60012166D = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6D9DLTQJSN;
+					};
 				};
 			};
 			buildConfigurationList = C53681CB1BBCE257004973A9 /* Build configuration list for PBXProject "Live Photo Share" */;
@@ -238,6 +310,7 @@
 				C53681CF1BBCE257004973A9 /* Live Photo Share */,
 				C53681E31BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681EE1BBCE257004973A9 /* Live Photo ShareUITests */,
+				C56D62B91BC1A1C60012166D /* Live Photo GIF Action */,
 			);
 		};
 /* End PBXProject section */
@@ -264,6 +337,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C56D62B81BC1A1C60012166D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C56D62BF1BC1A1C60012166D /* Action.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +382,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C56D62B61BC1A1C60012166D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C56D62C81BC1A2000012166D /* CoreExtensions.swift in Sources */,
+				C56D62C91BC1B9B30012166D /* LivePhotoExtensions.swift in Sources */,
+				C56D62BD1BC1A1C60012166D /* ActionRequestHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -313,6 +404,11 @@
 			isa = PBXTargetDependency;
 			target = C53681CF1BBCE257004973A9 /* Live Photo Share */;
 			targetProxy = C53681F01BBCE257004973A9 /* PBXContainerItemProxy */;
+		};
+		C56D62C21BC1A1C60012166D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C56D62B91BC1A1C60012166D /* Live Photo GIF Action */;
+			targetProxy = C56D62C11BC1A1C60012166D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -425,6 +521,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Live Photo Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -440,6 +537,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Live Photo Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -497,6 +595,34 @@
 			};
 			name = Release;
 		};
+		C56D62C41BC1A1C60012166D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo GIF Action/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-GIF-Action";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C56D62C51BC1A1C60012166D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo GIF Action/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-GIF-Action";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -535,6 +661,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C56D62C61BC1A1C60012166D /* Build configuration list for PBXNativeTarget "Live Photo GIF Action" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C56D62C41BC1A1C60012166D /* Debug */,
+				C56D62C51BC1A1C60012166D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
