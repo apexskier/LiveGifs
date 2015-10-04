@@ -85,11 +85,23 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
                                                     } else {
                                                         let resultsItem = NSExtensionItem()
                                                         resultsItem.attachments = [NSItemProvider(contentsOfURL: url)!]
-                                                        context.completeRequestReturningItems([resultsItem], completionHandler: { (expired: Bool) -> Void in
-                                                            if expired {
-                                                                print("FAILED")
+                                                        PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                                                            PHAssetChangeRequest.creationRequestForAssetFromImageAtFileURL(url)
+                                                            return
+                                                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
+                                                            if error != nil {
+                                                                context.cancelRequestWithError(error!)
+                                                            }
+                                                            if success {
+                                                                context.completeRequestReturningItems([resultsItem], completionHandler: { (expired: Bool) -> Void in
+                                                                    if expired {
+                                                                        print("FAILED")
+                                                                    } else {
+                                                                        print("SUCCEEDED")
+                                                                    }
+                                                                })
                                                             } else {
-                                                                print("SUCCEEDED")
+                                                                context.cancelRequestWithError(NSError(domain: "Failed to save file", code: 1, userInfo: nil))
                                                             }
                                                         })
                                                     }

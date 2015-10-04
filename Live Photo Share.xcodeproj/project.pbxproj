@@ -21,7 +21,6 @@
 		C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682071BBCE303004973A9 /* PhotoGridCell.swift */; };
 		C54E335A1BC0965D000A5817 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 		C56D62BD1BC1A1C60012166D /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */; };
-		C56D62BF1BC1A1C60012166D /* Action.js in Resources */ = {isa = PBXBuildFile; fileRef = C56D62BE1BC1A1C60012166D /* Action.js */; };
 		C56D62C31BC1A1C60012166D /* Live Photo GIF Action.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C56D62C81BC1A2000012166D /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C56D62C91BC1B9B30012166D /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
@@ -87,7 +86,6 @@
 		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C56D62BA1BC1A1C60012166D /* Live Photo GIF Action.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo GIF Action.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
-		C56D62BE1BC1A1C60012166D /* Action.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Action.js; sourceTree = "<group>"; };
 		C56D62C01BC1A1C60012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -186,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				C56D62BC1BC1A1C60012166D /* ActionRequestHandler.swift */,
-				C56D62BE1BC1A1C60012166D /* Action.js */,
 				C56D62C01BC1A1C60012166D /* Info.plist */,
 			);
 			path = "Live Photo GIF Action";
@@ -344,7 +341,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C56D62BF1BC1A1C60012166D /* Action.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +665,7 @@
 				C56D62C51BC1A1C60012166D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
