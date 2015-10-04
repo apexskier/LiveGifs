@@ -65,6 +65,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                 })
             }
         }))
+        NSNotificationCenter.defaultCenter().postNotificationName("viewControllerListening", object: nil)
     }
 
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
@@ -285,10 +286,5 @@ class PeekViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareSilentMov"))
         }
         return [shareAsGif, shareAsMov, shareAsSilent]
-    }
-
-    func videoPlayerStop(notification: NSNotification) {
-        let player = notification.object as! AVPlayer
-        player.seekToTime(kCMTimeZero)
     }
 }

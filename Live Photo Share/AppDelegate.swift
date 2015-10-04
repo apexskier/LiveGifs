@@ -13,9 +13,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let recentLivePhotoQuickAction = "recentLivePhotoQuickAction"
 
     var window: UIWindow?
+    var onceViewControllerListening = runWhenReady()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        NSNotificationCenter.defaultCenter().addObserverForName("viewControllerListening", object: nil, queue: nil) { (notification: NSNotification!) in
+            self.onceViewControllerListening.ready = true
+        }
 
         return true
     }
@@ -44,9 +49,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        print(self.window!.rootViewController)
         if shortcutItem.type == "\(NSBundle.mainBundle().bundleIdentifier!).most-recent" {
-            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath:  NSIndexPath(forItem: 0, inSection: 0), action: ""))
+            onceViewControllerListening.queue {
+                NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath:  NSIndexPath(forItem: 0, inSection: 0), action: ""))
+            }
         }
     }
 }
 
+class runWhenReady {
+    var _ready = false
+    var actions: [() -> Void] = []
+
+    func queue(actionFunc: () -> Void) {
+        if _ready {
+            actionFunc()
+        } else {
+            actions.append(actionFunc)
+        }
+    }
+
+    var ready: Bool {
+        get {
+            return _ready
+        }
+        set (val) {
+            if val {
+                for action in actions {
+                    action()
+                }
+            }
+            _ready = val
+        }
+    }
+}
