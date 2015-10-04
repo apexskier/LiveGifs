@@ -137,7 +137,7 @@ https://twitter.com/apexskier</string>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="zPn-6Y-fb5">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="xsx-8Y-wRc">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="xsx-8Y-wRc">
                             <connections>
                                 <action selector="tapDone:" destination="tlM-aY-C4g" id="qJP-FF-PRs"/>
                             </connections>
@@ -284,7 +284,7 @@ https://twitter.com/apexskier</string>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="NkL-XG-mdG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="CZd-fd-A0r">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="CZd-fd-A0r">
                             <connections>
                                 <action selector="doneTap:" destination="ys7-6k-Ric" id="3ur-42-duM"/>
                             </connections>
