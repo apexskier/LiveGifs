@@ -27,6 +27,25 @@ class InfoViewController: UIViewController {
         if DEBUG {
             textView.text = textView.text + " Debug version"
         }
+        
+        /*
+        let twitterUrl = NSURL(string: "https://twitter.com/apexskier")!
+        // let websiteUrl = NSURL(string: "http://camlittle.com")
+        let twitterLink = NSMutableAttributedString(string: "Twitter")
+        twitterLink.addAttribute(NSLinkAttributeName, value: twitterUrl, range: NSRange(location: 0, length: twitterLink.length))
+
+        let text = NSMutableAttributedString(string: textView.text)
+        text.appendAttributedString(NSAttributedString(string: "\n"))
+        text.appendAttributedString(NSAttributedString(string: "Follow me on "))
+        text.appendAttributedString(twitterLink)
+        text.appendAttributedString(NSAttributedString(string: "\n\nVersion \(version) (\(build))"))
+
+        if DEBUG {
+        text.appendAttributedString(NSAttributedString(string: " Debug version"))
+        }
+
+        textView.attributedText = text
+        */
     }
 
     override func didReceiveMemoryWarning() {

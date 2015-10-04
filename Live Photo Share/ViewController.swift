@@ -23,22 +23,22 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     let fileManager = NSFileManager.defaultManager()
     let resourceManager = PHAssetResourceManager.defaultManager()
     let imageManager = PHImageManager.defaultManager()
-    
+
     var selectedCell: NSIndexPath?
-    
+
     var assets: PHFetchResult! {
         didSet {
             collectionView!.reloadData()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.registerForPreviewingWithDelegate(self, sourceView: collectionView!)
 
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
-        
+
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
             reloadAssets()
         } else {
@@ -60,7 +60,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
         }))
     }
-    
+
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
             print("photos authorized")
@@ -76,26 +76,21 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     func reloadAssets() {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        if #available(iOS 9.1, *) {
-            options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
-        } else if (!DEBUG) {
-            // Fallback on earlier versions
-            let alert = UIAlertController(title: "Error", message: "This app requires iOS 9.1 or higher.", preferredStyle: .Alert)
-            self.presentViewController(alert, animated: true) {}
-        }
+        options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
         assets = PHAsset.fetchAssetsWithOptions(options)
     }
-    
+
     // MARK: UICollectionViewDataSource
+
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if assets == nil { return 0 }
         return assets.count
     }
-    
+
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoGridCell
         cell.progressBar.hidden = true
@@ -109,7 +104,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         cell.backgroundColor = UIColor.grayColor()
         return cell
     }
-    
+
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoGridCell
         cell.progressBar.hidden = false
@@ -140,65 +135,40 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     }
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        let viewController = PeekViewController()
-        viewController.view.backgroundColor = UIColor.grayColor()
+        if let path = collectionView?.indexPathForItemAtPoint(location), cell = collectionView?.cellForItemAtIndexPath(path) {
+            let viewController = PeekViewController()
+            viewController.view.backgroundColor = UIColor.grayColor()
 
-        let path = collectionView!.indexPathForItemAtPoint(location)
-        let cell = collectionView!.cellForItemAtIndexPath(path!)
-        if let frame = cell?.frame {
-            previewingContext.sourceRect = frame
-        }
-
-        viewController.indexPath = path
-
-        let asset = assets[path!.item]
-
-        let targetSize = CGSize(width: viewController.view.bounds.width * uiScale, height: viewController.view.bounds.width * uiScale)
-
-        if #available(iOS 9.1, *) {
-            let optionsPH = PHLivePhotoRequestOptions()
-            optionsPH.deliveryMode = .Opportunistic
-            optionsPH.networkAccessAllowed = true
-            imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: targetSize, contentMode: .AspectFill, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
-                dispatch_async(dispatch_get_main_queue(), {
-                    let livePhotoView = PHLivePhotoView(frame: viewController.view.bounds)
-                    livePhotoView.livePhoto = livePhoto
-                    viewController.view.addSubview(livePhotoView)
-                })
-            })
-        } else {
+            previewingContext.sourceRect = cell.frame
+            
+            viewController.indexPath = path
+            
+            let asset = assets[path.item] as! PHAsset
+            
+            let targetSize = CGSize(width: viewController.view.bounds.width * uiScale, height: viewController.view.bounds.width * uiScale)
+            
             // Fallback on earlier versions
             let options = PHVideoRequestOptions()
             options.deliveryMode = .Automatic
             options.networkAccessAllowed = true
-            imageManager.requestPlayerItemForVideo(asset as! PHAsset, options: options, resultHandler: { (playerItem: AVPlayerItem?, info: [NSObject : AnyObject]?) -> Void in
-                if playerItem == nil {
-                    let optionsPH = PHImageRequestOptions()
-                    optionsPH.deliveryMode = .Opportunistic
-                    optionsPH.networkAccessAllowed = true
-                    self.imageManager.requestImageForAsset(asset as! PHAsset, targetSize: targetSize, contentMode: .AspectFill, options: optionsPH, resultHandler: { (image: UIImage?, info: [NSObject : AnyObject]?) -> Void in
-                        dispatch_async(dispatch_get_main_queue(), {
-                            let imageView = UIImageView(image: image)
-                            imageView.contentMode = UIViewContentMode.ScaleAspectFill
-                            imageView.frame = viewController.view.bounds
-                            viewController.view.addSubview(imageView)
-                        })
-                    })
+            let optionsPH = PHLivePhotoRequestOptions()
+            optionsPH.deliveryMode = .Opportunistic
+            optionsPH.networkAccessAllowed = true
+            imageManager.requestLivePhotoForAsset(asset, targetSize: targetSize, contentMode: .AspectFill, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
+                if livePhoto == nil {
                     return
                 }
                 dispatch_async(dispatch_get_main_queue(), {
-                    let player = AVPlayer(playerItem: playerItem!)
-                    let videoLayer = AVPlayerLayer()
-                    videoLayer.frame = viewController.view.bounds
-                    videoLayer.bounds = viewController.view.bounds
-                    videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-                    viewController.view.layer.addSublayer(videoLayer)
-                    playerItem?.seekToTime(kCMTimeZero)
-                    player.play()
+                    let livePhotoView = PHLivePhotoView(frame: viewController.view.bounds)
+                    livePhotoView.livePhoto = livePhoto
+                    viewController.view.addSubview(livePhotoView)
+                    livePhotoView.startPlaybackWithStyle(PHLivePhotoViewPlaybackStyle.Full)
                 })
             })
+            
+            return viewController
         }
-        return viewController
+        return nil
     }
 
     // MARK: custom stuff
@@ -209,45 +179,27 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             let asset = assets[action.indexPath.item]
             let screenBounds = UIScreen.mainScreen().bounds
             let targetSize = CGSize(width: screenBounds.size.width * uiScale, height: screenBounds.size.height * uiScale)
-            if #available(iOS 9.1, *) {
-                let optionsPH = PHLivePhotoRequestOptions()
-                optionsPH.deliveryMode = .HighQualityFormat
-                optionsPH.networkAccessAllowed = true
-                optionsPH.progressHandler = { (progress: Double, error: NSError?, object: UnsafeMutablePointer<ObjCBool>, info: [NSObject : AnyObject]?) in
-                    print("lp download progress: \(progress)")
-                }
-                imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: targetSize, contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
-                    self.running = false
-                    if livePhoto == nil {
-                        return completionHandler(NSError(domain: "The live photo was not found.", code: -1, userInfo: nil))
-                    }
-                    let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
-                    self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
-                        let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
-                        overlayController.livephotoView.livePhoto = livePhoto
-                        if action.action != "" {
-                            NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
-                        }
-                        completionHandler(nil)
-                    })
-                })
-            } else if (!DEBUG) {
-                // Fallback on earlier versions
-                let alert = UIAlertController(title: "Error", message: "This app requires iOS 9.1 or higher.", preferredStyle: .Alert)
-                self.presentViewController(alert, animated: true) {}
-                completionHandler(NSError(domain: "This app requires iOS 9.1 or higher.", code: 1, userInfo: nil))
+            let optionsPH = PHLivePhotoRequestOptions()
+            optionsPH.deliveryMode = .HighQualityFormat
+            optionsPH.networkAccessAllowed = true
+            optionsPH.progressHandler = { (progress: Double, error: NSError?, object: UnsafeMutablePointer<ObjCBool>, info: [NSObject : AnyObject]?) in
+                print("lp download progress: \(progress)")
+            }
+            imageManager.requestLivePhotoForAsset(asset as! PHAsset, targetSize: targetSize, contentMode: .AspectFit, options: optionsPH, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject: AnyObject]?) -> Void in
                 self.running = false
-            } else {
+                if livePhoto == nil {
+                    return completionHandler(NSError(domain: "The live photo was not found.", code: -1, userInfo: nil))
+                }
                 let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OverlayViewNavigationController")
                 self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
-                    completionHandler(nil)
+                    let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
+                    overlayController.livephotoView.livePhoto = livePhoto
                     if action.action != "" {
                         NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
                     }
+                    completionHandler(nil)
                 })
-                completionHandler(nil)
-                self.running = false
-            }
+            })
         } else {
             completionHandler(NSError(domain: "Already opening a live photo, try again in 5 seconds.", code: 1, userInfo: nil))
         }
@@ -266,15 +218,15 @@ extension PhotoGridViewController: UICollectionViewDelegateFlowLayout {
         let w = (screenWidth - (cols - 1)) / cols
         return CGSize(width: w, height: w)
     }
-    
+
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 1
     }
-    
+
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 1
     }
-    
+
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -285,7 +237,7 @@ extension PhotoGridViewController: PHPhotoLibraryChangeObserver {
         guard let assets = assets else {
             return
         }
-        
+
         if let changeDetails = changeInstance.changeDetailsForFetchResult(assets) {
             self.assets = changeDetails.fetchResultAfterChanges
         }
@@ -311,7 +263,7 @@ class PeekViewController: UIViewController {
     var indexPath: NSIndexPath?
 
     override func previewActionItems() -> [UIPreviewActionItem] {
-        let shareAsGif = UIPreviewAction(title: "Share as GIF", style: UIPreviewActionStyle.Selected) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
+        let shareAsGif = UIPreviewAction(title: "Share as GIF", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
             print("share as gif preview action")
             let vc = previewViewController as! PeekViewController
             NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareGif"))
@@ -327,5 +279,10 @@ class PeekViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareSilentMov"))
         }
         return [shareAsGif, shareAsMov, shareAsSilent]
+    }
+
+    func videoPlayerStop(notification: NSNotification) {
+        let player = notification.object as! AVPlayer
+        player.seekToTime(kCMTimeZero)
     }
 }

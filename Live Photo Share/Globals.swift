@@ -9,5 +9,5 @@
 import Foundation
 import UIKit
 
-let DEBUG = true
+let DEBUG = false
 let uiScale = UIScreen.mainScreen().scale
