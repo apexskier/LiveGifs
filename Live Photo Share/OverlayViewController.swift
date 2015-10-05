@@ -46,6 +46,7 @@ class OverlayViewController: UIViewController {
             self.progressBarContainer.frame.origin.y += 6
             progressIsUp = false
         }
+        livephotoView.startPlaybackWithStyle(.Full)
     }
 
     override func didReceiveMemoryWarning() {

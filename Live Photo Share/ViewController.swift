@@ -169,7 +169,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                     let livePhotoView = PHLivePhotoView(frame: viewController.view.bounds)
                     livePhotoView.livePhoto = livePhoto
                     viewController.view.addSubview(livePhotoView)
-                    livePhotoView.startPlaybackWithStyle(PHLivePhotoViewPlaybackStyle.Full)
+                    livePhotoView.startPlaybackWithStyle(.Full)
                 })
             })
             
@@ -201,6 +201,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                 self.presentViewController(overlayNavController, animated: true, completion: { () -> Void in
                     let overlayController = overlayNavController.childViewControllers.first as!OverlayViewController
                     overlayController.livephotoView.livePhoto = livePhoto
+                    overlayController.livephotoView.startPlaybackWithStyle(.Full)
                     if action.action != "" {
                         NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
                     }
