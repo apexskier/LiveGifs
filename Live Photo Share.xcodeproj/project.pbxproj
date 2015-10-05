@@ -20,6 +20,18 @@
 		C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682061BBCE303004973A9 /* OverlayViewController.swift */; };
 		C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682071BBCE303004973A9 /* PhotoGridCell.swift */; };
 		C54E335A1BC0965D000A5817 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
+		C56D63021BC2195E0012166D /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63011BC2195E0012166D /* ActionRequestHandler.swift */; };
+		C56D630D1BC21A190012166D /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
+		C56D630E1BC21A190012166D /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
+		C56D630F1BC21A190012166D /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
+		C56D63171BC21D490012166D /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63161BC21D490012166D /* ActionRequestHandler.swift */; };
+		C56D631D1BC21D490012166D /* Live Photo Export Video.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C56D63141BC21D490012166D /* Live Photo Export Video.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C56D63211BC21DA90012166D /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
+		C56D63221BC21DA90012166D /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
+		C56D63231BC21DA90012166D /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
+		C56D63251BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
+		C56D63261BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
+		C56D63271BC21E580012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +49,28 @@
 			remoteGlobalIDString = C53681CF1BBCE257004973A9;
 			remoteInfo = "Live Photo Share";
 		};
+		C56D631B1BC21D490012166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C53681C81BBCE257004973A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C56D63131BC21D490012166D;
+			remoteInfo = "Live Photo Export Video";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C56D630C1BC2195E0012166D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C56D631D1BC21D490012166D /* Live Photo Export Video.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C53681D01BBCE257004973A9 /* Live Photo Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photo Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +92,13 @@
 		C53682061BBCE303004973A9 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		C53682071BBCE303004973A9 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
 		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		C56D62FF1BC2195E0012166D /* Live Photo Remove Sound.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Remove Sound.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C56D63011BC2195E0012166D /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
+		C56D63051BC2195E0012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C56D63141BC21D490012166D /* Live Photo Export Video.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export Video.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C56D63161BC21D490012166D /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
+		C56D631A1BC21D490012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoActionExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,15 +123,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C56D62FC1BC2195E0012166D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C56D63111BC21D490012166D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		C53681C71BBCE257004973A9 = {
 			isa = PBXGroup;
 			children = (
+				C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */,
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681F21BBCE257004973A9 /* Live Photo ShareUITests */,
+				C56D63001BC2195E0012166D /* Live Photo Remove Sound */,
+				C56D63151BC21D490012166D /* Live Photo Export Video */,
 				C53681D11BBCE257004973A9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +159,8 @@
 				C53681D01BBCE257004973A9 /* Live Photo Share.app */,
 				C53681E41BBCE257004973A9 /* Live Photo ShareTests.xctest */,
 				C53681EF1BBCE257004973A9 /* Live Photo ShareUITests.xctest */,
+				C56D62FF1BC2195E0012166D /* Live Photo Remove Sound.appex */,
+				C56D63141BC21D490012166D /* Live Photo Export Video.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +202,24 @@
 			path = "Live Photo ShareUITests";
 			sourceTree = "<group>";
 		};
+		C56D63001BC2195E0012166D /* Live Photo Remove Sound */ = {
+			isa = PBXGroup;
+			children = (
+				C56D63011BC2195E0012166D /* ActionRequestHandler.swift */,
+				C56D63051BC2195E0012166D /* Info.plist */,
+			);
+			path = "Live Photo Remove Sound";
+			sourceTree = "<group>";
+		};
+		C56D63151BC21D490012166D /* Live Photo Export Video */ = {
+			isa = PBXGroup;
+			children = (
+				C56D63161BC21D490012166D /* ActionRequestHandler.swift */,
+				C56D631A1BC21D490012166D /* Info.plist */,
+			);
+			path = "Live Photo Export Video";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,10 +230,12 @@
 				C53681CC1BBCE257004973A9 /* Sources */,
 				C53681CD1BBCE257004973A9 /* Frameworks */,
 				C53681CE1BBCE257004973A9 /* Resources */,
+				C56D630C1BC2195E0012166D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C56D631C1BC21D490012166D /* PBXTargetDependency */,
 			);
 			name = "Live Photo Share";
 			productName = "Live Photo Share";
@@ -199,6 +278,40 @@
 			productReference = C53681EF1BBCE257004973A9 /* Live Photo ShareUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		C56D62FE1BC2195E0012166D /* Live Photo Remove Sound */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C56D630B1BC2195E0012166D /* Build configuration list for PBXNativeTarget "Live Photo Remove Sound" */;
+			buildPhases = (
+				C56D62FB1BC2195E0012166D /* Sources */,
+				C56D62FC1BC2195E0012166D /* Frameworks */,
+				C56D62FD1BC2195E0012166D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Live Photo Remove Sound";
+			productName = "Live Photo Remove Sound";
+			productReference = C56D62FF1BC2195E0012166D /* Live Photo Remove Sound.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C56D63131BC21D490012166D /* Live Photo Export Video */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C56D631E1BC21D490012166D /* Build configuration list for PBXNativeTarget "Live Photo Export Video" */;
+			buildPhases = (
+				C56D63101BC21D490012166D /* Sources */,
+				C56D63111BC21D490012166D /* Frameworks */,
+				C56D63121BC21D490012166D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Live Photo Export Video";
+			productName = "Live Photo Export Video";
+			productReference = C56D63141BC21D490012166D /* Live Photo Export Video.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -220,6 +333,14 @@
 						CreatedOnToolsVersion = 7.1;
 						TestTargetID = C53681CF1BBCE257004973A9;
 					};
+					C56D62FE1BC2195E0012166D = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6D9DLTQJSN;
+					};
+					C56D63131BC21D490012166D = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6D9DLTQJSN;
+					};
 				};
 			};
 			buildConfigurationList = C53681CB1BBCE257004973A9 /* Build configuration list for PBXProject "Live Photo Share" */;
@@ -238,6 +359,8 @@
 				C53681CF1BBCE257004973A9 /* Live Photo Share */,
 				C53681E31BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681EE1BBCE257004973A9 /* Live Photo ShareUITests */,
+				C56D62FE1BC2195E0012166D /* Live Photo Remove Sound */,
+				C56D63131BC21D490012166D /* Live Photo Export Video */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +390,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C56D62FD1BC2195E0012166D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C56D63121BC21D490012166D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -279,6 +416,7 @@
 				C53682031BBCE2F6004973A9 /* CoreExtensions.swift in Sources */,
 				C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */,
 				C54E335A1BC0965D000A5817 /* Globals.swift in Sources */,
+				C56D63271BC21E580012166D /* LivePhotoActionExtension.swift in Sources */,
 				C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */,
 				C53682041BBCE2F6004973A9 /* InfoViewController.swift in Sources */,
 				C53681D41BBCE257004973A9 /* AppDelegate.swift in Sources */,
@@ -301,6 +439,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C56D62FB1BC2195E0012166D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C56D63251BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */,
+				C56D630F1BC21A190012166D /* Globals.swift in Sources */,
+				C56D630D1BC21A190012166D /* LivePhotoExtensions.swift in Sources */,
+				C56D630E1BC21A190012166D /* CoreExtensions.swift in Sources */,
+				C56D63021BC2195E0012166D /* ActionRequestHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C56D63101BC21D490012166D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C56D63261BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */,
+				C56D63231BC21DA90012166D /* Globals.swift in Sources */,
+				C56D63211BC21DA90012166D /* LivePhotoExtensions.swift in Sources */,
+				C56D63221BC21DA90012166D /* CoreExtensions.swift in Sources */,
+				C56D63171BC21D490012166D /* ActionRequestHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -313,6 +475,11 @@
 			isa = PBXTargetDependency;
 			target = C53681CF1BBCE257004973A9 /* Live Photo Share */;
 			targetProxy = C53681F01BBCE257004973A9 /* PBXContainerItemProxy */;
+		};
+		C56D631C1BC21D490012166D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C56D63131BC21D490012166D /* Live Photo Export Video */;
+			targetProxy = C56D631B1BC21D490012166D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -425,6 +592,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Live Photo Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -440,6 +608,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Live Photo Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -497,6 +666,62 @@
 			};
 			name = Release;
 		};
+		C56D63091BC2195E0012166D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo Remove Sound/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-Remove-Sound";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C56D630A1BC2195E0012166D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo Remove Sound/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-Remove-Sound";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C56D631F1BC21D490012166D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo Export Video/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-Export-Video";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C56D63201BC21D490012166D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Live Photo Export Video/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.camlittle.Live-Photo-Share.Live-Photo-Export-Video";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -532,6 +757,24 @@
 			buildConfigurations = (
 				C53681FF1BBCE257004973A9 /* Debug */,
 				C53682001BBCE257004973A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C56D630B1BC2195E0012166D /* Build configuration list for PBXNativeTarget "Live Photo Remove Sound" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C56D63091BC2195E0012166D /* Debug */,
+				C56D630A1BC2195E0012166D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C56D631E1BC21D490012166D /* Build configuration list for PBXNativeTarget "Live Photo Export Video" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C56D631F1BC21D490012166D /* Debug */,
+				C56D63201BC21D490012166D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
