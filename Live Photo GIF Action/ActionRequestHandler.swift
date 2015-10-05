@@ -18,8 +18,7 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
 
         // Find the item containing the results from the JavaScript preprocessing.
         outer: for item: AnyObject in context.inputItems {
-            let extItem = item as! NSExtensionItem
-            if let attachments = extItem.attachments {
+            if let extItem = item as? NSExtensionItem, attachments = extItem.attachments {
                 for itemProvider: AnyObject in attachments {
                     //if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeLivePhoto as String) {
                     //let loadOptions = [NSItemProviderPreferredImageSizeKey: NSValue(CGSize: CGSize(width: 200, height: 200))]
@@ -83,16 +82,15 @@ class ActionRequestHandler: NSObject, NSExtensionRequestHandling {
                                                     if error != nil {
                                                         context.cancelRequestWithError(error!)
                                                     } else {
-                                                        let resultsItem = NSExtensionItem()
-                                                        resultsItem.attachments = [NSItemProvider(contentsOfURL: url)!]
                                                         PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
                                                             PHAssetChangeRequest.creationRequestForAssetFromImageAtFileURL(url)
-                                                            return
                                                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
                                                             if error != nil {
+                                                                print(error!.usefulDescription)
                                                                 context.cancelRequestWithError(error!)
-                                                            }
-                                                            if success {
+                                                            } else if success {
+                                                                let resultsItem = NSExtensionItem()
+                                                                resultsItem.attachments = [NSItemProvider(contentsOfURL: url)!]
                                                                 context.completeRequestReturningItems([resultsItem], completionHandler: { (expired: Bool) -> Void in
                                                                     if expired {
                                                                         print("FAILED")
