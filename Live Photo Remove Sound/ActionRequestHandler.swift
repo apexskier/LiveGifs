@@ -47,7 +47,6 @@ class ActionRequestHandler: LivePhotoActionRequestHandler {
                         return
                     }
 
-
                     livePhotoToSilentMovie(movieFile: movieFile!, progressHandler: {_ in }, completionHandler: { (url: NSURL, error: NSError?) -> Void in
                         print(url)
                         if error != nil {
@@ -65,7 +64,38 @@ class ActionRequestHandler: LivePhotoActionRequestHandler {
                                     print(error?.usefulDescription)
                                     self.context!.cancelRequestWithError(NSError(domain: "Failed to get jpeg.", code: 1, userInfo: nil))
                                 }
-                                let screenBounds = UIScreen.mainScreen().bounds
+
+                                PHPhotoLibrary.sharedPhotoLibrary().performChanges({
+                                    let request = PHAssetCreationRequest.creationRequestForAsset()
+
+                                    // These types should be inferred from your files
+                                    // let photoOptions = PHAssetResourceCreationOptions()
+                                    // photoOptions.uniformTypeIdentifier = kUTTypeJPEG as String
+                                    // let videoOptions = PHAssetResourceCreationOptions()
+                                    // videoOptions.uniformTypeIdentifier = kUTTypeQuickTimeMovie as String
+
+                                    request.addResourceWithType(.Photo, fileURL: jpegFileUrl, options: nil)
+                                    request.addResourceWithType(.PairedVideo, fileURL: url, options: nil)
+                                }, completionHandler: { (success: Bool, error: NSError?) -> Void in
+                                    if error != nil {
+                                        print(error!.usefulDescription)
+                                        self.context!.cancelRequestWithError(error!)
+                                    } else if success {
+                                        let resultsItem = NSExtensionItem()
+                                        resultsItem.attachments = [NSItemProvider(contentsOfURL: url)!]
+                                        self.context!.completeRequestReturningItems([resultsItem], completionHandler: { (expired: Bool) -> Void in
+                                            if expired {
+                                                print("FAILED")
+                                            } else {
+                                                print("SUCCEEDED")
+                                            }
+                                        })
+                                    } else {
+                                        self.context!.cancelRequestWithError(NSError(domain: "Failed to save file.", code: 1, userInfo: nil))
+                                    }
+                                })
+
+                                /*let screenBounds = UIScreen.mainScreen().bounds
                                 let targetSize = CGSize(width: screenBounds.size.width * uiScale, height: screenBounds.size.height * uiScale)
                                 PHLivePhoto.requestLivePhotoWithResourceFileURLs([jpegFileUrl, url], placeholderImage: UIImage(contentsOfFile: jpegFileUrl.path!), targetSize: targetSize, contentMode: .AspectFill, resultHandler: { (livePhoto: PHLivePhoto?, info: [NSObject : AnyObject]) -> Void in
                                     print(info)
@@ -90,7 +120,7 @@ class ActionRequestHandler: LivePhotoActionRequestHandler {
                                             self.context!.cancelRequestWithError(NSError(domain: "Failed to save file.", code: 1, userInfo: nil))
                                         }
                                     })
-                                })
+                                })*/
                             })
                         }
                     })

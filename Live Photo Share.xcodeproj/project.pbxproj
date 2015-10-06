@@ -32,6 +32,7 @@
 		C56D63251BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
 		C56D63261BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
 		C56D63271BC21E580012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
+		C5BF668F1BC2BC0C003AB56F /* Live Photo Remove Sound.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C56D62FF1BC2195E0012166D /* Live Photo Remove Sound.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,13 @@
 			remoteGlobalIDString = C56D63131BC21D490012166D;
 			remoteInfo = "Live Photo Export Video";
 		};
+		C5BF66901BC2BC0C003AB56F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C53681C81BBCE257004973A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C56D62FE1BC2195E0012166D;
+			remoteInfo = "Live Photo Remove Sound";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +73,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C5BF668F1BC2BC0C003AB56F /* Live Photo Remove Sound.appex in Embed App Extensions */,
 				C56D631D1BC21D490012166D /* Live Photo Export Video.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -236,6 +245,7 @@
 			);
 			dependencies = (
 				C56D631C1BC21D490012166D /* PBXTargetDependency */,
+				C5BF66911BC2BC0C003AB56F /* PBXTargetDependency */,
 			);
 			name = "Live Photo Share";
 			productName = "Live Photo Share";
@@ -480,6 +490,11 @@
 			isa = PBXTargetDependency;
 			target = C56D63131BC21D490012166D /* Live Photo Export Video */;
 			targetProxy = C56D631B1BC21D490012166D /* PBXContainerItemProxy */;
+		};
+		C5BF66911BC2BC0C003AB56F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C56D62FE1BC2195E0012166D /* Live Photo Remove Sound */;
+			targetProxy = C5BF66901BC2BC0C003AB56F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
