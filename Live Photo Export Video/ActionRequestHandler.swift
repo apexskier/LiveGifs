@@ -24,7 +24,7 @@ class ActionRequestHandler: LivePhotoActionRequestHandler {
 
                 let options = PHFetchOptions()
                 options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-                options.predicate = NSPredicate(format: "creationDate >= %@", date)
+                options.predicate = NSPredicate(format: "mediaSubtype = %i && creationDate >= %@ && creationDate <= %@", PHAssetMediaSubtype.PhotoLive.rawValue, date, date)
                 options.fetchLimit = 1
                 if let asset = PHAsset.fetchAssetsWithOptions(options).firstObject as? PHAsset {
                     print(asset.creationDate!)

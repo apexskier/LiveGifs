@@ -169,10 +169,10 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
     let resourceManager = PHAssetResourceManager.defaultManager()
 
     let silentMovFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("silent_\(movieFile.originalFilename)"))
-    if fileManager.fileExistsAtPath(silentMovFileUrl.path!) {
-        progressHandler(1)
-        return completionHandler(silentMovFileUrl, nil)
-    }
+    // delete any old files
+    do { try fileManager.removeItemAtURL(silentMovFileUrl) }
+    catch {}
+
     let movFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(movieFile.originalFilename))
     // delete any old files
     do { try fileManager.removeItemAtURL(movFileUrl) }
@@ -227,7 +227,7 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
 
         let exportSession = AVAssetExportSession(asset: movAssetEditable, presetName: AVAssetExportPresetHighestQuality)!
         exportSession.outputURL = silentMovFileUrl
-        exportSession.outputFileType = kUTTypeQuickTimeMovie as String
+        exportSession.outputFileType = movieFile.uniformTypeIdentifier
         exportSession.exportAsynchronouslyWithCompletionHandler({
             progressHandler(1)
             completionHandler(silentMovFileUrl, nil)
