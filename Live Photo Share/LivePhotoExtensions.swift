@@ -11,7 +11,7 @@ import Photos
 import ImageIO
 import MobileCoreServices
 
-let scale: CGFloat = 0.3
+let targetDimensions: CGSize = UIScreen.mainScreen().bounds.size * uiScale
 
 func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResource, progressHandler: (Double) -> Void, completionHandler: (NSURL, NSError?) -> Void) {
     let fileManager = NSFileManager.defaultManager()
@@ -90,6 +90,7 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
             generator.requestedTimeToleranceAfter = kCMTimeZero
             generator.requestedTimeToleranceBefore = kCMTimeZero
 
+            let scale = max(targetDimensions.height / videoSize.height, targetDimensions.width / videoSize.width)
             let newSize = { (o: UIImageOrientation) -> CGSize in
                 if o == .Right || o == .Left {
                     return CGSize(width: videoSize.height * scale, height: videoSize.width * scale)
@@ -228,6 +229,7 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
         let exportSession = AVAssetExportSession(asset: movAssetEditable, presetName: AVAssetExportPresetHighestQuality)!
         exportSession.outputURL = silentMovFileUrl
         exportSession.outputFileType = movieFile.uniformTypeIdentifier
+        exportSession.metadata = movAsset.metadata
         exportSession.exportAsynchronouslyWithCompletionHandler({
             progressHandler(1)
             completionHandler(silentMovFileUrl, nil)

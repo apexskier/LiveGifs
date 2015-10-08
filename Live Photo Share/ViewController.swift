@@ -105,7 +105,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         let photoRequestOptions = PHImageRequestOptions()
         photoRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
         photoRequestOptions.resizeMode = PHImageRequestOptionsResizeMode.Exact
-        imageManager.requestImageForAsset(assets[indexPath.item] as! PHAsset, targetSize: cell.frame.size, contentMode: PHImageContentMode.AspectFill, options: photoRequestOptions) { (image: UIImage?, info: [NSObject : AnyObject]?) in
+        imageManager.requestImageForAsset(assets[indexPath.item] as! PHAsset, targetSize: cell.frame.size * uiScale, contentMode: PHImageContentMode.AspectFill, options: photoRequestOptions) { (image: UIImage?, info: [NSObject : AnyObject]?) in
             cell.imageView.image = image
         }
         cell.backgroundColor = UIColor.grayColor()

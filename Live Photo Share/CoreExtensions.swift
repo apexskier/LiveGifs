@@ -19,3 +19,15 @@ extension NSError {
         return self.domain
     }
 }
+
+infix operator * { associativity left precedence 140 }
+func *(left: CGSize, right: Double) -> CGSize {
+    let r = CGFloat(right)
+    return CGSize(width: left.width * r, height: left.width * r)
+}
+func *(left: CGSize, right: CGFloat) -> CGSize {
+    return left * Double(right)
+}
+func *(left: CGSize, right: Int) -> CGSize {
+    return left * Double(right)
+}

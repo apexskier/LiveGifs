@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C51CAB541BC6278800B4C13E /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */; };
+		C51CAB551BC6278800B4C13E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
+		C51CAB561BC62A9D00B4C13E /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */; };
+		C51CAB571BC62A9D00B4C13E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
 		C53681D41BBCE257004973A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D31BBCE257004973A9 /* AppDelegate.swift */; };
 		C53681D61BBCE257004973A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D51BBCE257004973A9 /* ViewController.swift */; };
 		C53681D91BBCE257004973A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53681D71BBCE257004973A9 /* Main.storyboard */; };
@@ -20,14 +24,12 @@
 		C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682061BBCE303004973A9 /* OverlayViewController.swift */; };
 		C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682071BBCE303004973A9 /* PhotoGridCell.swift */; };
 		C54E335A1BC0965D000A5817 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
-		C56D63171BC21D490012166D /* ActionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63161BC21D490012166D /* ActionRequestHandler.swift */; };
 		C56D631D1BC21D490012166D /* Live Photo Export Video.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C56D63141BC21D490012166D /* Live Photo Export Video.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C56D63211BC21DA90012166D /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
 		C56D63221BC21DA90012166D /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C56D63231BC21DA90012166D /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 		C56D63261BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
 		C56D63271BC21E580012166D /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
-		C599CBA21BC36C69003E21FA /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C599CBA11BC36C69003E21FA /* ActionViewController.swift */; };
 		C599CBA91BC36C69003E21FA /* Live Photo Mute.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C599CBAD1BC36C8A003E21FA /* LivePhotoActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */; };
 		C599CBAE1BC36C8A003E21FA /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
@@ -39,7 +41,6 @@
 		C5E0F7EC1BC4C87200CB643C /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C5E0F7ED1BC4C87200CB643C /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 		C5E0F7F11BC4C8BF00CB643C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
-		C5E0F7F31BC4CEBE00CB643C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7E01BC4C19E00CB643C /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,18 +118,15 @@
 		C53682071BBCE303004973A9 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
 		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C56D63141BC21D490012166D /* Live Photo Export Video.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export Video.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C56D63161BC21D490012166D /* ActionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRequestHandler.swift; sourceTree = "<group>"; };
 		C56D631A1BC21D490012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoActionExtension.swift; sourceTree = "<group>"; };
 		C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Mute.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C599CBA11BC36C69003E21FA /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		C599CBA61BC36C69003E21FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C491FA1BC372AE009C38A4 /* ExampleCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCode.swift; sourceTree = "<group>"; };
 		C5E0F7DC1BC4C19E00CB643C /* Live Photo Export GIF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export GIF.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
-		C5E0F7E11BC4C19E00CB643C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActionViewController.swift; path = "Live Photo Export GIF/ActionViewController.swift"; sourceTree = "<group>"; };
 		C5E0F7E31BC4C19E00CB643C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainInterface.storyboard; path = "Live Photo Export GIF/MainInterface.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +175,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C51CAB531BC6275000B4C13E /* Live Photo Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */,
+				C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */,
+				C56D63151BC21D490012166D /* Live Photo Export Video */,
+				C599CBA01BC36C69003E21FA /* Live Photo Mute */,
+				C5E0F7DD1BC4C19E00CB643C /* Live Photo Export GIF */,
+			);
+			name = "Live Photo Extensions";
+			sourceTree = "<group>";
+		};
 		C53681C71BBCE257004973A9 = {
 			isa = PBXGroup;
 			children = (
@@ -185,9 +195,7 @@
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681F21BBCE257004973A9 /* Live Photo ShareUITests */,
-				C56D63151BC21D490012166D /* Live Photo Export Video */,
-				C599CBA01BC36C69003E21FA /* Live Photo Mute */,
-				C5E0F7DD1BC4C19E00CB643C /* Live Photo Export GIF */,
+				C51CAB531BC6275000B4C13E /* Live Photo Extensions */,
 				C53681D11BBCE257004973A9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -245,7 +253,6 @@
 		C56D63151BC21D490012166D /* Live Photo Export Video */ = {
 			isa = PBXGroup;
 			children = (
-				C56D63161BC21D490012166D /* ActionRequestHandler.swift */,
 				C56D631A1BC21D490012166D /* Info.plist */,
 			);
 			path = "Live Photo Export Video";
@@ -254,8 +261,6 @@
 		C599CBA01BC36C69003E21FA /* Live Photo Mute */ = {
 			isa = PBXGroup;
 			children = (
-				C599CBA11BC36C69003E21FA /* ActionViewController.swift */,
-				C5E0F7E01BC4C19E00CB643C /* MainInterface.storyboard */,
 				C599CBA61BC36C69003E21FA /* Info.plist */,
 			);
 			path = "Live Photo Mute";
@@ -264,8 +269,6 @@
 		C5E0F7DD1BC4C19E00CB643C /* Live Photo Export GIF */ = {
 			isa = PBXGroup;
 			children = (
-				C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */,
-				C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */,
 				C5E0F7E31BC4C19E00CB643C /* Info.plist */,
 			);
 			path = "Live Photo Export GIF";
@@ -470,6 +473,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51CAB551BC6278800B4C13E /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,7 +481,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5E0F7F31BC4CEBE00CB643C /* MainInterface.storyboard in Resources */,
+				C51CAB571BC62A9D00B4C13E /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,9 +534,9 @@
 			files = (
 				C56D63261BC21DDA0012166D /* LivePhotoActionExtension.swift in Sources */,
 				C56D63231BC21DA90012166D /* Globals.swift in Sources */,
+				C51CAB541BC6278800B4C13E /* ActionViewController.swift in Sources */,
 				C56D63211BC21DA90012166D /* LivePhotoExtensions.swift in Sources */,
 				C56D63221BC21DA90012166D /* CoreExtensions.swift in Sources */,
-				C56D63171BC21D490012166D /* ActionRequestHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,10 +545,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C599CBAF1BC36C8A003E21FA /* CoreExtensions.swift in Sources */,
+				C51CAB561BC62A9D00B4C13E /* ActionViewController.swift in Sources */,
 				C599CBAD1BC36C8A003E21FA /* LivePhotoActionExtension.swift in Sources */,
 				C599CBAE1BC36C8A003E21FA /* LivePhotoExtensions.swift in Sources */,
 				C599CBB01BC36C8A003E21FA /* Globals.swift in Sources */,
-				C599CBA21BC36C69003E21FA /* ActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,15 +608,6 @@
 				C53681DD1BBCE257004973A9 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		C5E0F7E01BC4C19E00CB643C /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C5E0F7E11BC4C19E00CB643C /* Base */,
-			);
-			name = MainInterface.storyboard;
-			path = "../Live Photo Export GIF";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -929,6 +924,7 @@
 				C5E0F7E91BC4C19E00CB643C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
