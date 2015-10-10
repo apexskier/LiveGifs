@@ -11,7 +11,7 @@ import Photos
 import ImageIO
 import MobileCoreServices
 
-let targetDimensions: CGSize = UIScreen.mainScreen().bounds.size * uiScale
+let targetDimensions: CGSize = UIScreen.mainScreen().bounds.size
 
 func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResource, progressHandler: (Double) -> Void, completionHandler: (NSURL, NSError?) -> Void) {
     let fileManager = NSFileManager.defaultManager()
@@ -19,12 +19,12 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
 
     let movFilename: NSString = movieFile.originalFilename
     let gifFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("\(movFilename.stringByDeletingPathExtension).gif"))
-    if fileManager.fileExistsAtPath(gifFileUrl.path!) {
+    /*if fileManager.fileExistsAtPath(gifFileUrl.path!) {
         progressHandler(1)
         return completionHandler(gifFileUrl, nil)
-    }
-    // do { try fileManager.removeItemAtURL(gifFileUrl) }
-    // catch {}
+    }*/
+    do { try fileManager.removeItemAtURL(gifFileUrl) }
+    catch {}
 
     // get the image
     let jpegResourceOptions = PHAssetResourceRequestOptions()
@@ -72,12 +72,20 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
             }
             let lastTime = times[times.count - 1]
 
+            var exif: NSDictionary?
+            if let imageSource = CGImageSourceCreateWithURL(jpegFileUrl, nil), propertiesCF = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) {
+                let properties = propertiesCF as NSDictionary
+                exif = properties[kCGImagePropertyExifDictionary as NSString] as? NSDictionary
+            }
+
             let destination = CGImageDestinationCreateWithURL(gifFileUrl, kUTTypeGIF, Int(frameCount), nil)
             let gifProperties: CFDictionaryRef = [
                 kCGImagePropertyGIFDictionary as String: [
                     kCGImagePropertyGIFLoopCount as String: 0, // loop forever
-                ]
+                ],
+                kCGImagePropertyExifDictionary as String: exif ?? []
             ]
+
             let frameProperties: CFDictionaryRef = [
                 kCGImagePropertyGIFDictionary as String: [
                     kCGImagePropertyGIFDelayTime as String: 1 / Float(frameRate)
@@ -90,7 +98,9 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
             generator.requestedTimeToleranceAfter = kCMTimeZero
             generator.requestedTimeToleranceBefore = kCMTimeZero
 
-            let scale = max(targetDimensions.height / videoSize.height, targetDimensions.width / videoSize.width)
+            // let scale = max(targetDimensions.height / videoSize.height, targetDimensions.width / videoSize.width)
+            let scale: CGFloat = 0.3
+            print("got scale \(scale)")
             let newSize = { (o: UIImageOrientation) -> CGSize in
                 if o == .Right || o == .Left {
                     return CGSize(width: videoSize.height * scale, height: videoSize.width * scale)
@@ -142,13 +152,13 @@ func livePhotoToMovie(movieFile movieFile: PHAssetResource, progressHandler: (Do
     let resourceManager = PHAssetResourceManager.defaultManager()
 
     let movFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(movieFile.originalFilename))
-    if fileManager.fileExistsAtPath(movFileUrl.path!) {
+    /*if fileManager.fileExistsAtPath(movFileUrl.path!) {
         progressHandler(1)
         return completionHandler(movFileUrl, nil)
-    }
+    }*/
     // delete any old files
-    // do { try fileManager.removeItemAtURL(movFileUrl) }
-    // catch {}
+    do { try fileManager.removeItemAtURL(movFileUrl) }
+    catch {}
 
     let movResourceOptions = PHAssetResourceRequestOptions()
     movResourceOptions.networkAccessAllowed = true

@@ -11,3 +11,9 @@ import UIKit
 
 let DEBUG = false
 let uiScale = UIScreen.mainScreen().scale
+
+
+let yellow = UIColor(red: 1, green: 0.8, blue: 0, alpha: 1)
+let darkYellow = UIColor(red: 0.8, green: 0.64, blue: 0, alpha: 1)
+
+let background = UIColor(red: 0, green: 0, blue: 0, alpha: 1)

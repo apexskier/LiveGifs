@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.onceViewControllerListening.ready = true
         }
 
+        window?.tintColor = darkYellow
+
         return true
     }
 

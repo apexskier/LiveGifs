@@ -11,6 +11,9 @@
 		C51CAB551BC6278800B4C13E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
 		C51CAB561BC62A9D00B4C13E /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */; };
 		C51CAB571BC62A9D00B4C13E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
+		C51CAB581BC644D800B4C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
+		C51CAB591BC6450D00B4C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
+		C51CAB5A1BC6450D00B4C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
 		C53681D41BBCE257004973A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D31BBCE257004973A9 /* AppDelegate.swift */; };
 		C53681D61BBCE257004973A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D51BBCE257004973A9 /* ViewController.swift */; };
 		C53681D91BBCE257004973A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53681D71BBCE257004973A9 /* Main.storyboard */; };
@@ -102,7 +105,7 @@
 		C53681D31BBCE257004973A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C53681D51BBCE257004973A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C53681D81BBCE257004973A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C53681DA1BBCE257004973A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C53681DA1BBCE257004973A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "Live Photo Share/Assets.xcassets"; sourceTree = "<group>"; };
 		C53681DD1BBCE257004973A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C53681DF1BBCE257004973A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C53681E41BBCE257004973A9 /* Live Photo ShareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Live Photo ShareTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +195,7 @@
 			children = (
 				C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */,
 				C5C491FA1BC372AE009C38A4 /* ExampleCode.swift */,
+				C53681DA1BBCE257004973A9 /* Assets.xcassets */,
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681F21BBCE257004973A9 /* Live Photo ShareUITests */,
@@ -225,7 +229,6 @@
 				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
 				C53681D51BBCE257004973A9 /* ViewController.swift */,
 				C53681D71BBCE257004973A9 /* Main.storyboard */,
-				C53681DA1BBCE257004973A9 /* Assets.xcassets */,
 				C53681DC1BBCE257004973A9 /* LaunchScreen.storyboard */,
 				C53681DF1BBCE257004973A9 /* Info.plist */,
 			);
@@ -473,6 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51CAB5A1BC6450D00B4C13E /* Assets.xcassets in Resources */,
 				C51CAB551BC6278800B4C13E /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +485,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51CAB591BC6450D00B4C13E /* Assets.xcassets in Resources */,
 				C51CAB571BC62A9D00B4C13E /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +494,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51CAB581BC644D800B4C13E /* Assets.xcassets in Resources */,
 				C5E0F7F11BC4C8BF00CB643C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -779,6 +785,8 @@
 		C56D631F1BC21D490012166D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportMovie;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Export Video/Info.plist";
@@ -793,6 +801,8 @@
 		C56D63201BC21D490012166D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportMovie;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Export Video/Info.plist";
@@ -807,6 +817,8 @@
 		C599CBAA1BC36C69003E21FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportMuted;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Mute/Info.plist";
@@ -821,6 +833,8 @@
 		C599CBAB1BC36C69003E21FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportMuted;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Mute/Info.plist";
@@ -835,6 +849,8 @@
 		C5E0F7E81BC4C19E00CB643C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportGIF;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Export GIF/Info.plist";
@@ -849,6 +865,8 @@
 		C5E0F7E91BC4C19E00CB643C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExportGIF;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Live Photo Export GIF/Info.plist";
