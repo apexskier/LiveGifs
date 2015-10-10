@@ -44,6 +44,8 @@
 		C5E0F7EC1BC4C87200CB643C /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C5E0F7ED1BC4C87200CB643C /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 		C5E0F7F11BC4C8BF00CB643C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */; };
+		C5F076841BC8DEE6008C60BF /* VideoScrubberView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5F076831BC8DEE6008C60BF /* VideoScrubberView.xib */; };
+		C5F076861BC8E0B8008C60BF /* VideoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F076851BC8E0B8008C60BF /* VideoEditorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,8 @@
 		C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActionViewController.swift; path = "Live Photo Export GIF/ActionViewController.swift"; sourceTree = "<group>"; };
 		C5E0F7E31BC4C19E00CB643C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5E0F7F01BC4C8BF00CB643C /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainInterface.storyboard; path = "Live Photo Export GIF/MainInterface.storyboard"; sourceTree = "<group>"; };
+		C5F076831BC8DEE6008C60BF /* VideoScrubberView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoScrubberView.xib; sourceTree = "<group>"; };
+		C5F076851BC8E0B8008C60BF /* VideoEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +199,7 @@
 			children = (
 				C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */,
 				C5C491FA1BC372AE009C38A4 /* ExampleCode.swift */,
+				C5F076851BC8E0B8008C60BF /* VideoEditorViewController.swift */,
 				C53681DA1BBCE257004973A9 /* Assets.xcassets */,
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
@@ -229,6 +234,7 @@
 				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
 				C53681D51BBCE257004973A9 /* ViewController.swift */,
 				C53681D71BBCE257004973A9 /* Main.storyboard */,
+				C5F076831BC8DEE6008C60BF /* VideoScrubberView.xib */,
 				C53681DC1BBCE257004973A9 /* LaunchScreen.storyboard */,
 				C53681DF1BBCE257004973A9 /* Info.plist */,
 			);
@@ -452,6 +458,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5F076841BC8DEE6008C60BF /* VideoScrubberView.xib in Resources */,
 				C53681DE1BBCE257004973A9 /* LaunchScreen.storyboard in Resources */,
 				C53681DB1BBCE257004973A9 /* Assets.xcassets in Resources */,
 				C53681D91BBCE257004973A9 /* Main.storyboard in Resources */,
@@ -511,6 +518,7 @@
 				C53682031BBCE2F6004973A9 /* CoreExtensions.swift in Sources */,
 				C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */,
 				C54E335A1BC0965D000A5817 /* Globals.swift in Sources */,
+				C5F076861BC8E0B8008C60BF /* VideoEditorViewController.swift in Sources */,
 				C56D63271BC21E580012166D /* LivePhotoActionExtension.swift in Sources */,
 				C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */,
 				C53682041BBCE2F6004973A9 /* InfoViewController.swift in Sources */,
