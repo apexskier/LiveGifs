@@ -49,6 +49,10 @@ class OverlayViewController: UIViewController {
         livephotoView.startPlaybackWithStyle(.Full)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        livephotoView.stopPlayback()
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
