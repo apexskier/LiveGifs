@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9052" systemVersion="15B17c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hx5-oS-oxS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9058" systemVersion="15B17c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hx5-oS-oxS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9040"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -169,8 +170,54 @@ https://twitter.com/apexskier</string>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TTP-wd-x3v">
+                                <rect key="frame" x="0.0" y="450" width="600" height="150"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="xyA-fK-P6V">
+                                        <rect key="frame" x="8" y="10" width="584" height="130"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zsD-Us-5Wk">
+                                                <rect key="frame" x="0.0" y="0.0" width="584" height="38"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <state key="normal" title="Share as GIF"/>
+                                                <connections>
+                                                    <action selector="gifTap:" destination="ys7-6k-Ric" eventType="touchUpInside" id="ZUV-Y8-WEm"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBm-mw-mEp">
+                                                <rect key="frame" x="0.0" y="46" width="584" height="38"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <state key="normal" title="Share as Movie"/>
+                                                <connections>
+                                                    <action selector="movieTap:" destination="ys7-6k-Ric" eventType="touchUpInside" id="koU-az-vov"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RsR-Zk-qeJ">
+                                                <rect key="frame" x="0.0" y="92" width="584" height="38"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <state key="normal" title="Share as Silent Movie"/>
+                                                <connections>
+                                                    <action selector="silentMovTap:" destination="ys7-6k-Ric" eventType="touchUpInside" id="X6i-r4-l4B"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <animations/>
+                                    </stackView>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="xyA-fK-P6V" firstAttribute="top" secondItem="TTP-wd-x3v" secondAttribute="top" constant="10" id="0M3-de-8G0"/>
+                                    <constraint firstAttribute="trailing" secondItem="xyA-fK-P6V" secondAttribute="trailing" constant="8" id="Hvs-ZI-yie"/>
+                                    <constraint firstAttribute="bottom" secondItem="xyA-fK-P6V" secondAttribute="bottom" constant="10" id="mYp-tt-Pvq"/>
+                                    <constraint firstItem="xyA-fK-P6V" firstAttribute="leading" secondItem="TTP-wd-x3v" secondAttribute="leading" constant="8" id="wat-u8-l4H"/>
+                                </constraints>
+                            </view>
                             <view clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYe-9c-Cba">
-                                <rect key="frame" x="0.0" y="556" width="600" height="0.0"/>
+                                <rect key="frame" x="0.0" y="450" width="600" height="0.0"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Raw-AM-fJk">
                                         <rect key="frame" x="8" y="2" width="584" height="2"/>
@@ -247,38 +294,54 @@ https://twitter.com/apexskier</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="4G5-bT-L2W"/>
+                            <constraint firstItem="TTP-wd-x3v" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" id="5AP-yD-9ES"/>
                             <constraint firstItem="6Zl-cM-mAj" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="8fb-zj-htN"/>
                             <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Aei-9F-zQF"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="top" secondItem="bwH-ns-yIt" secondAttribute="bottom" id="GX5-3b-RBQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="HTU-n2-cqK"/>
                             <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Kyq-rD-2dU"/>
                             <constraint firstItem="6Zl-cM-mAj" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="OkI-pj-nKL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6Zl-cM-mAj" secondAttribute="trailing" constant="-20" id="RBi-Tm-hs4"/>
                             <constraint firstItem="6Zl-cM-mAj" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="T6U-Uc-213"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6rx-Wh-DH9" secondAttribute="trailing" constant="-20" id="UvU-lS-tJn"/>
-                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="Vj1-Kv-43m"/>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="TTP-wd-x3v" secondAttribute="bottom" id="Uze-kg-tfZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="XoZ-cj-AIl"/>
                             <constraint firstItem="ZYe-9c-Cba" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="Xs9-Wf-90p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TTP-wd-x3v" secondAttribute="trailing" constant="-20" id="Ziq-Ne-jYv"/>
                             <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" constant="44" id="aca-NW-b2t"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZYe-9c-Cba" secondAttribute="trailing" constant="-20" id="arm-Qk-CHY"/>
                             <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="iGK-nf-lMR"/>
                             <constraint firstItem="ZYe-9c-Cba" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="iJf-z4-LVi"/>
                             <constraint firstItem="6Zl-cM-mAj" firstAttribute="top" secondItem="nm6-T5-NRl" secondAttribute="topMargin" id="mbK-lf-bhz"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="ZYe-9c-Cba" secondAttribute="bottom" constant="110" id="mxC-v9-OKV"/>
                             <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6rx-Wh-DH9" secondAttribute="bottom" id="pzC-YH-RKh"/>
                             <constraint firstItem="6rx-Wh-DH9" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="sP5-Wf-cE7"/>
                             <constraint firstItem="6rx-Wh-DH9" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" id="tgJ-Ya-XAX"/>
+                            <constraint firstItem="TTP-wd-x3v" firstAttribute="leading" secondItem="nm6-T5-NRl" secondAttribute="leadingMargin" constant="-20" id="uvc-Dz-M2Z"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="ZYe-9c-Cba" secondAttribute="bottom" constant="-100" id="xNA-ji-9uL"/>
+                            <constraint firstItem="ZYe-9c-Cba" firstAttribute="top" secondItem="bwH-ns-yIt" secondAttribute="bottom" constant="80" id="zQX-14-CGs"/>
+                            <constraint firstItem="bwH-ns-yIt" firstAttribute="top" secondItem="6Zl-cM-mAj" secondAttribute="bottom" id="zUl-Ni-TE1"/>
                             <constraint firstItem="6rx-Wh-DH9" firstAttribute="top" secondItem="ZYe-9c-Cba" secondAttribute="bottom" id="zyW-2C-NpB"/>
                         </constraints>
                         <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="6rx-Wh-DH9"/>
+                            </mask>
                             <mask key="constraints">
-                                <exclude reference="tgJ-Ya-XAX"/>
+                                <exclude reference="GX5-3b-RBQ"/>
                                 <exclude reference="Kyq-rD-2dU"/>
                                 <exclude reference="XoZ-cj-AIl"/>
                                 <exclude reference="Xs9-Wf-90p"/>
                                 <exclude reference="arm-Qk-CHY"/>
                                 <exclude reference="iJf-z4-LVi"/>
+                                <exclude reference="mxC-v9-OKV"/>
+                                <exclude reference="xNA-ji-9uL"/>
+                                <exclude reference="zQX-14-CGs"/>
                                 <exclude reference="4G5-bT-L2W"/>
                                 <exclude reference="aca-NW-b2t"/>
                                 <exclude reference="iGK-nf-lMR"/>
+                                <exclude reference="tgJ-Ya-XAX"/>
+                                <exclude reference="zyW-2C-NpB"/>
                             </mask>
                         </variation>
                     </view>
