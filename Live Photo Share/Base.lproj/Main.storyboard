@@ -259,8 +259,8 @@ https://twitter.com/apexskier</string>
                                             </mask>
                                         </variation>
                                     </stackView>
-                                    <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MTT-57-4JL" userLabel="Editing View">
-                                        <rect key="frame" x="8" y="8" width="584" height="164"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MTT-57-4JL" userLabel="Editing View">
+                                        <rect key="frame" x="8" y="8" width="584" height="185"/>
                                         <subviews>
                                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jnU-ji-TrA">
                                                 <rect key="frame" x="0.0" y="38" width="584" height="80"/>
@@ -412,7 +412,7 @@ https://twitter.com/apexskier</string>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Zpg-Ci-JQO">
-                                                <rect key="frame" x="8" y="126" width="35" height="51"/>
+                                                <rect key="frame" x="8" y="126" width="90" height="51"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVD-Da-Ss1">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="51"/>
@@ -420,6 +420,14 @@ https://twitter.com/apexskier</string>
                                                         <state key="normal" title="Mute"/>
                                                         <connections>
                                                             <action selector="editMuteTap:" destination="ys7-6k-Ric" eventType="touchUpInside" id="WS2-Us-zXd"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTQ-wG-Ugg">
+                                                        <rect key="frame" x="51" y="0.0" width="39" height="51"/>
+                                                        <animations/>
+                                                        <state key="normal" title="Reset"/>
+                                                        <connections>
+                                                            <action selector="editResetTap:" destination="ys7-6k-Ric" eventType="touchUpInside" id="H6A-8z-Gs7"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -616,6 +624,7 @@ https://twitter.com/apexskier</string>
                         <outlet property="centerHandle" destination="8Qe-Pd-lcZ" id="2pX-fF-vih"/>
                         <outlet property="editDoneButton" destination="Zgf-Kv-GLX" id="ZEF-bu-Z8h"/>
                         <outlet property="editMuteButton" destination="zVD-Da-Ss1" id="fAX-QK-mbi"/>
+                        <outlet property="editResetButton" destination="lTQ-wG-Ugg" id="PI6-S2-QOc"/>
                         <outlet property="editSaveButton" destination="Qeq-52-025" id="eXh-b6-1iu"/>
                         <outlet property="editViewBottomConstraint" destination="Sm2-1q-Gtj" id="SoR-eS-MsE"/>
                         <outlet property="editingThumbnailView" destination="rQf-v3-Yf1" id="re4-4g-HT4"/>

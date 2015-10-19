@@ -16,6 +16,36 @@ let targetDimensions: CGSize = UIScreen.mainScreen().bounds.size
 let fileManager = NSFileManager.defaultManager()
 let resourceManager = PHAssetResourceManager.defaultManager()
 
+struct EditInformation {
+    var leftBound: Double = 0
+    var rightBound: Double = 1
+    var centerImage: Double = 0.5
+    var muted: Bool = false
+    var dirty: Bool {
+        get {
+            return leftDirty || rightDirty || centerDirty || muteDirty
+        }
+    }
+    var leftDirty: Bool {
+        return leftBound != 0
+    }
+    var rightDirty: Bool {
+        return rightBound != 1
+    }
+    var centerDirty: Bool {
+        return centerImage != 0.5
+    }
+    var muteDirty: Bool {
+        return muted
+    }
+    mutating func reset() {
+        leftBound = 0
+        rightBound = 1
+        centerImage = 0.5
+        muted = false
+    }
+}
+
 func resourcesForLivePhoto(livePhoto: PHLivePhoto) -> (movieFile: PHAssetResource, jpegFile: PHAssetResource, error: NSError?) {
     let resources = PHAssetResource.assetResourcesForLivePhoto(livePhoto)
     var movieFile: PHAssetResource?
@@ -54,35 +84,6 @@ func fileForResource(resource: PHAssetResource, progressHandler: Double -> Void,
         completionHandler(fileURL, error)
     })
 }
-
-/*
-func getResources() {
-    resourceManager.writeDataForAssetResource(jpegFile, toFile: jpegFileUrl, options: jpegResourceOptions, completionHandler: { (error: NSError?) -> Void in
-        if error != nil {
-            print(error?.usefulDescription)
-            return completionHandler(NSURL(), error)
-        }
-        let liveImageJpeg = UIImage(contentsOfFile: jpegFileUrl.path!)!
-        let orientation = liveImageJpeg.imageOrientation
-
-        let movResourceOptions = PHAssetResourceRequestOptions()
-        movResourceOptions.networkAccessAllowed = true
-        movResourceOptions.progressHandler = { (progress: Double) in
-            progressHandler(progress / 4 + 0.25)
-        }
-        let movFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString(movieFile.originalFilename))
-        // delete any old files
-        do { try fileManager.removeItemAtURL(movFileUrl) }
-        catch {}
-        resourceManager.writeDataForAssetResource(movieFile, toFile: movFileUrl, options: movResourceOptions, completionHandler: { (error: NSError?) -> Void in
-            if error != nil {
-                print(error?.usefulDescription)
-                return completionHandler(NSURL(), error)
-            }
-        })
-    })
-}
-*/
 
 func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResource, progressHandler: (Double) -> Void, completionHandler: (NSURL, NSError?) -> Void) {
     // get jpeg file
@@ -147,7 +148,6 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
                     // kCGImagePropertyGIFHasGlobalColorMap as String: false
                 ]
             ]
-            CGImageDestinationSetProperties(destination!, gifProperties)
 
             let generator = AVAssetImageGenerator(asset: movAsset)
             generator.requestedTimeToleranceAfter = kCMTimeZero
@@ -257,5 +257,163 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
             progressHandler(1)
             completionHandler(silentMovFileUrl, nil)
         })
+    }
+}
+
+
+func editLivePhoto(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResource, editInfo: EditInformation, progressHandler: (Double) -> Void, completionHandler: (NSError? -> Void)) {
+    if !editInfo.dirty {
+        return completionHandler(NSError(domain: "No edits requested", code: 1, userInfo: nil))
+    }
+
+    fileForResource(movieFile, progressHandler: { progress in
+        progressHandler(progress / 2)
+    }) { movFileURL, error in
+        if error != nil {
+            print(error?.usefulDescription)
+            return completionHandler(error)
+        }
+        let movAsset = AVAsset(URL: movFileURL)
+        editMov(movAsset: movAsset, movURL: movFileURL, movResource: movieFile, editInfo: editInfo, progressHandler: { progress in
+            progressHandler(progress / 2)
+        }) { (newMovURL, error) in
+            if error != nil {
+                completionHandler(error)
+            } else {
+                editImg(jpegResource: jpegFile, movAsset: movAsset, editInfo: editInfo, progressHandler: { progress in
+                    progressHandler(progress / 4 + 0.5)
+                }) { (newJpegURL, error) in
+                    if error != nil {
+                        completionHandler(error)
+                    } else {
+                        saveLivePhoto(movURL: newMovURL, jpegURL: newJpegURL, progressHandler: { progress in
+                            progressHandler(progress / 4 + 0.75)
+                        }) { error in
+                            if error != nil {
+                                completionHandler(error)
+                            } else {
+                                progressHandler(1)
+                                completionHandler(nil)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+internal func saveLivePhoto(movURL movURL: NSURL, jpegURL: NSURL, progressHandler: (Double -> Void), completionHandler: (NSError? -> Void)) {
+    let writeOptions = PHAssetResourceRequestOptions()
+    writeOptions.networkAccessAllowed = true
+    writeOptions.progressHandler = { progress in
+        progressHandler(Double(progress / 2))
+    }
+
+    PHPhotoLibrary.sharedPhotoLibrary().performChanges({
+        let request = PHAssetCreationRequest.creationRequestForAsset()
+
+        // These types should be inferred from your files
+        let photoOptions = PHAssetResourceCreationOptions()
+        photoOptions.uniformTypeIdentifier = kUTTypeJPEG as String
+        request.addResourceWithType(.Photo, fileURL: jpegURL, options: photoOptions)
+
+        let videoOptions = PHAssetResourceCreationOptions()
+        videoOptions.uniformTypeIdentifier = kUTTypeQuickTimeMovie as String
+        request.addResourceWithType(.PairedVideo, fileURL: movURL, options: videoOptions)
+    }, completionHandler: { success, error in
+        if error != nil {
+            completionHandler(error)
+        } else {
+            progressHandler(1)
+            completionHandler(nil)
+        }
+    })
+}
+
+internal func editImg(jpegResource jpegResource: PHAssetResource, movAsset: AVAsset, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
+    fileForResource(jpegResource, progressHandler: { progress in
+        progressHandler(progress / 2)
+    }) { (jpegURL, error) in
+        if error != nil {
+            print(error?.usefulDescription)
+            return completionHandler(NSURL(), error)
+        }
+        if editInfo.centerDirty {
+            // Need to generate new image file
+            let generator = AVAssetImageGenerator(asset: movAsset)
+            generator.requestedTimeToleranceAfter = kCMTimeZero
+            generator.requestedTimeToleranceBefore = kCMTimeZero
+
+            let seconds = editInfo.centerImage * movAsset.duration.seconds
+            let time = CMTime(seconds: seconds, preferredTimescale: 6000)
+            do {
+                if let imageSource = CGImageSourceCreateWithURL(jpegURL, nil), propertiesCF = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) {
+                    let properties = propertiesCF as NSDictionary
+
+                    let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("editjpeg_\(jpegResource.originalFilename)"))
+                    // delete any old files
+                    do { try fileManager.removeItemAtURL(url) }
+                    catch {}
+
+                    let imageDest = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, nil)!
+                    let imageRef = try generator.copyCGImageAtTime(time, actualTime: nil)
+                    CGImageDestinationAddImage(imageDest, imageRef, properties)
+                    CGImageDestinationFinalize(imageDest)
+                    completionHandler(url, nil)
+                }
+            } catch {
+                return completionHandler(NSURL(), NSError(domain: "Failed to capture image frame", code: 1, userInfo: nil))
+            }
+        } else {
+            progressHandler(1)
+            completionHandler(jpegURL, nil)
+        }
+    }
+}
+
+internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, movResource: PHAssetResource, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
+    if editInfo.muteDirty || editInfo.leftDirty || editInfo.rightDirty {
+        // Need to generate new video file
+        let newMovFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("editmov_\(movURL.lastPathComponent!)"))
+        // delete any old files
+        do { try fileManager.removeItemAtURL(newMovFileUrl) }
+        catch {}
+
+        let numTracks = Double(movAsset.tracks.count)
+        var count = Double(0)
+        let movAssetEditable = AVMutableComposition()
+        var mediaTypes = [AVMediaTypeVideo, AVMediaTypeMetadata, AVMediaTypeTimecode, AVMediaTypeMetadataObject]
+        if !editInfo.muteDirty {
+            mediaTypes.append(AVMediaTypeAudio)
+        }
+        let seconds = movAsset.duration.seconds
+        let startTime = editInfo.leftDirty ? CMTime(seconds: editInfo.leftBound * seconds, preferredTimescale: 6000) : kCMTimeZero
+        let endTime = editInfo.rightDirty ? CMTime(seconds: editInfo.rightBound * seconds, preferredTimescale: 6000) : movAsset.duration
+        let newDuration = endTime - startTime
+        for type in mediaTypes {
+            let typeTrack = movAssetEditable.addMutableTrackWithMediaType(type, preferredTrackID: kCMPersistentTrackID_Invalid)
+            for track in movAsset.tracksWithMediaType(type) {
+                do {
+                    try typeTrack.insertTimeRange(CMTimeRange(start: startTime, duration: newDuration), ofTrack: track, atTime: kCMTimeZero)
+                    typeTrack.preferredTransform = track.preferredTransform
+                } catch {
+                    completionHandler(NSURL(), NSError(domain: "Something went wrong encoding the video", code: 1, userInfo: nil))
+                }
+                progressHandler((count++ / numTracks) + 0.5)
+            }
+        }
+
+        let exportSession = AVAssetExportSession(asset: movAssetEditable, presetName: AVAssetExportPresetHighestQuality)!
+        exportSession.outputURL = newMovFileUrl
+        exportSession.outputFileType = movResource.uniformTypeIdentifier
+        exportSession.metadata = movAsset.metadata
+        exportSession.exportAsynchronouslyWithCompletionHandler({
+            progressHandler(1)
+            completionHandler(newMovFileUrl, nil)
+        })
+    } else {
+        progressHandler(1)
+        completionHandler(movURL, nil)
     }
 }

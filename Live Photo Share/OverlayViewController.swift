@@ -9,18 +9,6 @@
 import UIKit
 import PhotosUI
 
-struct EditInformation {
-    var leftBound: Double = 0
-    var rightBound: Double = 1
-    var centerImage: Double = 0.5
-    var muted: Bool = false
-    var dirty: Bool {
-        get {
-            return leftBound != 0 || rightBound != 1 || centerImage != 0.5 || muted
-        }
-    }
-}
-
 @available(iOS 9.1, *)
 class OverlayViewController: UIViewController {
     @IBOutlet weak var gifButton: UIBarButtonItem!
@@ -42,6 +30,7 @@ class OverlayViewController: UIViewController {
     @IBOutlet weak var editDoneButton: UIButton!
     @IBOutlet weak var editSaveButton: UIButton!
     @IBOutlet weak var editMuteButton: UIButton!
+    @IBOutlet weak var editResetButton: UIButton!
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var editViewBottomConstraint: NSLayoutConstraint!
 
@@ -207,8 +196,10 @@ class OverlayViewController: UIViewController {
     func updateSavable() {
         if editInformation.dirty {
             editSaveButton.enabled = true
+            editResetButton.enabled = true
         } else {
             editSaveButton.enabled = false
+            editResetButton.enabled = false
         }
     }
 
@@ -366,11 +357,11 @@ class OverlayViewController: UIViewController {
                     }
                 }
 
-                self.leftHandle.rightBound = (self.editingThumbnailView.bounds.width / 2) - (self.centerHandle.frame.width / 2)
-                self.rightHandle.leftBound = (self.editingThumbnailView.bounds.width / 2) + (self.centerHandle.frame.width / 2)
+                self.leftHandle.rightBound = (self.editingView.bounds.width / 2) - (self.centerHandle.frame.width / 2)
+                self.rightHandle.leftBound = (self.editingView.bounds.width / 2) + (self.centerHandle.frame.width / 2)
                 self.centerHandle.leftBound = self.leftHandle.frame.width
-                self.centerHandle.rightBound = self.editingThumbnailView.bounds.width - self.rightHandle.frame.width
-                let handleWidth = self.editingThumbnailView.bounds.width - (self.rightHandle.frame.width + self.leftHandle.frame.width + self.centerHandle.frame.width)
+                self.centerHandle.rightBound = self.editingView.bounds.width - self.rightHandle.frame.width
+                let handleWidth = self.editingView.bounds.width - (self.rightHandle.frame.width + self.leftHandle.frame.width + self.centerHandle.frame.width)
                 self.centerHandle.onMove({ p in
                     self.leftHandle.rightBound = self.centerHandle.frame.minX
                     self.rightHandle.leftBound = self.centerHandle.frame.maxX
@@ -429,7 +420,7 @@ class OverlayViewController: UIViewController {
 
                 let yPadding = 4
                 let xPadding = 0
-                let totalWidth = self.editingThumbnailView.bounds.size.width - CGFloat(xPadding * 2)
+                let totalWidth = self.editingView.bounds.size.width - CGFloat(xPadding * 2)
                 let height = Int(self.editingThumbnailView.bounds.size.height) - (yPadding * 2)
                 let width = Int(ratio * CGFloat(height))
 
@@ -499,8 +490,39 @@ class OverlayViewController: UIViewController {
     }
 
     @IBAction func editSaveTap(sender: UIButton?) {
+        if self.livephotoView.livePhoto == nil {
+            return
+        }
+        running = true
         progressUp()
-        progressBar.setProgress(1, animated: true)
+        if let files = fetchResources() {
+            let movieFile = files.movie
+            let jpegFile = files.jpeg
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                editLivePhoto(movieFile: movieFile, jpegFile: jpegFile, editInfo: self.editInformation, progressHandler: { progress in
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.progressBar.setProgress(Float(progress), animated: true)
+                    })
+                }) { error in
+                    dispatch_async(dispatch_get_main_queue(), {
+                        if error != nil {
+                            print(error?.usefulDescription)
+                            let alert = UIAlertController(title: "Error", message: "Failed to edit Live Photo.", preferredStyle: .Alert)
+                            let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                            alert.addAction(okay)
+                            self.presentViewController(alert, animated: true) {
+                                self.progressDown()
+                                self.running = false
+                            }
+                        } else {
+                            self.progressDown()
+                            self.running = false
+                            self.doneTap(nil)
+                        }
+                    })
+                }
+            })
+        }
     }
 
     @IBAction func editMuteTap(sender: UIButton?) {
@@ -513,7 +535,23 @@ class OverlayViewController: UIViewController {
         updateSavable()
     }
 
-    @IBAction func doneTap(sender: AnyObject) {
+    @IBAction func editResetTap(sender: AnyObject) {
+        editInformation.reset()
+        UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseInOut, animations: {
+            self.centerHandle.frame.origin.x = (self.editingView.bounds.width / 2) - (self.centerHandle.frame.width / 2)
+            self.leftHandle.frame.origin.x = 0
+            self.rightHandle.frame.origin.x = self.editingView.bounds.width - self.rightHandle.frame.width
+            let m = self.rightHandle.frame.midX
+            self.rightCropOverlay.frame.origin.x = m
+            self.rightCropOverlay.frame.size.width = self.editingView.frame.width - m
+            self.leftCropOverlay.frame.size.width = self.leftHandle.frame.midX
+        }) { finished in
+            self.editMuteButton.setTitle("Mute", forState: .Normal)
+            self.updateSavable()
+        }
+    }
+
+    @IBAction func doneTap(sender: AnyObject?) {
         if !self.running {
             dismissViewControllerAnimated(true) {
                 self.progressDown()
