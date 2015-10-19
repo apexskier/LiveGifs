@@ -213,7 +213,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         }
     }
 
-    @IBAction func getInfo(sender: UIBarButtonItem) {
+    @IBAction func infoTap(sender: UIButton) {
         let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("InfoNavigationController")
         self.presentViewController(overlayNavController, animated: true, completion: nil)
     }
