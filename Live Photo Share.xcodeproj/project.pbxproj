@@ -33,7 +33,7 @@
 		C56D63231BC21DA90012166D /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
 		C582F1EF1BCB57850067BFEE /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
 		C582F1F01BCB57850067BFEE /* LivePhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */; };
-		C59617541BD46DCF001CBB38 /* VideoEditorLeftHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59617531BD46DCF001CBB38 /* VideoEditorLeftHandle.swift */; };
+		C59617541BD46DCF001CBB38 /* VideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59617531BD46DCF001CBB38 /* VideoEditor.swift */; };
 		C599CBA91BC36C69003E21FA /* Live Photo Mute.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C599CBAF1BC36C8A003E21FA /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C599CBB01BC36C8A003E21FA /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
@@ -121,7 +121,7 @@
 		C56D63141BC21D490012166D /* Live Photo Export Video.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export Video.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C56D631A1BC21D490012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoActionExtension.swift; sourceTree = "<group>"; };
-		C59617531BD46DCF001CBB38 /* VideoEditorLeftHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditorLeftHandle.swift; sourceTree = "<group>"; };
+		C59617531BD46DCF001CBB38 /* VideoEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoEditor.swift; sourceTree = "<group>"; };
 		C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Mute.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C599CBA61BC36C69003E21FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C491FA1BC372AE009C38A4 /* ExampleCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCode.swift; sourceTree = "<group>"; };
@@ -264,7 +264,7 @@
 		C59617521BD46DB8001CBB38 /* VideoEditor */ = {
 			isa = PBXGroup;
 			children = (
-				C59617531BD46DCF001CBB38 /* VideoEditorLeftHandle.swift */,
+				C59617531BD46DCF001CBB38 /* VideoEditor.swift */,
 			);
 			name = VideoEditor;
 			sourceTree = "<group>";
@@ -517,7 +517,7 @@
 				C53681D61BBCE257004973A9 /* ViewController.swift in Sources */,
 				C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */,
 				C53682031BBCE2F6004973A9 /* CoreExtensions.swift in Sources */,
-				C59617541BD46DCF001CBB38 /* VideoEditorLeftHandle.swift in Sources */,
+				C59617541BD46DCF001CBB38 /* VideoEditor.swift in Sources */,
 				C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */,
 				C54E335A1BC0965D000A5817 /* Globals.swift in Sources */,
 				C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */,
