@@ -212,11 +212,6 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             completionHandler(NSError(domain: "Already opening a live photo, try again in 5 seconds.", code: 1, userInfo: nil))
         }
     }
-
-    @IBAction func infoTap(sender: UIButton) {
-        let overlayNavController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("InfoNavigationController")
-        self.presentViewController(overlayNavController, animated: true, completion: nil)
-    }
 }
 
 extension PhotoGridViewController: UICollectionViewDelegateFlowLayout {

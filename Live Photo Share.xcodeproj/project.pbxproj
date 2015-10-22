@@ -15,7 +15,7 @@
 		C51CAB591BC6450D00B4C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
 		C51CAB5A1BC6450D00B4C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
 		C53681D41BBCE257004973A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D31BBCE257004973A9 /* AppDelegate.swift */; };
-		C53681D61BBCE257004973A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D51BBCE257004973A9 /* ViewController.swift */; };
+		C53681D61BBCE257004973A9 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53681D51BBCE257004973A9 /* CreateViewController.swift */; };
 		C53681D91BBCE257004973A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53681D71BBCE257004973A9 /* Main.storyboard */; };
 		C53681DB1BBCE257004973A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53681DA1BBCE257004973A9 /* Assets.xcassets */; };
 		C53681DE1BBCE257004973A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53681DC1BBCE257004973A9 /* LaunchScreen.storyboard */; };
@@ -37,6 +37,7 @@
 		C599CBA91BC36C69003E21FA /* Live Photo Mute.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C599CBAF1BC36C8A003E21FA /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
 		C599CBB01BC36C8A003E21FA /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54E33591BC0965D000A5817 /* Globals.swift */; };
+		C5DE0C8B1BD88C3C00512C7C /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DE0C8A1BD88C3C00512C7C /* MainTabBarViewController.swift */; };
 		C5E0F7DF1BC4C19E00CB643C /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */; };
 		C5E0F7E61BC4C19E00CB643C /* Live Photo Export GIF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C5E0F7DC1BC4C19E00CB643C /* Live Photo Export GIF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C5E0F7EC1BC4C87200CB643C /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53682011BBCE2F6004973A9 /* CoreExtensions.swift */; };
@@ -101,7 +102,7 @@
 /* Begin PBXFileReference section */
 		C53681D01BBCE257004973A9 /* Live Photo Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photo Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C53681D31BBCE257004973A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C53681D51BBCE257004973A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C53681D51BBCE257004973A9 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		C53681D81BBCE257004973A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C53681DA1BBCE257004973A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "Live Photo Share/Assets.xcassets"; sourceTree = "<group>"; };
 		C53681DD1BBCE257004973A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		C599CB9F1BC36C69003E21FA /* Live Photo Mute.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Mute.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C599CBA61BC36C69003E21FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C491FA1BC372AE009C38A4 /* ExampleCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCode.swift; sourceTree = "<group>"; };
+		C5DE0C8A1BD88C3C00512C7C /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		C5E0F7DC1BC4C19E00CB643C /* Live Photo Export GIF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export GIF.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E0F7DE1BC4C19E00CB643C /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActionViewController.swift; path = "Live Photo Export GIF/ActionViewController.swift"; sourceTree = "<group>"; };
 		C5E0F7E31BC4C19E00CB643C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -226,7 +228,8 @@
 				C53682021BBCE2F6004973A9 /* InfoViewController.swift */,
 				C54E33591BC0965D000A5817 /* Globals.swift */,
 				C53682061BBCE303004973A9 /* OverlayViewController.swift */,
-				C53681D51BBCE257004973A9 /* ViewController.swift */,
+				C53681D51BBCE257004973A9 /* CreateViewController.swift */,
+				C5DE0C8A1BD88C3C00512C7C /* MainTabBarViewController.swift */,
 				C59617521BD46DB8001CBB38 /* VideoEditor */,
 				C53681D71BBCE257004973A9 /* Main.storyboard */,
 				C53681DC1BBCE257004973A9 /* LaunchScreen.storyboard */,
@@ -514,11 +517,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C53681D61BBCE257004973A9 /* ViewController.swift in Sources */,
+				C53681D61BBCE257004973A9 /* CreateViewController.swift in Sources */,
 				C536820A1BBCE303004973A9 /* PhotoGridCell.swift in Sources */,
 				C53682031BBCE2F6004973A9 /* CoreExtensions.swift in Sources */,
 				C59617541BD46DCF001CBB38 /* VideoEditor.swift in Sources */,
 				C53682081BBCE303004973A9 /* LivePhotoExtensions.swift in Sources */,
+				C5DE0C8B1BD88C3C00512C7C /* MainTabBarViewController.swift in Sources */,
 				C54E335A1BC0965D000A5817 /* Globals.swift in Sources */,
 				C53682091BBCE303004973A9 /* OverlayViewController.swift in Sources */,
 				C53682041BBCE2F6004973A9 /* InfoViewController.swift in Sources */,

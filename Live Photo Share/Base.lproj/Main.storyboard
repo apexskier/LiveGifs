@@ -7,12 +7,32 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Photo Grid View Controller-->
+        <!--Create-->
+        <scene sceneID="C69-0W-ogL">
+            <objects>
+                <viewController id="tgg-8i-EN6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fH3-M1-Msp"/>
+                        <viewControllerLayoutGuide type="bottom" id="YDZ-8p-Sm7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Hv-k1-ANI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Create" id="5nc-TE-L9t"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8zE-zf-JSr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1639" y="-312"/>
+        </scene>
+        <!--Export & Edit-->
         <scene sceneID="LOj-RT-A77">
             <objects>
-                <collectionViewController id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController modalPresentationStyle="currentContext" id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="13T-B4-Mfe">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -24,7 +44,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="Live_Photo_Share" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="133" height="133"/>
+                                <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
@@ -63,23 +83,15 @@
                             <outlet property="delegate" destination="stJ-QJ-IVw" id="E3Y-ou-Osg"/>
                         </connections>
                     </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Export &amp; Edit" id="DAN-b5-KB3"/>
                     <navigationItem key="navigationItem" id="2pc-U8-7dq">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" id="uAI-w7-P9P">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="pvQ-CR-bLE">
-                                <rect key="frame" x="558" y="11" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <connections>
-                                    <action selector="infoTap:" destination="stJ-QJ-IVw" eventType="touchUpInside" id="AW3-iq-eEE"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-m7-UjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="924" y="403"/>
+            <point key="canvasLocation" x="1639" y="403"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="jlG-Ne-ZPp">
@@ -157,7 +169,7 @@ https://twitter.com/apexskier</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sg7-rf-Mv1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1736" y="1174"/>
+            <point key="canvasLocation" x="1639" y="1149"/>
         </scene>
         <!--Overlay View Controller-->
         <scene sceneID="i1y-W8-97r">
@@ -647,11 +659,12 @@ https://twitter.com/apexskier</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NO2-Dk-aOW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2465" y="403"/>
+            <point key="canvasLocation" x="3100" y="403"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8ja-gT-bOe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JQO-iq-c0i" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hx5-oS-oxS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="P1d-Bv-Jfb">
@@ -661,12 +674,11 @@ https://twitter.com/apexskier</string>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="stJ-QJ-IVw" kind="relationship" relationship="rootViewController" id="iVf-sm-l8j"/>
+                        <segue destination="TfZ-Ea-cbB" kind="relationship" relationship="rootViewController" id="iVf-sm-l8j"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQO-iq-c0i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="242" y="403"/>
+            <point key="canvasLocation" x="201" y="403"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lap-o7-WFj">
@@ -690,7 +702,7 @@ https://twitter.com/apexskier</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nhj-KD-24W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1653" y="403"/>
+            <point key="canvasLocation" x="2360" y="403"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FvL-tQ-z4Z">
@@ -709,26 +721,40 @@ https://twitter.com/apexskier</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCp-ls-FId" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="924" y="1174"/>
+            <point key="canvasLocation" x="924" y="1149"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="utG-5r-lik">
+        <!--Live Photo Share-->
+        <scene sceneID="Das-wL-Hpu">
             <objects>
-                <viewController storyboardIdentifier="PeekViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="24M-sY-xex" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BYI-Qj-mfw"/>
-                        <viewControllerLayoutGuide type="bottom" id="16b-9m-i83"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ZDo-ZV-YzM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="currentContext" id="TfZ-Ea-cbB" customClass="MainTabBarViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Live Photo Share" id="tnS-1g-vOh">
+                        <barButtonItem key="rightBarButtonItem" id="uAI-w7-P9P">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="pvQ-CR-bLE">
+                                <rect key="frame" x="558" y="11" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="infoTap:" destination="stJ-QJ-IVw" eventType="touchUpInside" id="AW3-iq-eEE"/>
+                                    <action selector="infoTap:" destination="TfZ-Ea-cbB" eventType="touchUpInside" id="dRr-40-44z"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="9df-A3-YMK">
+                        <autoresizingMask key="autoresizingMask"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jfk-pn-C5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="stJ-QJ-IVw" kind="relationship" relationship="viewControllers" id="lwA-WW-mTg"/>
+                        <segue destination="tgg-8i-EN6" kind="relationship" relationship="viewControllers" id="xVt-v6-ejw"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZAn-uE-aBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1352" y="2102"/>
+            <point key="canvasLocation" x="924" y="403"/>
         </scene>
     </scenes>
 </document>
