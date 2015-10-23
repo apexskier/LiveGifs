@@ -17,6 +17,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     private let reuseIdentifier = "PhotoGridCell"
 
     var running = false
+    var waitingForNew = false
 
     var observers: [AnyObject] = []
 
@@ -53,7 +54,6 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         }))
 
         observers.append(NSNotificationCenter.defaultCenter().addObserverForName("trigger", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
-            self.reloadAssets()
             let action = notification.object! as! Action
             if self.presentedViewController == nil {
                 self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
@@ -63,6 +63,11 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                 })
             }
         }))
+        
+        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("creating", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+            self.waitingForNew = true
+        }))
+        
         NSNotificationCenter.defaultCenter().postNotificationName("viewControllerListening", object: nil)
     }
 
@@ -251,6 +256,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                     }
                     if let inserted = collectionChanges.insertedIndexes {
                         insertedPaths = self.indexPathsFromIndexSet(inserted)
+                        // open added photo if it's the only one and we're not already showing something.
                     }
                     if let changed = collectionChanges.changedIndexes {
                         changedPaths = self.indexPathsFromIndexSet(changed)
@@ -278,7 +284,14 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                         
                         // Get the new fetch result for future change tracking.
                         self.assets = collectionChanges.fetchResultAfterChanges
-                    }, completion: nil)
+                    }, completion: { success in
+                        if insertedPaths?.count >= 1 && self.waitingForNew {
+                            let action = Action(indexPath: insertedPaths![0])
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                            self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
+                            self.waitingForNew = false
+                        }
+                    })
                 } else {
                     // Detailed change information is not available;
                     // repopulate the UI from the current fetch result.
