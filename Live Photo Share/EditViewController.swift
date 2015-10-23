@@ -13,7 +13,7 @@ import ImageIO
 import MobileCoreServices
 import UIKit
 
-class PhotoGridViewController: UICollectionViewController, UIViewControllerPreviewingDelegate {
+class PhotoGridViewController: UICollectionViewController, UIViewControllerPreviewingDelegate, UICollectionViewDelegateFlowLayout, PHPhotoLibraryChangeObserver {
     private let reuseIdentifier = "PhotoGridCell"
 
     var running = false
@@ -210,9 +210,9 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             completionHandler(NSError(domain: "Already opening a live photo, try again in 5 seconds.", code: 1, userInfo: nil))
         }
     }
-}
-
-extension PhotoGridViewController: UICollectionViewDelegateFlowLayout {
+    
+    // MARK: UICollectionViewDelegateFlowLayout
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let cols: CGFloat = 4
@@ -231,17 +231,71 @@ extension PhotoGridViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-}
 
-extension PhotoGridViewController: PHPhotoLibraryChangeObserver {
-    func photoLibraryDidChange(changeInstance: PHChange) {
-        guard let assets = assets else {
-            return
+    // MARK: PHPhotoLibraryChangeObserver
+    
+    func photoLibraryDidChange(changeInfo: PHChange) {
+        // Photos may call this method on a background queue;
+        // switch to the main queue to update the UI.
+        dispatch_async(dispatch_get_main_queue()) {
+            // Check for changes to the list of assets (insertions, deletions, moves, or updates).
+            if let collectionChanges = changeInfo.changeDetailsForFetchResult(self.assets) {
+                
+                if collectionChanges.hasIncrementalChanges {
+                    // Get the changes as lists of index paths for updating the UI.
+                    var removedPaths: [NSIndexPath]?
+                    var insertedPaths: [NSIndexPath]?
+                    var changedPaths: [NSIndexPath]?
+                    if let removed = collectionChanges.removedIndexes {
+                        removedPaths = self.indexPathsFromIndexSet(removed)
+                    }
+                    if let inserted = collectionChanges.insertedIndexes {
+                        insertedPaths = self.indexPathsFromIndexSet(inserted)
+                    }
+                    if let changed = collectionChanges.changedIndexes {
+                        changedPaths = self.indexPathsFromIndexSet(changed)
+                    }
+                    
+                    // Tell the collection view to animate insertions/deletions/moves
+                    // and to refresh any cells that have changed content.
+                    self.collectionView!.performBatchUpdates({
+                        if removedPaths != nil {
+                            self.collectionView?.deleteItemsAtIndexPaths(removedPaths!)
+                        }
+                        if insertedPaths != nil {
+                            self.collectionView?.insertItemsAtIndexPaths(insertedPaths!)
+                        }
+                        if changedPaths != nil {
+                            self.collectionView?.reloadItemsAtIndexPaths(changedPaths!)
+                        }
+                        if (collectionChanges.hasMoves) {
+                            collectionChanges.enumerateMovesWithBlock() { fromIndex, toIndex in
+                                let fromIndexPath = NSIndexPath(forItem: fromIndex, inSection: 0)
+                                let toIndexPath = NSIndexPath(forItem: toIndex, inSection: 0)
+                                self.collectionView?.moveItemAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+                            }
+                        }
+                        
+                        // Get the new fetch result for future change tracking.
+                        self.assets = collectionChanges.fetchResultAfterChanges
+                    }, completion: nil)
+                } else {
+                    // Detailed change information is not available;
+                    // repopulate the UI from the current fetch result.
+                    self.collectionView?.reloadData()
+                }
+            }
         }
-
-        if let changeDetails = changeInstance.changeDetailsForFetchResult(assets) {
-            self.assets = changeDetails.fetchResultAfterChanges
+    }
+    
+    private func indexPathsFromIndexSet(indexSet: NSIndexSet) -> [NSIndexPath] {
+        var indexPaths: [NSIndexPath] = []
+        
+        indexSet.enumerateIndexesUsingBlock { (index, _) -> Void in
+            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
         }
+        
+        return indexPaths
     }
 }
 

@@ -26,15 +26,11 @@ class VideoEditorControls: UIViewController {
     @IBOutlet weak var rightCropOverlay: UIView!
     @IBOutlet weak var muteButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
-
-    var containsSaveButton = true
 
     var delegate: VideoEditorControlsDelegate?
 
     override func viewDidLoad() {
         let cornerRadius: CGFloat = 4
-        saveButton.hidden = containsSaveButton
 
         leftHandle.subviews.first?.layer.cornerRadius = cornerRadius
         leftHandle.subviews.first?.layer.masksToBounds = true
@@ -46,17 +42,13 @@ class VideoEditorControls: UIViewController {
         delegate!.editInformation = EditInformation()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        print("controls appearing")
-    }
-
     func updateSavable() {
         if delegate!.editInformation.dirty {
-            saveButton.enabled = true
             resetButton.enabled = true
+            self.delegate?.becameSavable()
         } else {
-            saveButton.enabled = false
             resetButton.enabled = false
+            self.delegate?.becameUnsavable()
         }
     }
 
@@ -91,14 +83,14 @@ class VideoEditorControls: UIViewController {
             self.leftHandle.rightBound = self.centerHandle.frame.minX
             self.rightHandle.leftBound = self.centerHandle.frame.maxX
             let percent = (p - (self.leftHandle.frame.width + self.centerHandle.frame.width / 2)) / handleWidth
-            self.delegate!.editInformation.centerImage = Double(percent)
+            self.delegate?.editInformation.centerImage = Double(percent)
             setImage(percent)
             self.delegate?.editInformation.centerImage = Double(percent)
         })
         self.leftHandle.onMove({ p in
             self.centerHandle.leftBound = self.leftHandle.frame.maxX
             let percent = (p - self.leftHandle.frame.width / 2) / handleWidth
-            self.delegate!.editInformation.leftBound = Double(percent)
+            self.delegate?.editInformation.leftBound = Double(percent)
             self.leftCropOverlay.frame.size.width = self.leftHandle.frame.midX
             setImage(percent)
             self.delegate?.editInformation.leftBound = Double(percent)
@@ -106,7 +98,7 @@ class VideoEditorControls: UIViewController {
         self.rightHandle.onMove({ p in
             self.centerHandle.rightBound = self.rightHandle.frame.minX
             let percent = (p - (self.leftHandle.frame.width + self.centerHandle.frame.width + self.rightHandle.frame.width / 2)) / handleWidth
-            self.delegate!.editInformation.rightBound = Double(percent)
+            self.delegate?.editInformation.rightBound = Double(percent)
             let m = self.rightHandle.frame.midX
             self.rightCropOverlay.frame.origin.x = m
             self.rightCropOverlay.frame.size.width = self.scrubberView.bounds.width - m
@@ -115,25 +107,25 @@ class VideoEditorControls: UIViewController {
         })
         
         self.centerHandle.onTouchDown({
-            self.delegate!.scrubbingStarted(.Center)
+            self.delegate?.scrubbingStarted(.Center)
         })
         self.leftHandle.onTouchDown({
-            self.delegate!.scrubbingStarted(.Left)
+            self.delegate?.scrubbingStarted(.Left)
         })
         self.rightHandle.onTouchDown({
-            self.delegate!.scrubbingStarted(.Right)
+            self.delegate?.scrubbingStarted(.Right)
         })
         
         self.centerHandle.onTouchUp({
-            self.delegate!.scrubbingEnded(.Center)
+            self.delegate?.scrubbingEnded(.Center)
             self.updateSavable()
         })
         self.leftHandle.onTouchUp({
-            self.delegate!.scrubbingEnded(.Left)
+            self.delegate?.scrubbingEnded(.Left)
             self.updateSavable()
         })
         self.rightHandle.onTouchUp({
-            self.delegate!.scrubbingEnded(.Right)
+            self.delegate?.scrubbingEnded(.Right)
             self.updateSavable()
         })
         
@@ -182,7 +174,7 @@ class VideoEditorControls: UIViewController {
     }
 
     @IBAction func muteTap(sender: UIButton?) {
-        self.delegate!.editInformation.muted = !self.delegate!.editInformation.muted
+        self.delegate?.editInformation.muted = !self.delegate!.editInformation.muted
         if self.delegate!.editInformation.muted {
             self.muteButton.setTitle("Unmute", forState: .Normal)
         } else {
@@ -219,4 +211,7 @@ protocol VideoEditorControlsDelegate {
     func imageUpdated(image: UIImage)
     func scrubbingStarted(handle: VideoEditorHandle)
     func scrubbingEnded(handle: VideoEditorHandle)
+    
+    func becameSavable()
+    func becameUnsavable()
 }

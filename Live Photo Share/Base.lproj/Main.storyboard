@@ -819,14 +819,6 @@ https://twitter.com/apexskier</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fj3-Wc-Twx">
-                                <rect key="frame" x="530" y="117" width="34" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveTap:" destination="kRe-F5-VGI" eventType="touchUpInside" id="yyX-cD-Y3d"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="hvN-0P-Y7C">
                                 <rect key="frame" x="20" y="117" width="90" height="30"/>
                                 <subviews>
@@ -855,11 +847,8 @@ https://twitter.com/apexskier</string>
                         <constraints>
                             <constraint firstItem="hvN-0P-Y7C" firstAttribute="top" secondItem="eqV-ul-xHD" secondAttribute="bottom" constant="8" id="3Ye-Ki-l8h"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eqV-ul-xHD" secondAttribute="trailing" constant="-20" id="6Ac-Xg-7hA"/>
-                            <constraint firstItem="fj3-Wc-Twx" firstAttribute="top" secondItem="eqV-ul-xHD" secondAttribute="bottom" constant="8" id="8j1-4q-U1j"/>
-                            <constraint firstItem="fj3-Wc-Twx" firstAttribute="bottom" secondItem="VaO-Ft-78S" secondAttribute="bottomMargin" id="EhN-3C-CFZ"/>
                             <constraint firstItem="eqV-ul-xHD" firstAttribute="leading" secondItem="VaO-Ft-78S" secondAttribute="leadingMargin" constant="-20" id="FRW-Bj-BGz"/>
                             <constraint firstItem="hvN-0P-Y7C" firstAttribute="leading" secondItem="VaO-Ft-78S" secondAttribute="leadingMargin" id="goS-AS-bnp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="fj3-Wc-Twx" secondAttribute="trailing" id="meP-Oe-3r8"/>
                             <constraint firstItem="hvN-0P-Y7C" firstAttribute="bottom" secondItem="VaO-Ft-78S" secondAttribute="bottomMargin" id="pIl-pT-Ssh"/>
                             <constraint firstItem="hvN-0P-Y7C" firstAttribute="top" secondItem="eqV-ul-xHD" secondAttribute="bottom" constant="8" id="tRJ-pb-Oj7"/>
                             <constraint firstItem="eqV-ul-xHD" firstAttribute="top" secondItem="VaO-Ft-78S" secondAttribute="topMargin" id="z5s-nw-iuj"/>
@@ -873,7 +862,6 @@ https://twitter.com/apexskier</string>
                         <outlet property="resetButton" destination="4JY-Bk-DaN" id="6vl-5h-4pr"/>
                         <outlet property="rightCropOverlay" destination="7NI-f3-foG" id="1t1-jz-och"/>
                         <outlet property="rightHandle" destination="ZNb-bo-UhW" id="XaT-i7-z8K"/>
-                        <outlet property="saveButton" destination="fj3-Wc-Twx" id="PmJ-qf-KsC"/>
                         <outlet property="scrubberView" destination="eqV-ul-xHD" id="8SN-oJ-Ps5"/>
                         <outlet property="thumbnailView" destination="L71-cg-JZx" id="R7k-Hx-6yX"/>
                     </connections>
