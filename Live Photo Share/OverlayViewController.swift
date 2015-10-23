@@ -10,7 +10,7 @@ import UIKit
 import PhotosUI
 
 @available(iOS 9.1, *)
-class OverlayViewController: UIViewController {
+class OverlayViewController: UIViewController, VideoEditorControlsDelegate {
     @IBOutlet weak var gifButton: UIBarButtonItem!
     @IBOutlet weak var movieButton: UIBarButtonItem!
     @IBOutlet weak var livephotoView: PHLivePhotoView!
@@ -21,15 +21,21 @@ class OverlayViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var stackViewContainer: UIView!
     @IBOutlet weak var editingView: UIView!
+    @IBOutlet weak var editingControls: UIView!
     @IBOutlet weak var editDoneButton: UIButton!
     @IBOutlet weak var editSaveButton: UIButton!
     @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var editViewBottomConstraint: NSLayoutConstraint!
+    var editingControlsController: VideoEditorControls?
 
     var running = false
     var progressIsUp = false
 
     var editIsSetUp = false
+    var editInformation = EditInformation()
+    var videoURL: NSURL?
+    var orientation: UIImageOrientation?
+    var frameRatio: CGFloat?
 
     var observers: [AnyObject] = []
 
@@ -50,6 +56,11 @@ class OverlayViewController: UIViewController {
         progressBar.progress = 0
         editViewBottomConstraint.active = false
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.editingControlsController = segue.destinationViewController as? VideoEditorControls
+        self.editingControlsController?.delegate = self
+    }
 
     override func viewDidAppear(animated: Bool) {
         if progressIsUp {
@@ -60,7 +71,7 @@ class OverlayViewController: UIViewController {
         // DEBUG
         livephotoView.startPlaybackWithStyle(.Full)
         // TODO editInformation = EditInformation()
-        updateSavable()
+        // TODO updateSavable()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -70,7 +81,8 @@ class OverlayViewController: UIViewController {
             editViewBottomConstraint.active = false
         }
         if editIsSetUp {
-            tearDownEditView()
+            editingControlsController?.tearDown()
+            editIsSetUp = false
         }
     }
 
@@ -287,6 +299,45 @@ class OverlayViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: VideoEditorControls
+    
+    func setUpEditView(completionHandler: (() -> Void)) {
+        let videoResource: PHAssetResource
+        let jpegResource: PHAssetResource
+        (videoResource, jpegResource) = self.fetchResources()!
+        fileForResource(jpegResource, progressHandler: {_ in}, completionHandler: { jpegUrl, error in
+            let liveImageJpeg = UIImage(contentsOfFile: jpegUrl.path!)!
+            self.orientation = liveImageJpeg.imageOrientation
+            self.frameRatio = liveImageJpeg.size.width / liveImageJpeg.size.height
+            
+            fileForResource(videoResource, progressHandler: {_ in }, completionHandler: { (url: NSURL, error: NSError?) -> Void in
+                if error != nil {
+                    print(error?.usefulDescription)
+                    return
+                }
+                self.videoURL = url
+                self.editingControlsController?.setUp({
+                    self.editIsSetUp = true
+                    completionHandler()
+                })
+            })
+        })
+    }
+    
+    func imageUpdated(image: UIImage) {
+        imageView.image = image
+    }
+    
+    func scrubbingStarted(handle: VideoEditorHandle) {
+        livephotoView.hidden = true
+        imageView.hidden = false
+    }
+    
+    func scrubbingEnded(handle: VideoEditorHandle) {
+        livephotoView.hidden = false
+        imageView.hidden = true
+    }
 
     @IBAction func editSaveTap(sender: UIButton?) {
         if self.livephotoView.livePhoto == nil {
@@ -302,23 +353,23 @@ class OverlayViewController: UIViewController {
                     dispatch_async(dispatch_get_main_queue(), {
                         self.progressBar.setProgress(Float(progress), animated: true)
                     })
-                    }) { error in
-                        dispatch_async(dispatch_get_main_queue(), {
-                            if error != nil {
-                                print(error?.usefulDescription)
-                                let alert = UIAlertController(title: "Error", message: "Failed to edit Live Photo.", preferredStyle: .Alert)
-                                let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                alert.addAction(okay)
-                                self.presentViewController(alert, animated: true) {
-                                    self.progressDown()
-                                    self.running = false
-                                }
-                            } else {
+                }) { error in
+                    dispatch_async(dispatch_get_main_queue(), {
+                        if error != nil {
+                            print(error?.usefulDescription)
+                            let alert = UIAlertController(title: "Error", message: "Failed to edit Live Photo.", preferredStyle: .Alert)
+                            let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                            alert.addAction(okay)
+                            self.presentViewController(alert, animated: true) {
                                 self.progressDown()
                                 self.running = false
-                                self.doneTap(nil)
                             }
-                        })
+                        } else {
+                            self.progressDown()
+                            self.running = false
+                            self.doneTap(nil)
+                        }
+                    })
                 }
             })
         }
@@ -332,21 +383,21 @@ class OverlayViewController: UIViewController {
             UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseInOut, animations: {
                 self.stackViewContainer.frame.size.height = 0
                 self.stackViewContainer.frame.origin.y = self.stackViewContainer.superview!.frame.height
-                }) { finished in
-                    self.stackView.hidden = false
-                    self.editingView.hidden = true
-                    self.editViewBottomConstraint.active = false
-                    self.stackViewBottomConstraint.active = true
-                    self.stackViewContainer.setNeedsUpdateConstraints()
+            }) { finished in
+                self.stackView.hidden = false
+                self.editingView.hidden = true
+                self.editViewBottomConstraint.active = false
+                self.stackViewBottomConstraint.active = true
+                self.stackViewContainer.setNeedsUpdateConstraints()
 
-                    UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseInOut, animations: {
-                        let h = self.stackView.frame.size.height + 20
-                        self.stackViewContainer.frame.origin.y = self.stackViewContainer.superview!.frame.height - h
-                        self.stackViewContainer.frame.size.height = h
-                        }) { finished in
-                            if finished {
-                            }
+                UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseInOut, animations: {
+                    let h = self.stackView.frame.size.height + 20
+                    self.stackViewContainer.frame.origin.y = self.stackViewContainer.superview!.frame.height - h
+                    self.stackViewContainer.frame.size.height = h
+                }) { finished in
+                    if finished {
                     }
+                }
             }
         }
     }
