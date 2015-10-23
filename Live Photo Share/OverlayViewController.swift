@@ -32,10 +32,6 @@ class OverlayViewController: UIViewController, VideoEditorControlsDelegate {
     var progressIsUp = false
 
     var editIsSetUp = false
-    var editInformation = EditInformation()
-    var videoURL: NSURL?
-    var orientation: UIImageOrientation?
-    var frameRatio: CGFloat?
 
     var observers: [AnyObject] = []
 
@@ -320,7 +316,7 @@ class OverlayViewController: UIViewController, VideoEditorControlsDelegate {
                     dispatch_async(dispatch_get_main_queue(), {
                         if error != nil {
                             print(error?.usefulDescription)
-                            let alert = UIAlertController(title: "Error", message: "Failed to edit Live Photo.", preferredStyle: .Alert)
+                            let alert = UIAlertController(title: "Error", message: "Failed to edit Live Photo. You may have made it too short.", preferredStyle: .Alert)
                             let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
                             alert.addAction(okay)
                             self.presentViewController(alert, animated: true) {
@@ -377,6 +373,11 @@ class OverlayViewController: UIViewController, VideoEditorControlsDelegate {
     }
     
     // MARK: VideoEditorControls
+    
+    var editInformation = EditInformation()
+    var videoURL: NSURL?
+    var orientation: UIImageOrientation?
+    var frameRatio: CGFloat?
     
     func setUpEditView(completionHandler: (() -> Void)) {
         let videoResource: PHAssetResource

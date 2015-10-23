@@ -156,7 +156,6 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
             // variables for saving frames
             // let scale = max(targetDimensions.height / videoSize.height, targetDimensions.width / videoSize.width)
             let scale: CGFloat = 0.3
-            print("got scale \(scale)")
             let newSize = { (o: UIImageOrientation) -> CGSize in
                 if o == .Right || o == .Left {
                     return CGSize(width: videoSize.height * scale, height: videoSize.width * scale)
@@ -243,7 +242,7 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
                     try typeTrack.insertTimeRange(CMTimeRange(start: kCMTimeZero, duration: track.timeRange.duration), ofTrack: track, atTime: kCMTimeZero)
                     typeTrack.preferredTransform = track.preferredTransform
                 } catch {
-                    print("something went wrong")
+                    return completionHandler(silentMovFileUrl, NSError(domain: "Something went wrong generating video", code: 1, userInfo: nil))
                 }
                 progressHandler((count++ / numTracks) + 0.5)
             }
@@ -274,7 +273,7 @@ func editLivePhoto(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResour
             return completionHandler(error)
         }
         let movAsset = AVAsset(URL: movFileURL)
-        editMov(movAsset: movAsset, movURL: movFileURL, movResource: movieFile, editInfo: editInfo, progressHandler: { progress in
+        editMov(movAsset: movAsset, movURL: movFileURL, editInfo: editInfo, progressHandler: { progress in
             progressHandler(progress / 2)
         }) { (newMovURL, error) in
             if error != nil {
@@ -340,31 +339,7 @@ internal func editImg(jpegResource jpegResource: PHAssetResource, movAsset: AVAs
             return completionHandler(NSURL(), error)
         }
         if editInfo.centerDirty {
-            // Need to generate new image file
-            let generator = AVAssetImageGenerator(asset: movAsset)
-            generator.requestedTimeToleranceAfter = kCMTimeZero
-            generator.requestedTimeToleranceBefore = kCMTimeZero
-
-            let seconds = editInfo.centerImage * movAsset.duration.seconds
-            let time = CMTime(seconds: seconds, preferredTimescale: 6000)
-            do {
-                if let imageSource = CGImageSourceCreateWithURL(jpegURL, nil), propertiesCF = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) {
-                    let properties = propertiesCF as NSDictionary
-
-                    let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("editjpeg_\(jpegResource.originalFilename)"))
-                    // delete any old files
-                    do { try fileManager.removeItemAtURL(url) }
-                    catch {}
-
-                    let imageDest = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, nil)!
-                    let imageRef = try generator.copyCGImageAtTime(time, actualTime: nil)
-                    CGImageDestinationAddImage(imageDest, imageRef, properties)
-                    CGImageDestinationFinalize(imageDest)
-                    completionHandler(url, nil)
-                }
-            } catch {
-                return completionHandler(NSURL(), NSError(domain: "Failed to capture image frame", code: 1, userInfo: nil))
-            }
+            generateImg(movAsset, referenceImgURL: jpegURL, editInfo: editInfo, progressHandler: progressHandler, completionHandler: completionHandler)
         } else {
             progressHandler(1)
             completionHandler(jpegURL, nil)
@@ -372,7 +347,41 @@ internal func editImg(jpegResource jpegResource: PHAssetResource, movAsset: AVAs
     }
 }
 
-internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, movResource: PHAssetResource, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
+func generateImg(movAsset: AVAsset, referenceImgURL: NSURL?, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
+    // Need to generate new image file
+    let generator = AVAssetImageGenerator(asset: movAsset)
+    generator.requestedTimeToleranceAfter = kCMTimeZero
+    generator.requestedTimeToleranceBefore = kCMTimeZero
+    
+    let seconds = editInfo.centerImage * movAsset.duration.seconds
+    let time = CMTime(seconds: seconds, preferredTimescale: 6000)
+    do {
+        let properties = { () -> NSDictionary in
+            if referenceImgURL != nil {
+                if let imageSource = CGImageSourceCreateWithURL(referenceImgURL!, nil), propertiesCF = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) {
+                    print(propertiesCF)
+                    return propertiesCF as NSDictionary
+                }
+            }
+            return NSDictionary()
+        }()
+        print(properties)
+        let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("generate_\(NSDate()).jpg"))
+        // delete any old files
+        do { try fileManager.removeItemAtURL(url) }
+        catch {}
+        
+        let imageDest = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, nil)!
+        let imageRef = try generator.copyCGImageAtTime(time, actualTime: nil)
+        CGImageDestinationAddImage(imageDest, imageRef, properties)
+        CGImageDestinationFinalize(imageDest)
+        completionHandler(url, nil)
+    } catch {
+        return completionHandler(NSURL(), NSError(domain: "Failed to capture image frame", code: 1, userInfo: nil))
+    }
+}
+
+internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
     if editInfo.muteDirty || editInfo.leftDirty || editInfo.rightDirty {
         // Need to generate new video file
         let newMovFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("editmov_\(movURL.lastPathComponent!)"))
@@ -390,7 +399,15 @@ internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, movResource: PH
         let seconds = movAsset.duration.seconds
         let startTime = editInfo.leftDirty ? CMTime(seconds: editInfo.leftBound * seconds, preferredTimescale: 6000) : kCMTimeZero
         let endTime = editInfo.rightDirty ? CMTime(seconds: editInfo.rightBound * seconds, preferredTimescale: 6000) : movAsset.duration
-        let newDuration = endTime - startTime
+        let newDuration = { () -> CMTime in
+            var d = endTime - startTime
+            if d.seconds > 3 {
+                d = CMTime(seconds: 3, preferredTimescale: 6000)
+            } else if d.seconds < 2 {
+                d = CMTime(seconds: 2, preferredTimescale: 6000)
+            }
+            return d
+        }()
         for type in mediaTypes {
             let typeTrack = movAssetEditable.addMutableTrackWithMediaType(type, preferredTrackID: kCMPersistentTrackID_Invalid)
             for track in movAsset.tracksWithMediaType(type) {
@@ -406,7 +423,7 @@ internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, movResource: PH
 
         let exportSession = AVAssetExportSession(asset: movAssetEditable, presetName: AVAssetExportPresetHighestQuality)!
         exportSession.outputURL = newMovFileUrl
-        exportSession.outputFileType = movResource.uniformTypeIdentifier
+        exportSession.outputFileType = kUTTypeQuickTimeMovie as String
         exportSession.metadata = movAsset.metadata
         exportSession.exportAsynchronouslyWithCompletionHandler({
             progressHandler(1)
