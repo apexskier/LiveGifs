@@ -158,7 +158,6 @@ class ActionViewController: UIViewController {
         }
 
         if let j = jpegFile, m = movieFile {
-            print(NSBundle.mainBundle().bundleIdentifier!)
             switch NSBundle.mainBundle().bundleIdentifier! {
             case "com.camlittle.Live-Photo-Share.Live-Photo-Export-GIF":
                 generateAndSaveGif(j, movieFile: m)

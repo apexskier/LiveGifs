@@ -232,6 +232,7 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
         catch {}
 
         let movAsset = AVAsset(URL: movFileURL)
+        
         let numTracks = Double(movAsset.tracks.count)
         var count = Double(0)
         let movAssetEditable = AVMutableComposition()
@@ -261,10 +262,10 @@ func livePhotoToSilentMovie(movieFile movieFile: PHAssetResource, progressHandle
 
 
 func editLivePhoto(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResource, editInfo: EditInformation, progressHandler: (Double) -> Void, completionHandler: (NSError? -> Void)) {
-    if !editInfo.dirty {
+    /*if !editInfo.dirty {
         return completionHandler(NSError(domain: "No edits requested", code: 1, userInfo: nil))
     }
-
+    */
     fileForResource(movieFile, progressHandler: { progress in
         progressHandler(progress / 2)
     }) { movFileURL, error in
@@ -339,7 +340,7 @@ internal func editImg(jpegResource jpegResource: PHAssetResource, movAsset: AVAs
             return completionHandler(NSURL(), error)
         }
         if editInfo.centerDirty {
-            generateImg(movAsset, referenceImgURL: jpegURL, editInfo: editInfo, progressHandler: progressHandler, completionHandler: completionHandler)
+            generateImg(NSUUID().UUIDString, movAsset: movAsset, referenceImgURL: jpegURL, editInfo: editInfo, progressHandler: progressHandler, completionHandler: completionHandler)
         } else {
             progressHandler(1)
             completionHandler(jpegURL, nil)
@@ -347,7 +348,7 @@ internal func editImg(jpegResource jpegResource: PHAssetResource, movAsset: AVAs
     }
 }
 
-func generateImg(movAsset: AVAsset, referenceImgURL: NSURL?, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
+func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
     // Need to generate new image file
     let generator = AVAssetImageGenerator(asset: movAsset)
     generator.requestedTimeToleranceAfter = kCMTimeZero
@@ -359,14 +360,17 @@ func generateImg(movAsset: AVAsset, referenceImgURL: NSURL?, editInfo: EditInfor
         let properties = { () -> NSDictionary in
             if referenceImgURL != nil {
                 if let imageSource = CGImageSourceCreateWithURL(referenceImgURL!, nil), propertiesCF = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) {
-                    print(propertiesCF)
                     return propertiesCF as NSDictionary
                 }
             }
-            return NSDictionary()
+            
+            let metadata = NSMutableDictionary()
+            let makerNote = NSMutableDictionary()
+            makerNote.setObject(assetID, forKey: "17")
+            metadata.setObject(makerNote, forKey: kCGImagePropertyMakerAppleDictionary as String)
+            return metadata
         }()
-        print(properties)
-        let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("generate_\(NSDate()).jpg"))
+        let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("\(assetID == "" ? NSUUID().UUIDString : assetID).JPG"))
         // delete any old files
         do { try fileManager.removeItemAtURL(url) }
         catch {}

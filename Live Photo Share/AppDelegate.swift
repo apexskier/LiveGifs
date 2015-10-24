@@ -51,7 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
-        print(self.window!.rootViewController)
         if shortcutItem.type == "\(NSBundle.mainBundle().bundleIdentifier!).most-recent" {
             onceViewControllerListening.queue {
                 NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath:  NSIndexPath(forItem: 0, inSection: 0), action: ""))

@@ -79,19 +79,8 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
             let videoAsset = AVAsset(URL: videoURL!)
             let videoTrack = videoAsset.tracksWithMediaType(AVMediaTypeVideo).first
             let size = videoTrack!.naturalSize
-            let transform = videoTrack!.preferredTransform
-            print(transform)
-            orientation = UIImageOrientation.Up/* = { () -> UIImageOrientation in
-                if size.width == transform.tx && size.height == transform.ty {
-                    return UIImageOrientation.Right
-                } else if (transform.tx == 0 && transform.ty == 0) {
-                    return UIImageOrientation.Left
-                } else if (transform.tx == 0 && transform.ty == size.width) {
-                    return UIImageOrientation.Down
-                } else {
-                    return UIImageOrientation.Up
-                }
-            }()*/
+            // let transform = videoTrack!.preferredTransform
+            orientation = UIImageOrientation.Up
             frameRatio = size.width / size.height
             editingControlsController?.tearDown()
             editingControlsController?.setUp({})
@@ -100,9 +89,10 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func saveButtonTap(sender: AnyObject) {
         let movAsset = AVAsset(URL: videoURL!)
-        editMov(movAsset: movAsset, movURL: videoURL!, editInfo: editInformation, progressHandler: { progress in
-            print("editMov: \(progress)")
-        }) { (newMovURL, error) in
+        let assetId = NSUUID().UUIDString
+        stdMovToLivephotoMov(assetId, movAsset: movAsset, editInfo: editInformation, progressHandler: { progress in
+            print("stdMovToLivephotoMov: \(progress)")
+        }){ (newMovURL, error) in
             if error != nil {
                 print(error!.usefulDescription)
                 dispatch_async(dispatch_get_main_queue(), {
@@ -112,7 +102,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                     self.presentViewController(alert, animated: true) {}
                 })
             } else {
-                generateImg(movAsset, referenceImgURL: nil, editInfo: self.editInformation, progressHandler: { progress in
+                generateImg(assetId, movAsset: movAsset, referenceImgURL: nil, editInfo: self.editInformation, progressHandler: { progress in
                     print("generateImg: \(progress)")
                 }) { (imgURL, error) in
                     if error != nil {
@@ -124,7 +114,14 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                             self.presentViewController(alert, animated: true) {}
                         })
                     } else {
-                        saveLivePhoto(movURL: newMovURL, jpegURL: imgURL, progressHandler: { progress in
+                        let movSavePath = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("SAVE_\(assetId).MOV")
+                        //let imgSavePath = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("SAVE_\(assetId).JPG")
+                        
+                        QuickTimeMov(path: newMovURL.path!).write(movSavePath, assetIdentifier: assetId)
+                        
+                        let newMovURL2 = NSURL(fileURLWithPath: movSavePath)
+                        
+                        saveLivePhoto(movURL: newMovURL2, jpegURL: imgURL, progressHandler: { progress in
                             print("saveLivePhoto: \(progress)")
                         }) { error in
                             if error != nil {
