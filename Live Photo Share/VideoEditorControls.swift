@@ -78,6 +78,8 @@ class VideoEditorControls: UIViewController {
             }
         }
         
+        setImage(0.5)
+        
         let handleWidth = self.scrubberView.bounds.width - (self.rightHandle.frame.width + self.leftHandle.frame.width + self.centerHandle.frame.width)
         self.centerHandle.onMove({ p in
             self.leftHandle.rightBound = self.centerHandle.frame.minX

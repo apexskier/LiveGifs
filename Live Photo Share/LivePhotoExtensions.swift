@@ -17,32 +17,65 @@ let fileManager = NSFileManager.defaultManager()
 let resourceManager = PHAssetResourceManager.defaultManager()
 
 struct EditInformation {
-    var leftBound: Double = 0
-    var rightBound: Double = 1
-    var centerImage: Double = 0.5
-    var muted: Bool = false
-    var dirty: Bool {
+    var _leftBound: Double = 0
+    var _rightBound: Double = 1
+    var _center: Double = 0.5
+    var _muted: Bool = false
+    var leftBound: Double {
         get {
-            return leftDirty || rightDirty || centerDirty || muteDirty
+            return _leftBound
+        }
+        set (value) {
+            leftDirty = true
+            _leftBound = value
         }
     }
-    var leftDirty: Bool {
-        return leftBound != 0
+    var rightBound: Double {
+        get {
+            return _rightBound
+        }
+        set (value) {
+            rightDirty = true
+            _rightBound = value
+        }
     }
-    var rightDirty: Bool {
-        return rightBound != 1
+    var centerImage: Double {
+        get {
+            return _center
+        }
+        set (value) {
+            centerDirty = true
+            _center = value
+        }
     }
-    var centerDirty: Bool {
-        return centerImage != 0.5
+    var muted: Bool {
+        get {
+            return _muted
+        }
+        set (value) {
+            mutedDirty = true
+            _muted = value
+        }
     }
-    var muteDirty: Bool {
-        return muted
+    var dirty: Bool {
+        get {
+            return leftDirty || rightDirty || centerDirty || mutedDirty
+        }
     }
+    var leftDirty = false
+    var rightDirty = false
+    var centerDirty = false
+    var mutedDirty = false
     mutating func reset() {
         leftBound = 0
         rightBound = 1
         centerImage = 0.5
         muted = false
+        
+        leftDirty = false
+        rightDirty = false
+        centerDirty = false
+        mutedDirty = false
     }
 }
 
@@ -321,6 +354,7 @@ internal func saveLivePhoto(movURL movURL: NSURL, jpegURL: NSURL, progressHandle
         let videoOptions = PHAssetResourceCreationOptions()
         videoOptions.uniformTypeIdentifier = kUTTypeQuickTimeMovie as String
         request.addResourceWithType(.PairedVideo, fileURL: movURL, options: videoOptions)
+        progressHandler(0.7)
     }, completionHandler: { success, error in
         if error != nil {
             completionHandler(error)
@@ -353,7 +387,7 @@ func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, ed
     let generator = AVAssetImageGenerator(asset: movAsset)
     generator.requestedTimeToleranceAfter = kCMTimeZero
     generator.requestedTimeToleranceBefore = kCMTimeZero
-    
+    progressHandler(0)
     let seconds = editInfo.centerImage * movAsset.duration.seconds
     let time = CMTime(seconds: seconds, preferredTimescale: 6000)
     do {
@@ -374,19 +408,20 @@ func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, ed
         // delete any old files
         do { try fileManager.removeItemAtURL(url) }
         catch {}
-        
+        progressHandler(0.5)
         let imageDest = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, nil)!
         let imageRef = try generator.copyCGImageAtTime(time, actualTime: nil)
         CGImageDestinationAddImage(imageDest, imageRef, properties)
         CGImageDestinationFinalize(imageDest)
         completionHandler(url, nil)
     } catch {
+        progressHandler(1)
         return completionHandler(NSURL(), NSError(domain: "Failed to capture image frame", code: 1, userInfo: nil))
     }
 }
 
 internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
-    if editInfo.muteDirty || editInfo.leftDirty || editInfo.rightDirty {
+    if editInfo.mutedDirty || editInfo.leftDirty || editInfo.rightDirty {
         // Need to generate new video file
         let newMovFileUrl = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("editmov_\(movURL.lastPathComponent!)"))
         // delete any old files
@@ -397,7 +432,7 @@ internal func editMov(movAsset movAsset: AVAsset, movURL: NSURL, editInfo: EditI
         var count = Double(0)
         let movAssetEditable = AVMutableComposition()
         var mediaTypes = [AVMediaTypeVideo, AVMediaTypeMetadata, AVMediaTypeTimecode, AVMediaTypeMetadataObject]
-        if !editInfo.muteDirty {
+        if !editInfo.mutedDirty {
             mediaTypes.append(AVMediaTypeAudio)
         }
         let seconds = movAsset.duration.seconds

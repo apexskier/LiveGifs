@@ -66,7 +66,7 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     if movVideoTrack == nil {
         return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
     }
-    let duration = { () -> CMTime in
+    let duration = movAsset.duration /*{ () -> CMTime in
         let d = movAsset.duration
         if d.seconds > 3 {
             return CMTime(seconds: 3, preferredTimescale: 6000)
@@ -74,7 +74,8 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
             return CMTime(seconds: 2, preferredTimescale: 6000)
         }
         return d
-    }()
+    }()*/
+    progressHandler(1/7)
     
     let preferredSize = CGSize(width: 1440, height: 1080)
     var size = movVideoTrack!.naturalSize
@@ -97,6 +98,8 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
         return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
     }
     
+    progressHandler(2/7)
+    
     let mainInstruction = AVMutableVideoCompositionInstruction()
     mainInstruction.timeRange = timeRange
     
@@ -105,7 +108,7 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     mainInstruction.layerInstructions = [firstInstruction]
     let mainComposition = AVMutableVideoComposition()
     mainComposition.instructions = [mainInstruction]
-    let fps = min(Int32(movVideoTrack?.nominalFrameRate ?? 14.0), 14)
+    let fps = Int32(movVideoTrack!.nominalFrameRate) // min(Int32(movVideoTrack?.nominalFrameRate ?? 14.0), 14)
     mainComposition.frameDuration = CMTimeMake(1, fps)
     mainComposition.renderSize = size
     
@@ -119,6 +122,8 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
         }
     }
     
+    progressHandler(3/7)
+    
     if let refMetadataTrack = refVideoAsset.tracksWithMediaType(AVMediaTypeMetadata).first {
         let metadataTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeMetadata, preferredTrackID: 0)
         do {
@@ -128,13 +133,17 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
         }
     }
     
+    progressHandler(4/7)
+
     // 4 - Get path
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateStyle = .LongStyle
     dateFormatter.timeStyle = .ShortStyle
     let savePath = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("\(assetID).MOV")
     let url = NSURL(fileURLWithPath: savePath)
-    
+
+    progressHandler(5/7)
+
     // 5 - Create Exporter
     let exporter = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality)!
     exporter.outputURL = url
@@ -183,12 +192,14 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     
     exporter.metadata = [idMeta, dateMeta, stillImageMeta]
     // print(exporter.metadata)
-    
+    progressHandler(6/7)
+
     // 6 - Perform the Export
     exporter.exportAsynchronouslyWithCompletionHandler() {
         guard exporter.status == .Completed else {
             return completionHandler(url, NSError(domain: "Failed to export video", code: 1, userInfo: nil))
         }
+        progressHandler(7/7)
         completionHandler(url, nil)
     }
 }
