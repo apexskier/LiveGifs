@@ -396,7 +396,7 @@ class OverlayViewController: UIViewController, VideoEditorControlsDelegate {
                 self.videoURL = url
                 self.editingControlsController?.setUp({
                     self.editIsSetUp = true
-                    completionHandler()
+                    dispatch_async(dispatch_get_main_queue(), completionHandler)
                 })
             })
         })

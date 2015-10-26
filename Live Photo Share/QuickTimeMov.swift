@@ -181,7 +181,7 @@ class QuickTimeMov {
         let item = AVMutableMetadataItem()
         item.key = kKeyStillImageTime
         item.keySpace = kKeySpaceQuickTimeMetadata
-        item.value = 0
+        item.value = -1
         item.dataType = "com.apple.metadata.datatype.int8"
         return item
     }

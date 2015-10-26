@@ -149,7 +149,7 @@ func livePhotoToGif(movieFile movieFile: PHAssetResource, jpegFile: PHAssetResou
             // get movie information
             let movAsset = AVAsset(URL: movFileURL)
             let videoTrack = movAsset.tracks[0]
-            let frameRate = videoTrack.nominalFrameRate
+            let frameRate = min(videoTrack.nominalFrameRate, 15)
             let frameCount = frameRate * Float(movAsset.duration.seconds)
             let videoSize = videoTrack.naturalSize
 

@@ -63,6 +63,16 @@ class VideoEditorControls: UIViewController {
         let videoTrack = movAsset.tracks[0]
         let frameRate = videoTrack.nominalFrameRate
         
+        func imageAtTime(time: CMTime) -> UIImage {
+            do {
+                return UIImage(CGImage: try generator.copyCGImageAtTime(time, actualTime: nil), scale: 1, orientation: self.delegate!.orientation!)
+            } catch let error as NSError {
+                print(error.usefulDescription)
+                print("error getting generated image")
+            }
+            return UIImage()
+        }
+        
         var currentFrame: Float = -1
         func setImage(percent: CGFloat) {
             let seconds = Double(percent) * totalTime
@@ -71,14 +81,12 @@ class VideoEditorControls: UIViewController {
             // avoid regenerating image if we don't need to
             if frame != currentFrame {
                 currentFrame = frame
-                do {
-                    let image = UIImage(CGImage: try generator.copyCGImageAtTime(time, actualTime: nil), scale: 1, orientation: self.delegate!.orientation!)
-                    delegate!.imageUpdated(image)
-                } catch {}
+                delegate!.imageUpdated(imageAtTime(time))
             }
         }
         
         setImage(0.5)
+        setBounds()
         
         let handleWidth = self.scrubberView.bounds.width - (self.rightHandle.frame.width + self.leftHandle.frame.width + self.centerHandle.frame.width)
         self.centerHandle.onMove({ p in
@@ -132,29 +140,26 @@ class VideoEditorControls: UIViewController {
         })
         
         let totalWidth = self.thumbnailView.bounds.size.width
-        let height = Int(self.thumbnailView.bounds.size.height)
-        let width = Int(self.delegate!.frameRatio! * CGFloat(height))
+        let height = self.thumbnailView.bounds.size.height
+        let width = self.delegate!.frameRatio! * CGFloat(height)
+        let gap = 1 / UIScreen.mainScreen().scale
         
         dispatch_async(dispatch_get_main_queue(), {
-            do {
-                var widthSoFar = 0
-                var i = 0
-                while CGFloat(widthSoFar) < totalWidth {
-                    let seconds = totalTime * Double(CGFloat(widthSoFar) / totalWidth)
-                    let time = CMTime(seconds: seconds, preferredTimescale: 6000)
-                    let image = UIImage(CGImage: try generator.copyCGImageAtTime(time, actualTime: nil), scale: 1, orientation: self.delegate!.orientation!)
-                    let thisWidth = min(Int(Int(totalWidth) - widthSoFar), width)
-                    let imageView = UIImageView(frame: CGRect(x: i * width, y: 0, width: thisWidth, height: height))
-                    imageView.image = image
-                    imageView.contentMode = UIViewContentMode.ScaleAspectFill
-                    imageView.clipsToBounds = true
-                    self.thumbnailView.insertSubview(imageView, atIndex: 0)
-                    
-                    widthSoFar += thisWidth
-                    i++
-                }
-            } catch let error as NSError {
-                print(error.usefulDescription)
+            var widthSoFar: CGFloat = 0
+            var i = 0
+            while CGFloat(widthSoFar) < totalWidth {
+                let seconds = totalTime * Double(widthSoFar / totalWidth)
+                let time = CMTime(seconds: seconds, preferredTimescale: 6000)
+                let imageView = UIImageView()
+                imageView.contentMode = .ScaleAspectFit
+                imageView.frame = CGRect(x: CGFloat(i) * (width + gap), y: 0, width: width, height: height)
+                imageView.image = imageAtTime(time)
+                imageView.autoresizesSubviews = true
+                imageView.clipsToBounds = true
+                self.thumbnailView.insertSubview(imageView, atIndex: 0)
+                
+                widthSoFar += width + gap
+                i++
             }
             
             completionHandler()

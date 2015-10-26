@@ -26,7 +26,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
 
     var editingControlsController: VideoEditorControls?
 
-    var selectingImage = false
+
     var progressIsUp = false
     
     override func viewDidLoad() {
@@ -34,6 +34,11 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
         progressBarContainer.clipsToBounds = true
         progressBarContainer.frame = CGRect(origin: progressBarContainer.frame.origin, size: CGSize(width: progressBarContainer.frame.width, height: 0))
         progressBar.progress = 0
+        
+        editingControlsController?.rightHandle.hidden = true
+        editingControlsController?.rightCropOverlay.hidden = true
+        editingControlsController?.leftHandle.hidden = true
+        editingControlsController?.leftCropOverlay.hidden = true
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -41,8 +46,8 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.editingControlsController = segue.destinationViewController as? VideoEditorControls
-        self.editingControlsController?.delegate = self
+        editingControlsController = segue.destinationViewController as? VideoEditorControls
+        editingControlsController?.delegate = self
     }
 
     @IBAction func tapSelectSource(sender: AnyObject) {
@@ -50,17 +55,22 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("TODO error")
         }
         let availableTypes = UIImagePickerController.availableMediaTypesForSourceType(.PhotoLibrary)!
-        if !availableTypes.contains(kUTTypeMovie as String) {
-            print("TODO error")
+        var types: [String] = []
+        if availableTypes.contains(kUTTypeMovie as String) {
+            types.append(kUTTypeMovie as String)
         }
-        if !availableTypes.contains(kUTTypeGIF as String) {
-              print("TODO error")
+        if availableTypes.contains(kUTTypeImage as String) {
+            types.append(kUTTypeImage as String)
+        }
+        if availableTypes.contains(kUTTypeGIF as String) {
+            types.append(kUTTypeGIF as String)
+        } else {
+            print("filter by gif not available")
         }
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .PhotoLibrary
-        picker.mediaTypes = [kUTTypeMovie as String, kUTTypeGIF as String]
-        selectingImage = false
+        picker.mediaTypes = types
 
         presentViewController(picker, animated: true) {}
     }
@@ -77,37 +87,125 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
         picker.delegate = self
         picker.sourceType = .PhotoLibrary
         picker.mediaTypes = [kUTTypeImage as String]
-        selectingImage = true
         
         presentViewController(picker, animated: true) {}
     }
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let mediaType = info[UIImagePickerControllerMediaType]!
-        print(mediaType)
+        let mediaType = (info[UIImagePickerControllerMediaType] as! CFString) as String
+        var foundGIF = false
+        if mediaType != kUTTypeMovie as String {
+            // let image = (info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage])! as! UIImage
+            // print(CGImageGetUTType(image.CGImage)! == kUTTypeGIF)
+            if let imageURL = info[UIImagePickerControllerReferenceURL] as? NSURL, imageURLComponents = NSURLComponents(URL: imageURL, resolvingAgainstBaseURL: false) {
+                for item in imageURLComponents.queryItems ?? [] {
+                    if item.name == "ext" && (item.value == "GIF" || item.value == "gif") {
+                        foundGIF = true
+                        break
+                    }
+                }
+            }
+            if !foundGIF {
+                print(info)
+                let alert = UIAlertController(title: "Error", message: "Please select a movie or GIF.", preferredStyle: .Alert)
+                let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alert.addAction(okay)
+                picker.presentViewController(alert, animated: true) {}
+                selectSourceButton.hidden = false
+                centralActivityIndicator.stopAnimating()
+                return
+            }
+        }
+        
         dismissViewControllerAnimated(true) {}
         
         selectSourceButton.hidden = true
         centralActivityIndicator.startAnimating()
         
-        if selectingImage {
-            imageView.image = (info[UIImagePickerControllerEditedImage] as? UIImage ?? info[UIImagePickerControllerOriginalImage] as? UIImage)!
+        editInformation = EditInformation()
+        editInformation.centerDirty = true
+        if foundGIF {
+            let options = PHFetchOptions()
+            options.fetchLimit = 1
+            let fetchResults = PHAsset.fetchAssetsWithALAssetURLs([info[UIImagePickerControllerReferenceURL] as! NSURL], options: options)
+            let managerOptions = PHImageRequestOptions()
+            managerOptions.networkAccessAllowed = true
+            // managerOptions.progressHandler
+            PHImageManager.defaultManager().requestImageDataForAsset(fetchResults.firstObject! as! PHAsset, options: managerOptions, resultHandler: { data, uti, orientation, info in
+                if data != nil {
+                    if let source = CGImageSourceCreateWithData(data!, nil) {
+                        gifToMov(source, progressHandler: { progress in
+                            print("gifToLivephotoMov progress: \(progress)")
+                        }, completionHandler: { url, error in
+                            if error != nil {
+                                let alert = UIAlertController(title: "Error", message: "Failed to convert GIF to movie.", preferredStyle: .Alert)
+                                let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                alert.addAction(okay)
+                                self.presentViewController(alert, animated: true) {}
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.selectSourceButton.hidden = false
+                                    self.centralActivityIndicator.stopAnimating()
+                                })
+                            } else {
+                                self.videoURL = url
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.setupVideoForEditing()
+                                })
+                            }
+                        })
+                    } else {
+                        let alert = UIAlertController(title: "Error", message: "Failed to fetch GIF data.", preferredStyle: .Alert)
+                        let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        alert.addAction(okay)
+                        self.presentViewController(alert, animated: true) {}
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.selectSourceButton.hidden = false
+                            self.centralActivityIndicator.stopAnimating()
+                        })
+                    }
+                } else {
+                    let alert = UIAlertController(title: "Error", message: "Failed to fetch GIF data.", preferredStyle: .Alert)
+                    let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    alert.addAction(okay)
+                    self.presentViewController(alert, animated: true) {}
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.selectSourceButton.hidden = false
+                        self.centralActivityIndicator.stopAnimating()
+                    })
+                }
+            })
         } else {
-            editInformation = EditInformation()
-            editInformation.centerDirty = true
-            videoURL = info[UIImagePickerControllerReferenceURL] as? NSURL
-            let videoAsset = AVAsset(URL: videoURL!)
-            let videoTrack = videoAsset.tracksWithMediaType(AVMediaTypeVideo).first
-            let size = videoTrack!.naturalSize
-            // let transform = videoTrack!.preferredTransform
-            orientation = .Up
-            frameRatio = size.width / size.height
+            videoURL = info[UIImagePickerControllerMediaURL] as? NSURL
+            return setupVideoForEditing()
+        }
+    }
+    
+    func setupVideoForEditing() {
+        let videoAsset = AVAsset(URL: videoURL!)
+        if let videoTrack = videoAsset.tracksWithMediaType(AVMediaTypeVideo).first {
+            let size = videoTrack.naturalSize
+            orientation = orientationFromTransform(videoTrack.preferredTransform).orientation
+            frameRatio = { () -> CGFloat in
+                switch orientation! {
+                case .Right, .Left:
+                    return size.height / size.width
+                case .Up, .Down:
+                    fallthrough
+                default:
+                    return size.width / size.height
+                }
+                }()
             editingControlsController?.tearDown()
             editingControlsController?.setUp {
                 self.centralActivityIndicator.stopAnimating()
                 self.saveButton.enabled = true
                 self.editingContainerView.hidden = false
             }
+        } else {
+            let alert = UIAlertController(title: "Error", message: "Did not find video track.", preferredStyle: .Alert)
+            let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alert.addAction(okay)
+            self.presentViewController(alert, animated: true) {}
         }
     }
     
@@ -127,6 +225,10 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
             })
         }){ (newMovURL, error) in
             if error != nil {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.progressDown()
+                    self.saveButton.enabled = true
+                })
                 print(error!.usefulDescription)
                 dispatch_async(dispatch_get_main_queue(), {
                     let alert = UIAlertController(title: "Error", message: "Failed to edit movie.", preferredStyle: .Alert)
@@ -141,6 +243,10 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                     })
                 }) { (imgURL, error) in
                     if error != nil {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.progressDown()
+                            self.saveButton.enabled = true
+                        })
                         print(error!.usefulDescription)
                         dispatch_async(dispatch_get_main_queue(), {
                             let alert = UIAlertController(title: "Error", message: "Failed to generate image.", preferredStyle: .Alert)

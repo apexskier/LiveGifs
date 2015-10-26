@@ -24,12 +24,12 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Wa-rc-Vfn" customClass="PHLivePhotoView">
-                                        <rect key="frame" x="20" y="51" width="560" height="300"/>
+                                        <rect key="frame" x="20" y="51" width="560" height="320"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-lA-hj4">
-                                        <rect key="frame" x="20" y="51" width="560" height="300"/>
+                                        <rect key="frame" x="20" y="51" width="560" height="320"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1pD-lA-hj4" secondAttribute="height" multiplier="1:1" priority="750" id="2BB-Be-g4W"/>
@@ -41,10 +41,10 @@
                                         </variation>
                                     </imageView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8K-vP-DG2">
-                                        <rect key="frame" x="20" y="359" width="560" height="120"/>
+                                        <rect key="frame" x="20" y="379" width="560" height="100"/>
                                         <animations/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="120" id="YvW-iB-bH2"/>
+                                            <constraint firstAttribute="height" constant="100" id="YvW-iB-bH2"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="kRe-F5-VGI" kind="embed" id="w6B-ck-N2S"/>
@@ -88,7 +88,6 @@
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                         <state key="normal" title="Clear"/>
                                         <connections>
-                                            <action selector="saveButtonTap:" destination="tgg-8i-EN6" eventType="touchUpInside" id="tiv-X6-pAi"/>
                                             <action selector="tapClear:" destination="tgg-8i-EN6" eventType="touchUpInside" id="HQB-o7-DWj"/>
                                         </connections>
                                     </button>
@@ -125,7 +124,7 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mle-2I-UYJ">
-                                <rect key="frame" x="235" y="281" width="130" height="38"/>
+                                <rect key="frame" x="235" y="221" width="130" height="38"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <state key="normal" title="Select Source"/>
@@ -134,7 +133,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fdd-n9-xi6">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <rect key="frame" x="290" y="230" width="20" height="20"/>
                                 <animations/>
                             </activityIndicatorView>
                         </subviews>
@@ -148,12 +147,16 @@
                             <constraint firstItem="mle-2I-UYJ" firstAttribute="centerX" secondItem="5Hv-k1-ANI" secondAttribute="centerX" id="YL6-km-wPS"/>
                             <constraint firstItem="fdd-n9-xi6" firstAttribute="centerY" secondItem="5Hv-k1-ANI" secondAttribute="centerY" id="cxu-1e-Bme"/>
                             <constraint firstItem="fdd-n9-xi6" firstAttribute="centerX" secondItem="5Hv-k1-ANI" secondAttribute="centerX" id="g3P-x8-SLB"/>
+                            <constraint firstItem="mle-2I-UYJ" firstAttribute="centerY" secondItem="5Hv-k1-ANI" secondAttribute="centerY" constant="-60" id="vwE-VY-NdT"/>
+                            <constraint firstItem="fdd-n9-xi6" firstAttribute="centerY" secondItem="5Hv-k1-ANI" secondAttribute="centerY" constant="-60" id="w93-YG-EvF"/>
                             <constraint firstItem="YDZ-8p-Sm7" firstAttribute="top" secondItem="tAn-Lf-7WM" secondAttribute="bottom" id="ydR-vw-DJ5"/>
                             <constraint firstItem="mle-2I-UYJ" firstAttribute="top" secondItem="fH3-M1-Msp" secondAttribute="bottom" constant="8" id="ykO-FG-iwL"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="TZ4-FI-ZUl"/>
                                 <exclude reference="ykO-FG-iwL"/>
+                                <exclude reference="cxu-1e-Bme"/>
                             </mask>
                         </variation>
                     </view>
@@ -431,7 +434,7 @@ https://twitter.com/apexskier</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qeq-52-025">
-                                                <rect key="frame" x="542" y="0.0" width="34" height="30"/>
+                                                <rect key="frame" x="542" y="0.0" width="34" height="77"/>
                                                 <animations/>
                                                 <state key="normal" title="Save"/>
                                                 <connections>
@@ -439,10 +442,10 @@ https://twitter.com/apexskier</string>
                                                 </connections>
                                             </button>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fcg-dh-VS1">
-                                                <rect key="frame" x="0.0" y="38" width="584" height="147"/>
+                                                <rect key="frame" x="0.0" y="85" width="584" height="100"/>
                                                 <animations/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="147" id="Tqd-5d-EZY"/>
+                                                    <constraint firstAttribute="height" constant="100" id="Tqd-5d-EZY"/>
                                                 </constraints>
                                                 <connections>
                                                     <segue destination="kRe-F5-VGI" kind="embed" id="nfn-tI-gxR"/>
@@ -643,8 +646,8 @@ https://twitter.com/apexskier</string>
                         <outlet property="imageView" destination="IDV-JP-0GC" id="jMr-uB-ALr"/>
                         <outlet property="livephotoView" destination="6Zl-cM-mAj" id="00U-tY-57L"/>
                         <outlet property="movieButton" destination="3HU-Z6-bD8" id="U13-aW-YQI"/>
-                        <outlet property="progressBar" destination="Raw-AM-fJk" id="gVJ-ZZ-0Ov"/>
-                        <outlet property="progressBarContainer" destination="ZYe-9c-Cba" id="aic-gr-Flh"/>
+                        <outlet property="progressBar" destination="Raw-AM-fJk" id="yIn-CM-cTs"/>
+                        <outlet property="progressBarContainer" destination="ZYe-9c-Cba" id="aCD-Wf-SPR"/>
                         <outlet property="stackView" destination="xyA-fK-P6V" id="rAS-2D-2yK"/>
                         <outlet property="stackViewBottomConstraint" destination="mYp-tt-Pvq" id="Arn-vz-ZO6"/>
                         <outlet property="stackViewContainer" destination="TTP-wd-x3v" id="zXu-XZ-LWd"/>
@@ -759,19 +762,19 @@ https://twitter.com/apexskier</string>
                         <viewControllerLayoutGuide type="bottom" id="kGc-x1-5Xb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VaO-Ft-78S">
-                        <rect key="frame" x="0.0" y="0.0" width="560" height="120"/>
+                        <rect key="frame" x="0.0" y="0.0" width="560" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqV-ul-xHD" userLabel="Scrubber View">
-                                <rect key="frame" x="0.0" y="0.0" width="560" height="82"/>
+                                <rect key="frame" x="0.0" y="0.0" width="560" height="62"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L71-cg-JZx" userLabel="Thumbnail Container">
-                                        <rect key="frame" x="0.0" y="4" width="560" height="74"/>
+                                        <rect key="frame" x="0.0" y="4" width="560" height="54"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view alpha="0.64999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjX-zX-t6V" userLabel="Left Crop Overlay">
-                                        <rect key="frame" x="0.0" y="0.0" width="11" height="82"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="11" height="62"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -779,7 +782,7 @@ https://twitter.com/apexskier</string>
                                         </constraints>
                                     </view>
                                     <view alpha="0.64999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7NI-f3-foG" userLabel="Right Crop Overlay">
-                                        <rect key="frame" x="549" y="0.0" width="11" height="82"/>
+                                        <rect key="frame" x="549" y="0.0" width="11" height="62"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -793,10 +796,10 @@ https://twitter.com/apexskier</string>
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbY-TM-gmo" userLabel="Left Handle" customClass="VideoEditorLeftHandle" customModule="Live_Photo_Share" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="22" height="82"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="22" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6r-IC-7DL" userLabel="Handle Left">
-                                                <rect key="frame" x="8" y="0.0" width="10" height="82"/>
+                                                <rect key="frame" x="8" y="0.0" width="10" height="62"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -819,10 +822,10 @@ https://twitter.com/apexskier</string>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNb-bo-UhW" userLabel="Right Handle" customClass="VideoEditorRightHandle" customModule="Live_Photo_Share" customModuleProvider="target">
-                                        <rect key="frame" x="538" y="0.0" width="22" height="82"/>
+                                        <rect key="frame" x="538" y="0.0" width="22" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UaS-XV-E7D" userLabel="Handle Right">
-                                                <rect key="frame" x="4" y="0.0" width="10" height="82"/>
+                                                <rect key="frame" x="4" y="0.0" width="10" height="62"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -845,10 +848,10 @@ https://twitter.com/apexskier</string>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqC-nL-BEv" userLabel="Center Handle" customClass="VideoEditorCenterHandle" customModule="Live_Photo_Share" customModuleProvider="target">
-                                        <rect key="frame" x="271" y="0.0" width="18" height="82"/>
+                                        <rect key="frame" x="271" y="0.0" width="18" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0L4-3y-4xI">
-                                                <rect key="frame" x="4" y="0.0" width="10" height="82"/>
+                                                <rect key="frame" x="4" y="0.0" width="10" height="62"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
@@ -896,7 +899,7 @@ https://twitter.com/apexskier</string>
                                 </variation>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="hvN-0P-Y7C">
-                                <rect key="frame" x="20" y="90" width="90" height="30"/>
+                                <rect key="frame" x="20" y="70" width="90" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cwb-Wv-sTy">
                                         <rect key="frame" x="0.0" y="0.0" width="35" height="30"/>

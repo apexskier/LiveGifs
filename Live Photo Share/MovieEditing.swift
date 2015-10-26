@@ -30,28 +30,46 @@ func orientationFromTransform(transform: CGAffineTransform) -> (orientation: UII
 
 func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset, size: CGSize) -> AVMutableVideoCompositionLayerInstruction {
     let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
-    /*let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0]
+    let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0]
     
     let transform = assetTrack.preferredTransform
     let assetInfo = orientationFromTransform(transform)
-    
+    print(transform)
+    print("isPortrait:  \(assetInfo.isPortrait)")
+    let orString = { () -> String in
+        switch assetInfo.orientation {
+        case .Up:
+            return "Up"
+        case .Down:
+            return "Down"
+        case .Left:
+            return "Left"
+        case .Right:
+            return "Right"
+        default:
+            return "Other"
+        }
+    }()
+    print("orientation: \(orString)")
+
     var scaleToFitRatio = size.width / assetTrack.naturalSize.width
+    var newTransform: CGAffineTransform
     if assetInfo.isPortrait {
         scaleToFitRatio = size.width / assetTrack.naturalSize.height
-        let scaleFactor = CGAffineTransformMakeScale(scaleToFitRatio, scaleToFitRatio)
-        // instruction.setTransform(CGAffineTransformConcat(assetTrack.preferredTransform, scaleFactor), atTime: kCMTimeZero)
+        newTransform = CGAffineTransformMakeScale(scaleToFitRatio, scaleToFitRatio)
     } else {
         let scaleFactor = CGAffineTransformMakeScale(scaleToFitRatio, scaleToFitRatio)
-        var concat = CGAffineTransformConcat(CGAffineTransformConcat(assetTrack.preferredTransform, scaleFactor), CGAffineTransformMakeTranslation(0, size.width / 2))
+        newTransform = scaleFactor
+        /*var concat = CGAffineTransformConcat(CGAffineTransformConcat(assetTrack.preferredTransform, scaleFactor), CGAffineTransformMakeTranslation(0, size.width / 2))
         if assetInfo.orientation == .Down {
             let fixUpsideDown = CGAffineTransformMakeRotation(CGFloat(M_PI))
             let yFix = assetTrack.naturalSize.height + size.height
             let centerFix = CGAffineTransformMakeTranslation(assetTrack.naturalSize.width, yFix)
             concat = CGAffineTransformConcat(CGAffineTransformConcat(fixUpsideDown, centerFix), scaleFactor)
-        }
-        // instruction.setTransform(concat, atTime: kCMTimeZero)
-    }*/
-    
+        }*/
+        //instruction.setTransform(concat, atTime: kCMTimeZero)
+    }
+    instruction.setTransform(newTransform, atTime: kCMTimeZero)
     return instruction
 }
 
@@ -64,17 +82,20 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     // 2 - Create video track
     let movVideoTrack = movAsset.tracksWithMediaType(AVMediaTypeVideo).first
     if movVideoTrack == nil {
-        return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
+        return completionHandler(NSURL(), NSError(domain: "Video file invalid.", code: 1, userInfo: nil))
     }
-    let duration = movAsset.duration /*{ () -> CMTime in
+    let duration = { () -> CMTime in
         let d = movAsset.duration
-        if d.seconds > 3 {
-            return CMTime(seconds: 3, preferredTimescale: 6000)
-        } else if d.seconds < 2 {
-            return CMTime(seconds: 2, preferredTimescale: 6000)
+        if d.seconds > 4 {
+            return CMTime(seconds: 4, preferredTimescale: 6000)
         }
         return d
-    }()*/
+    }()
+    if duration.seconds < 2 {
+        return completionHandler(NSURL(), NSError(domain: "Video too short", code: 1, userInfo: nil))
+    }
+    // let duration = movAsset.duration
+
     progressHandler(1/7)
     
     let preferredSize = CGSize(width: 1440, height: 1080)
@@ -90,12 +111,20 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     size = CGSize(width: size.width * scale, height: size.height * scale)
     
     let movTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+    
+    // let timeRange = CMTimeRange(start: kCMTimeZero, duration: duration)
+    let targetMiddleSeconds = (movAsset.duration.seconds * editInfo.centerImage)
+    let targetStartSeconds = max(targetMiddleSeconds - (duration.seconds / 2), 0)
+    let start = CMTime(seconds: targetStartSeconds, preferredTimescale: 6000)
+    let movTimeRange = CMTimeRange(start: start, duration: duration)
     let timeRange = CMTimeRange(start: kCMTimeZero, duration: duration)
-    // let timeRange = CMTimeRange(start: asdfa, end: asfd)
+    print(timeRange.start.seconds)
+    print(timeRange.end.seconds)
+    
     do {
-        try movTrack.insertTimeRange(timeRange, ofTrack: movVideoTrack!, atTime: kCMTimeZero)
+        try movTrack.insertTimeRange(movTimeRange, ofTrack: movVideoTrack!, atTime: kCMTimeZero)
     } catch {
-        return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
+        return completionHandler(NSURL(), NSError(domain: "Failed to generate video.", code: 1, userInfo: nil))
     }
     
     progressHandler(2/7)
@@ -108,7 +137,7 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     mainInstruction.layerInstructions = [firstInstruction]
     let mainComposition = AVMutableVideoComposition()
     mainComposition.instructions = [mainInstruction]
-    let fps = Int32(movVideoTrack!.nominalFrameRate) // min(Int32(movVideoTrack?.nominalFrameRate ?? 14.0), 14)
+    let fps = min(Int32(movVideoTrack?.nominalFrameRate ?? 14.0), 14)
     mainComposition.frameDuration = CMTimeMake(1, fps)
     mainComposition.renderSize = size
     
@@ -116,9 +145,9 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     if let movAudioTrack = movAsset.tracksWithMediaType(AVMediaTypeAudio).first {
         let audioTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: 0)
         do {
-            try audioTrack.insertTimeRange(timeRange, ofTrack: movAudioTrack, atTime: kCMTimeZero)
+            try audioTrack.insertTimeRange(movTimeRange, ofTrack: movAudioTrack, atTime: kCMTimeZero)
         } catch {
-            return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
+            return completionHandler(NSURL(), NSError(domain: "Failed to generate audio.", code: 1, userInfo: nil))
         }
     }
     
@@ -127,9 +156,9 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     if let refMetadataTrack = refVideoAsset.tracksWithMediaType(AVMediaTypeMetadata).first {
         let metadataTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeMetadata, preferredTrackID: 0)
         do {
-            try metadataTrack.insertTimeRange(timeRange, ofTrack: refMetadataTrack, atTime: kCMTimeZero)
+            try metadataTrack.insertTimeRange(movTimeRange, ofTrack: refMetadataTrack, atTime: kCMTimeZero)
         } catch {
-            return completionHandler(NSURL(), NSError(domain: "Failed", code: 1, userInfo: nil))
+            return completionHandler(NSURL(), NSError(domain: "Failed to generate metadata.", code: 1, userInfo: nil))
         }
     }
     
@@ -183,14 +212,14 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     let kKeySpaceQuickTimeMetadata = "mdta"
     stillImageMeta.key = kKeyStillImageTime
     stillImageMeta.keySpace = kKeySpaceQuickTimeMetadata
-    stillImageMeta.value = "0"
+    stillImageMeta.value = "30"
     stillImageMeta.dataType = "com.apple.metadata.datatype.int8"
     dateMeta.extraAttributes = [
         "dataType": 1,
         "dataTypeNamespace": "com.apple.quicktime.mdta"
     ]
     
-    exporter.metadata = [idMeta, dateMeta, stillImageMeta]
+    exporter.metadata = [idMeta, dateMeta] //, stillImageMeta]
     // print(exporter.metadata)
     progressHandler(6/7)
 
