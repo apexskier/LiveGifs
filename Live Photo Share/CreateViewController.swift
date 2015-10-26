@@ -26,8 +26,8 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
 
     var editingControlsController: VideoEditorControls?
 
-
     var progressIsUp = false
+    var saving = false
     
     override func viewDidLoad() {
         editingContainerView.hidden = true
@@ -43,6 +43,9 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
 
     override func viewDidAppear(animated: Bool) {
         livephotoView.hidden = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -148,9 +151,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                                 })
                             } else {
                                 self.videoURL = url
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    self.setupVideoForEditing()
-                                })
+                                dispatch_async(dispatch_get_main_queue(), self.setupVideoForEditing)
                             }
                         })
                     } else {
@@ -262,6 +263,8 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                         
                         let newMovURL2 = NSURL(fileURLWithPath: movSavePath)
                         
+                        self.saving = true
+                        
                         saveLivePhoto(movURL: newMovURL2, jpegURL: imgURL, progressHandler: { progress in
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.progressBar.setProgress(Float(progress) / 3.0 + 2/3, animated: true)
@@ -282,11 +285,27 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                                 })
                             } else {
                                 dispatch_async(dispatch_get_main_queue(), {
-                                    let alert = UIAlertController(title: "Success!", message: "Saved new Live Photo.", preferredStyle: .Alert)
-                                    let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                    let alert = UIAlertController(title: "Success", message: "The Live Photo has been saved to your library.", preferredStyle: .Alert)
+                                    let okay = UIAlertAction(title: "Done", style: UIAlertActionStyle.Cancel, handler: nil)
+                                    let share = UIAlertAction(title: "Share", style: .Default, handler: { actionUIAlertAction in
+                                        let options = PHFetchOptions()
+                                        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                                        options.fetchLimit = 1
+                                        options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
+                                        let assets = PHAsset.fetchAssetsWithOptions(options)
+                                        if let asset = assets.firstObject as? PHAsset {
+                                            PHImageManager.defaultManager().requestLivePhotoForAsset(asset, targetSize: CGSizeZero, contentMode: .Default, options: nil, resultHandler: { livePhoto, info in
+                                                let sheet = UIActivityViewController(activityItems: [livePhoto!], applicationActivities: nil)
+                                                sheet.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeSaveToCameraRoll]
+                                                self.presentViewController(sheet, animated: true) {}
+                                            })
+                                        }
+                                    })
+                                    alert.addAction(share)
                                     alert.addAction(okay)
                                     self.presentViewController(alert, animated: true) {}
                                 })
+                                // SUCCESS -- should be caught by PHPhotoLibraryChangeObserver
                             }
                         }
                     }

@@ -53,6 +53,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAM-uF-Xm8">
                                         <rect key="frame" x="538" y="8" width="42" height="35"/>
                                         <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="c1K-Rz-jpC"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                         <state key="normal" title="Save"/>
                                         <connections>
@@ -85,6 +88,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKD-Jf-Nzy">
                                         <rect key="frame" x="20" y="8" width="45" height="35"/>
                                         <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="bNr-G3-eBM"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                         <state key="normal" title="Clear"/>
                                         <connections>
@@ -95,12 +101,15 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="1pD-lA-hj4" firstAttribute="top" secondItem="HAM-uF-Xm8" secondAttribute="bottom" priority="750" constant="8" id="8pL-L5-Fs3"/>
                                     <constraint firstAttribute="trailing" secondItem="7Wa-rc-Vfn" secondAttribute="trailing" constant="20" id="911-oL-lWV"/>
                                     <constraint firstItem="HKD-Jf-Nzy" firstAttribute="leading" secondItem="tAn-Lf-7WM" secondAttribute="leading" constant="20" id="BcS-Lu-Q5x"/>
                                     <constraint firstItem="m8K-vP-DG2" firstAttribute="leading" secondItem="tAn-Lf-7WM" secondAttribute="leading" constant="20" id="Cyu-Ju-eBW"/>
                                     <constraint firstItem="yyv-6A-abl" firstAttribute="top" secondItem="tAn-Lf-7WM" secondAttribute="top" constant="8" id="Dde-GS-wef"/>
                                     <constraint firstItem="yyv-6A-abl" firstAttribute="leading" secondItem="tAn-Lf-7WM" secondAttribute="leading" id="F3h-ME-29d"/>
                                     <constraint firstItem="HAM-uF-Xm8" firstAttribute="top" secondItem="tAn-Lf-7WM" secondAttribute="top" constant="8" id="Itj-Lo-goe"/>
+                                    <constraint firstItem="HAM-uF-Xm8" firstAttribute="top" secondItem="yyv-6A-abl" secondAttribute="bottom" id="J5J-bj-Wja"/>
+                                    <constraint firstItem="1pD-lA-hj4" firstAttribute="top" secondItem="HKD-Jf-Nzy" secondAttribute="bottom" priority="750" constant="8" id="LhS-EO-fni"/>
                                     <constraint firstAttribute="trailing" secondItem="m8K-vP-DG2" secondAttribute="trailing" constant="20" id="Mp2-Zt-bIF"/>
                                     <constraint firstItem="m8K-vP-DG2" firstAttribute="top" secondItem="1pD-lA-hj4" secondAttribute="bottom" constant="8" id="Qqm-Iz-O8A"/>
                                     <constraint firstAttribute="trailing" secondItem="yyv-6A-abl" secondAttribute="trailing" id="Qxb-rx-0mL"/>
@@ -111,15 +120,21 @@
                                     <constraint firstAttribute="bottom" secondItem="m8K-vP-DG2" secondAttribute="bottom" constant="8" id="Y9Z-Dt-grf"/>
                                     <constraint firstItem="1pD-lA-hj4" firstAttribute="leading" secondItem="tAn-Lf-7WM" secondAttribute="leading" constant="20" id="bjT-eK-aty"/>
                                     <constraint firstAttribute="trailing" secondItem="HAM-uF-Xm8" secondAttribute="trailing" constant="20" id="gMu-zs-8Y0"/>
+                                    <constraint firstItem="HKD-Jf-Nzy" firstAttribute="top" secondItem="yyv-6A-abl" secondAttribute="bottom" id="kRd-Vr-4Nr"/>
                                     <constraint firstItem="7Wa-rc-Vfn" firstAttribute="leading" secondItem="tAn-Lf-7WM" secondAttribute="leading" constant="20" id="lem-h1-OnX"/>
                                     <constraint firstItem="HAM-uF-Xm8" firstAttribute="top" secondItem="yyv-6A-abl" secondAttribute="bottom" id="nrY-1x-kML"/>
                                     <constraint firstItem="HKD-Jf-Nzy" firstAttribute="top" secondItem="tAn-Lf-7WM" secondAttribute="top" constant="8" id="sDQ-91-Ond"/>
+                                    <constraint firstItem="7Wa-rc-Vfn" firstAttribute="top" secondItem="HKD-Jf-Nzy" secondAttribute="bottom" priority="750" constant="8" id="vaG-WR-9fe"/>
                                     <constraint firstItem="1pD-lA-hj4" firstAttribute="top" secondItem="HKD-Jf-Nzy" secondAttribute="bottom" constant="8" id="zvn-TH-3fU"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="Vdz-xg-rC6"/>
                                         <exclude reference="sDQ-91-Ond"/>
+                                        <exclude reference="zvn-TH-3fU"/>
+                                        <exclude reference="Rc2-xO-tvC"/>
                                         <exclude reference="Itj-Lo-goe"/>
+                                        <exclude reference="nrY-1x-kML"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -160,7 +175,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Create" id="5nc-TE-L9t"/>
+                    <tabBarItem key="tabBarItem" title="Create" image="Create" selectedImage="CreateActive" id="5nc-TE-L9t"/>
                     <connections>
                         <outlet property="centralActivityIndicator" destination="fdd-n9-xi6" id="v7R-kt-Kj0"/>
                         <outlet property="clearButton" destination="HKD-Jf-Nzy" id="gPa-9f-aTH"/>
@@ -234,7 +249,7 @@
                         </connections>
                     </collectionView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Export &amp; Edit" id="DAN-b5-KB3"/>
+                    <tabBarItem key="tabBarItem" title="Export &amp; Edit" image="ExportEdit" selectedImage="ExportEditActive" id="DAN-b5-KB3"/>
                     <navigationItem key="navigationItem" id="2pc-U8-7dq">
                         <nil key="title"/>
                     </navigationItem>
@@ -950,6 +965,12 @@ https://twitter.com/apexskier</string>
             <point key="canvasLocation" x="2983" y="-148.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Create" width="30" height="30"/>
+        <image name="CreateActive" width="30" height="30"/>
+        <image name="ExportEdit" width="30" height="30"/>
+        <image name="ExportEditActive" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="w6B-ck-N2S"/>
     </inferredMetricsTieBreakers>

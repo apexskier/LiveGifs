@@ -86,15 +86,14 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     }
     let duration = { () -> CMTime in
         let d = movAsset.duration
-        if d.seconds > 4 {
-            return CMTime(seconds: 4, preferredTimescale: 6000)
+        if d.seconds > 3 {
+            return CMTime(seconds: 3, preferredTimescale: 6000)
         }
         return d
     }()
     if duration.seconds < 2 {
         return completionHandler(NSURL(), NSError(domain: "Video too short", code: 1, userInfo: nil))
     }
-    // let duration = movAsset.duration
 
     progressHandler(1/7)
     
@@ -116,10 +115,21 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     let targetMiddleSeconds = (movAsset.duration.seconds * editInfo.centerImage)
     let targetStartSeconds = max(targetMiddleSeconds - (duration.seconds / 2), 0)
     let start = CMTime(seconds: targetStartSeconds, preferredTimescale: 6000)
-    let movTimeRange = CMTimeRange(start: start, duration: duration)
+    var movTimeRange: CMTimeRange
+    
+    print("clip duration: \(duration.seconds)")
+    print("original duration: \(movAsset.duration.seconds)")
+    print("start: \(start.seconds)")
+    
+    if (movAsset.duration - (start + duration)).seconds < 0 {
+        movTimeRange = CMTimeRange(start: movAsset.duration - duration, end: movAsset.duration)
+        print("newStart: \((movAsset.duration - duration).seconds)")
+    } else {
+        movTimeRange = CMTimeRange(start: start, duration: duration)
+    }
     let timeRange = CMTimeRange(start: kCMTimeZero, duration: duration)
-    print(timeRange.start.seconds)
-    print(timeRange.end.seconds)
+    print(movTimeRange.start.seconds)
+    print(movTimeRange.end.seconds)
     
     do {
         try movTrack.insertTimeRange(movTimeRange, ofTrack: movVideoTrack!, atTime: kCMTimeZero)

@@ -28,7 +28,6 @@ func gifToMov(source: CGImageSource, progressHandler: (Double -> Void), completi
                     delay = d
                 }
             }
-            print(delay)
         }
         if delay < 0 {
             delay = 1 / 15
@@ -44,7 +43,6 @@ func gifToMov(source: CGImageSource, progressHandler: (Double -> Void), completi
     for time in imageTimes {
         keyTimes.append(time / durationSeconds)
     }
-    print(keyTimes)
     
     print("gif seconds: \(durationSeconds)")
     

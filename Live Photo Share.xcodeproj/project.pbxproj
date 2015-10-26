@@ -107,7 +107,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C53681D01BBCE257004973A9 /* Live Photo Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photo Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C53681D01BBCE257004973A9 /* Live Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C53681D31BBCE257004973A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C53681D51BBCE257004973A9 /* LivePhotoGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhotoGridViewController.swift; sourceTree = "<group>"; };
 		C53681D81BBCE257004973A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		C53682051BBCE303004973A9 /* LivePhotoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoExtensions.swift; sourceTree = "<group>"; };
 		C53682061BBCE303004973A9 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		C53682071BBCE303004973A9 /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGridCell.swift; sourceTree = "<group>"; };
-		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		C54E33591BC0965D000A5817 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Globals.swift; path = "Live Photo Share/Globals.swift"; sourceTree = "<group>"; };
 		C56D63141BC21D490012166D /* Live Photo Export Video.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Photo Export Video.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C56D631A1BC21D490012166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C56D63241BC21DDA0012166D /* LivePhotoActionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhotoActionExtension.swift; sourceTree = "<group>"; };
@@ -214,6 +214,7 @@
 				C53681DA1BBCE257004973A9 /* Assets.xcassets */,
 				C594F44E1BDC3D9100C226F2 /* REFVIDEO.MOV */,
 				C594F4501BDC468B00C226F2 /* REFIMAGE.JPG */,
+				C54E33591BC0965D000A5817 /* Globals.swift */,
 				C53681D21BBCE257004973A9 /* Live Photo Share */,
 				C53681E71BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681F21BBCE257004973A9 /* Live Photo ShareUITests */,
@@ -225,7 +226,7 @@
 		C53681D11BBCE257004973A9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C53681D01BBCE257004973A9 /* Live Photo Share.app */,
+				C53681D01BBCE257004973A9 /* Live Share.app */,
 				C53681E41BBCE257004973A9 /* Live Photo ShareTests.xctest */,
 				C53681EF1BBCE257004973A9 /* Live Photo ShareUITests.xctest */,
 				C56D63141BC21D490012166D /* Live Photo Export Video.appex */,
@@ -244,7 +245,6 @@
 				C594F4521BDDB1F700C226F2 /* GifToMovie.swift */,
 				C53682011BBCE2F6004973A9 /* CoreExtensions.swift */,
 				C594F44D1BDC343100C226F2 /* LoveLiver */,
-				C54E33591BC0965D000A5817 /* Globals.swift */,
 				C5DE0C8E1BD88FDE00512C7C /* UI */,
 				C53681DF1BBCE257004973A9 /* Info.plist */,
 			);
@@ -330,9 +330,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C53681CF1BBCE257004973A9 /* Live Photo Share */ = {
+		C53681CF1BBCE257004973A9 /* Live Share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C53681F81BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Photo Share" */;
+			buildConfigurationList = C53681F81BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Share" */;
 			buildPhases = (
 				C53681CC1BBCE257004973A9 /* Sources */,
 				C53681CD1BBCE257004973A9 /* Frameworks */,
@@ -346,9 +346,9 @@
 				C599CBA81BC36C69003E21FA /* PBXTargetDependency */,
 				C5E0F7E51BC4C19E00CB643C /* PBXTargetDependency */,
 			);
-			name = "Live Photo Share";
+			name = "Live Share";
 			productName = "Live Photo Share";
-			productReference = C53681D01BBCE257004973A9 /* Live Photo Share.app */;
+			productReference = C53681D01BBCE257004973A9 /* Live Share.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C53681E31BBCE257004973A9 /* Live Photo ShareTests */ = {
@@ -487,7 +487,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C53681CF1BBCE257004973A9 /* Live Photo Share */,
+				C53681CF1BBCE257004973A9 /* Live Share */,
 				C53681E31BBCE257004973A9 /* Live Photo ShareTests */,
 				C53681EE1BBCE257004973A9 /* Live Photo ShareUITests */,
 				C56D63131BC21D490012166D /* Live Photo Export Video */,
@@ -630,12 +630,12 @@
 /* Begin PBXTargetDependency section */
 		C53681E61BBCE257004973A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C53681CF1BBCE257004973A9 /* Live Photo Share */;
+			target = C53681CF1BBCE257004973A9 /* Live Share */;
 			targetProxy = C53681E51BBCE257004973A9 /* PBXContainerItemProxy */;
 		};
 		C53681F11BBCE257004973A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C53681CF1BBCE257004973A9 /* Live Photo Share */;
+			target = C53681CF1BBCE257004973A9 /* Live Share */;
 			targetProxy = C53681F01BBCE257004973A9 /* PBXContainerItemProxy */;
 		};
 		C56D631C1BC21D490012166D /* PBXTargetDependency */ = {
@@ -940,7 +940,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C53681F81BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Photo Share" */ = {
+		C53681F81BBCE257004973A9 /* Build configuration list for PBXNativeTarget "Live Share" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C53681F91BBCE257004973A9 /* Debug */,
