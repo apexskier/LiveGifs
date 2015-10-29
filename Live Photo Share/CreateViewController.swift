@@ -110,7 +110,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
             if !foundGIF {
                 print(info)
-                let alert = UIAlertController(title: "Error", message: "Please select a movie or GIF.", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Whoops!", message: "Please select a movie or GIF.", preferredStyle: .Alert)
                 let okay = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alert.addAction(okay)
                 picker.presentViewController(alert, animated: true) {}

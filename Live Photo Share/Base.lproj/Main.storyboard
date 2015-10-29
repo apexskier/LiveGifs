@@ -11,7 +11,7 @@
         <!--Create-->
         <scene sceneID="C69-0W-ogL">
             <objects>
-                <viewController id="tgg-8i-EN6" customClass="CreateViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tgg-8i-EN6" customClass="CreateViewController" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fH3-M1-Msp"/>
                         <viewControllerLayoutGuide type="bottom" id="YDZ-8p-Sm7"/>
@@ -195,7 +195,7 @@
         <!--Export & Edit-->
         <scene sceneID="LOj-RT-A77">
             <objects>
-                <collectionViewController modalPresentationStyle="currentContext" id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController modalPresentationStyle="currentContext" id="stJ-QJ-IVw" customClass="PhotoGridViewController" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="13T-B4-Mfe">
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -207,8 +207,71 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
+                        <view key="backgroundView" contentMode="scaleToFill" id="clm-5H-YhD">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your photo library contains no live photos." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WeY-ij-x8f">
+                                    <rect key="frame" x="173" y="215" width="253" height="58"/>
+                                    <animations/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lL9-ti-HFU">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please allow Live Share to access your photos." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhv-Ws-hsX">
+                                            <rect key="frame" x="169" y="164" width="261" height="47"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZB-fz-kWC">
+                                            <rect key="frame" x="251" y="229" width="98" height="30"/>
+                                            <animations/>
+                                            <state key="normal" title="Open Settings"/>
+                                            <connections>
+                                                <action selector="tapOpenSettings:" destination="stJ-QJ-IVw" eventType="touchUpInside" id="xUr-fZ-BPy"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="dhv-Ws-hsX" firstAttribute="centerY" secondItem="lL9-ti-HFU" secondAttribute="centerY" constant="-40" id="7nC-3C-LPn"/>
+                                        <constraint firstItem="ZZB-fz-kWC" firstAttribute="top" secondItem="dhv-Ws-hsX" secondAttribute="bottom" constant="8" id="HFl-Xg-Xw4"/>
+                                        <constraint firstItem="dhv-Ws-hsX" firstAttribute="centerX" secondItem="lL9-ti-HFU" secondAttribute="centerX" id="Ybv-oK-gTp"/>
+                                        <constraint firstItem="ZZB-fz-kWC" firstAttribute="centerX" secondItem="lL9-ti-HFU" secondAttribute="centerX" id="oRe-XM-jWq"/>
+                                        <constraint firstItem="dhv-Ws-hsX" firstAttribute="leading" secondItem="lL9-ti-HFU" secondAttribute="leading" constant="30" id="xH0-Qt-lJV"/>
+                                        <constraint firstAttribute="trailing" secondItem="dhv-Ws-hsX" secondAttribute="trailing" constant="30" id="yY0-8I-10I"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="lL9-ti-HFU" firstAttribute="top" secondItem="clm-5H-YhD" secondAttribute="top" id="Fdj-mG-gCF"/>
+                                <constraint firstAttribute="trailing" secondItem="lL9-ti-HFU" secondAttribute="trailing" id="GlI-yO-uoG"/>
+                                <constraint firstItem="WeY-ij-x8f" firstAttribute="leading" secondItem="clm-5H-YhD" secondAttribute="leading" constant="30" id="KsT-s5-VhG"/>
+                                <constraint firstItem="WeY-ij-x8f" firstAttribute="centerY" secondItem="clm-5H-YhD" secondAttribute="centerY" constant="-20" id="O2c-9o-fjN"/>
+                                <constraint firstItem="WeY-ij-x8f" firstAttribute="centerX" secondItem="clm-5H-YhD" secondAttribute="centerX" constant="-20" id="aK4-do-agm"/>
+                                <constraint firstItem="lL9-ti-HFU" firstAttribute="leading" secondItem="clm-5H-YhD" secondAttribute="leading" id="exi-GP-u5G"/>
+                                <constraint firstItem="WeY-ij-x8f" firstAttribute="centerX" secondItem="clm-5H-YhD" secondAttribute="centerX" id="gCn-7F-mqU"/>
+                                <constraint firstItem="WeY-ij-x8f" firstAttribute="centerY" secondItem="clm-5H-YhD" secondAttribute="centerY" id="pex-6o-hx3"/>
+                                <constraint firstAttribute="trailing" secondItem="WeY-ij-x8f" secondAttribute="trailing" constant="30" id="syz-5z-PeU"/>
+                                <constraint firstAttribute="bottom" secondItem="lL9-ti-HFU" secondAttribute="bottom" id="yLv-O0-P9L"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="aK4-do-agm"/>
+                                    <exclude reference="pex-6o-hx3"/>
+                                </mask>
+                            </variation>
+                        </view>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="Live_Photo_Share" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoGridCell" id="ici-lB-Nrk" customClass="PhotoGridCell" customModule="Live_Share" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -253,6 +316,10 @@
                     <navigationItem key="navigationItem" id="2pc-U8-7dq">
                         <nil key="title"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="emptyLabel" destination="WeY-ij-x8f" id="ACV-Kv-man"/>
+                        <outlet property="noAccessView" destination="lL9-ti-HFU" id="GWL-d4-elV"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-m7-UjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -261,7 +328,7 @@
         <!--Info View Controller-->
         <scene sceneID="jlG-Ne-ZPp">
             <objects>
-                <viewController id="tlM-aY-C4g" customClass="InfoViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tlM-aY-C4g" customClass="InfoViewController" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3pm-N8-8o9"/>
                         <viewControllerLayoutGuide type="bottom" id="KND-QN-GSK"/>
@@ -339,7 +406,7 @@ https://twitter.com/apexskier</string>
         <!--Overlay View Controller-->
         <scene sceneID="i1y-W8-97r">
             <objects>
-                <viewController storyboardIdentifier="OverlayViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ys7-6k-Ric" customClass="OverlayViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OverlayViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ys7-6k-Ric" customClass="OverlayViewController" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iLC-lp-XXZ"/>
                         <viewControllerLayoutGuide type="bottom" id="bwH-ns-yIt"/>
@@ -738,7 +805,7 @@ https://twitter.com/apexskier</string>
         <!--Live Photo Share-->
         <scene sceneID="Das-wL-Hpu">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="currentContext" id="TfZ-Ea-cbB" customClass="MainTabBarViewController" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="currentContext" id="TfZ-Ea-cbB" customClass="MainTabBarViewController" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Live Photo Share" id="tnS-1g-vOh">
@@ -771,7 +838,7 @@ https://twitter.com/apexskier</string>
         <!--Video Editor Controls-->
         <scene sceneID="l9u-4b-Qmy">
             <objects>
-                <viewController id="kRe-F5-VGI" customClass="VideoEditorControls" customModule="Live_Photo_Share" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="kRe-F5-VGI" customClass="VideoEditorControls" customModule="Live_Share" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LF0-uT-vSz"/>
                         <viewControllerLayoutGuide type="bottom" id="kGc-x1-5Xb"/>
@@ -810,7 +877,7 @@ https://twitter.com/apexskier</string>
                                             </mask>
                                         </variation>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbY-TM-gmo" userLabel="Left Handle" customClass="VideoEditorLeftHandle" customModule="Live_Photo_Share" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbY-TM-gmo" userLabel="Left Handle" customClass="VideoEditorLeftHandle" customModule="Live_Share" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="22" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6r-IC-7DL" userLabel="Handle Left">
@@ -836,7 +903,7 @@ https://twitter.com/apexskier</string>
                                             <constraint firstItem="u6r-IC-7DL" firstAttribute="leading" secondItem="VbY-TM-gmo" secondAttribute="leading" constant="8" id="knd-lX-pIm"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNb-bo-UhW" userLabel="Right Handle" customClass="VideoEditorRightHandle" customModule="Live_Photo_Share" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNb-bo-UhW" userLabel="Right Handle" customClass="VideoEditorRightHandle" customModule="Live_Share" customModuleProvider="target">
                                         <rect key="frame" x="538" y="0.0" width="22" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UaS-XV-E7D" userLabel="Handle Right">
@@ -862,7 +929,7 @@ https://twitter.com/apexskier</string>
                                             <constraint firstItem="UaS-XV-E7D" firstAttribute="leading" secondItem="ZNb-bo-UhW" secondAttribute="leading" constant="4" id="bIh-Ze-Q7z"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqC-nL-BEv" userLabel="Center Handle" customClass="VideoEditorCenterHandle" customModule="Live_Photo_Share" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqC-nL-BEv" userLabel="Center Handle" customClass="VideoEditorCenterHandle" customModule="Live_Share" customModuleProvider="target">
                                         <rect key="frame" x="271" y="0.0" width="18" height="62"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0L4-3y-4xI">

@@ -15,9 +15,13 @@ import UIKit
 
 class PhotoGridViewController: UICollectionViewController, UIViewControllerPreviewingDelegate, UICollectionViewDelegateFlowLayout, PHPhotoLibraryChangeObserver {
     private let reuseIdentifier = "PhotoGridCell"
+    @IBOutlet weak var noAccessView: UIView!
+    @IBOutlet weak var emptyLabel: UILabel!
 
     var running = false
     var waitingForNew = false
+    
+    let notificationCenter = NSNotificationCenter.defaultCenter()
 
     var observers: [AnyObject] = []
 
@@ -30,6 +34,21 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
     var assets: PHFetchResult! {
         didSet {
             collectionView!.reloadData()
+            checkErrors()
+        }
+    }
+    
+    func checkErrors() {
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        if authStatus == .Denied || authStatus == .Restricted || authStatus == .NotDetermined {
+            noAccessView.hidden = false
+            emptyLabel.hidden = true
+        } else if assets.count == 0 {
+            noAccessView.hidden = true
+            emptyLabel.hidden = false
+        } else {
+            noAccessView.hidden = true
+            emptyLabel.hidden = true
         }
     }
 
@@ -39,21 +58,20 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         self.registerForPreviewingWithDelegate(self, sourceView: collectionView!)
 
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+        
+        loadAssets()
 
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
-            reloadAssets()
-        } else {
+        if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.Authorized {
             PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
         }
-
-        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("wakeUp", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+        
+        observers.append(notificationCenter.addObserverForName("wakeUp", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
             dispatch_async(dispatch_get_main_queue(), {
-                self.reloadAssets()
-                self.collectionView!.reloadData()
+                self.loadAssets()
             })
         }))
 
-        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("trigger", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
+        observers.append(notificationCenter.addObserverForName("trigger", object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
             let action = notification.object! as! Action
             if self.presentedViewController == nil {
                 self.selectPhoto(action, progressHandler: {_ in }, completionHandler: {_ in })
@@ -64,26 +82,27 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
             }
         }))
         
-        observers.append(NSNotificationCenter.defaultCenter().addObserverForName("creating", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
+        observers.append(notificationCenter.addObserverForName("creating", object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification: NSNotification!) -> Void in
             self.waitingForNew = true
         }))
         
-        NSNotificationCenter.defaultCenter().postNotificationName("viewControllerListening", object: nil)
+        notificationCenter.addObserver(self, selector: "loadAssets", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        notificationCenter.postNotificationName("viewControllerListening", object: nil)
     }
 
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
             print("photos authorized")
             dispatch_async(dispatch_get_main_queue(), {
-                self.reloadAssets()
-                self.collectionView!.reloadData()
+                self.loadAssets()
             })
         } else {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 
-    func reloadAssets() {
+    func loadAssets() {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         options.predicate =  NSPredicate(format: "mediaSubtype = %i", PHAssetMediaSubtype.PhotoLive.rawValue)
@@ -181,6 +200,14 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
         return nil
     }
 
+    @IBAction func tapOpenSettings(sender: AnyObject) {
+        if let to = NSURL(string: UIApplicationOpenSettingsURLString) {
+            if UIApplication.sharedApplication().canOpenURL(to) {
+                UIApplication.sharedApplication().openURL(to)
+            }
+        }
+    }
+    
     // MARK: custom stuff
 
     func selectPhoto(action: Action, progressHandler: (Double) -> Void, completionHandler: (NSError?) -> Void) {
@@ -206,7 +233,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                     overlayController.livephotoView.livePhoto = livePhoto
                     overlayController.livephotoView.startPlaybackWithStyle(.Full)
                     if action.action != "" {
-                        NSNotificationCenter.defaultCenter().postNotificationName(action.action, object: nil)
+                        self.notificationCenter.postNotificationName(action.action, object: nil)
                     }
                     completionHandler(nil)
                 })
@@ -296,6 +323,7 @@ class PhotoGridViewController: UICollectionViewController, UIViewControllerPrevi
                     // Detailed change information is not available;
                     // repopulate the UI from the current fetch result.
                     self.collectionView?.reloadData()
+                    self.checkErrors()
                 }
             }
         }
@@ -331,20 +359,21 @@ class PeekViewController: UIViewController {
     var indexPath: NSIndexPath?
 
     override func previewActionItems() -> [UIPreviewActionItem] {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
         let shareAsGif = UIPreviewAction(title: "Share as GIF", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
             print("share as gif preview action")
             let vc = previewViewController as! PeekViewController
-            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareGif"))
+            notificationCenter.postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareGif"))
         }
         let shareAsMov = UIPreviewAction(title: "Share as Movie", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
             print("share as mov preview action")
             let vc = previewViewController as! PeekViewController
-            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareMov"))
+            notificationCenter.postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareMov"))
         }
         let shareAsSilent = UIPreviewAction(title: "Share as Silent Movie", style: UIPreviewActionStyle.Default) { (action: UIPreviewAction, previewViewController: UIViewController) -> Void in
             print("share as silent mov preview action")
             let vc = previewViewController as! PeekViewController
-            NSNotificationCenter.defaultCenter().postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareSilentMov"))
+            notificationCenter.postNotificationName("trigger", object: Action(indexPath: vc.indexPath!, action: "shareSilentMov"))
         }
         return [shareAsGif, shareAsMov, shareAsSilent]
     }
