@@ -93,7 +93,7 @@ func gifToMov(source: CGImageSource, progressHandler: (Double -> Void), completi
     
     let firstInstruction = videoCompositionInstructionForTrack(movTrack, asset: refVideoAsset, size: size)
     
-    mainInstruction.layerInstructions = [firstInstruction]
+    mainInstruction.layerInstructions = [firstInstruction.comp]
     let mainComposition = AVMutableVideoComposition()
     
     // Set up gif as an animation

@@ -28,7 +28,7 @@ func orientationFromTransform(transform: CGAffineTransform) -> (orientation: UII
     return (assetOrientation, isPortrait)
 }
 
-func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset, size: CGSize) -> AVMutableVideoCompositionLayerInstruction {
+func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset, size: CGSize) -> (comp: AVMutableVideoCompositionLayerInstruction, newSize: CGSize) {
     let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
     let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0]
     
@@ -53,13 +53,27 @@ func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAss
     print("orientation: \(orString)")
 
     var scaleToFitRatio = size.width / assetTrack.naturalSize.width
-    var newTransform: CGAffineTransform
+    var newTransform: CGAffineTransform = transform
+    var newSize: CGSize = size
     if assetInfo.isPortrait {
-        scaleToFitRatio = size.width / assetTrack.naturalSize.height
-        newTransform = CGAffineTransformMakeScale(scaleToFitRatio, scaleToFitRatio)
+        newSize = CGSize(width: size.height, height: size.width)
+        scaleToFitRatio = newSize.width / assetTrack.naturalSize.height
+        newTransform = CGAffineTransformTranslate(newTransform, size.width/2, size.height/2)
+        newTransform = CGAffineTransformScale(newTransform, scaleToFitRatio, scaleToFitRatio)
+        newTransform = CGAffineTransformTranslate(newTransform, -size.width/2, -size.height/2)
+
+        //let x = ((assetInfo.orientation == .Right) ? -1 : 1) * (newSize.width / 2)
+        //newTransform = CGAffineTransformTranslate(newTransform, x, 0)
+        /*newTransform = CGAffineTransformTranslate(newTransform, size.width/2, size.height/2)
+        let a = (assetInfo.orientation == .Right) ? CGFloat(-M_PI) : CGFloat(M_PI)
+        newTransform = CGAffineTransformRotate(newTransform, a)
+        //newTransform = CGAffineTransformTranslate(newTransform, 0, newSize.height)
+        newTransform = CGAffineTransformTranslate(newTransform, -size.width/2, -size.height/2)
+        
+        newTransform = CGAffineTransformScale(newTransform, scaleToFitRatio, scaleToFitRatio)*/
     } else {
-        let scaleFactor = CGAffineTransformMakeScale(scaleToFitRatio, scaleToFitRatio)
-        newTransform = scaleFactor
+        newTransform = CGAffineTransformScale(newTransform, scaleToFitRatio, scaleToFitRatio)
+        //newTransform = scaleFactor
         /*var concat = CGAffineTransformConcat(CGAffineTransformConcat(assetTrack.preferredTransform, scaleFactor), CGAffineTransformMakeTranslation(0, size.width / 2))
         if assetInfo.orientation == .Down {
             let fixUpsideDown = CGAffineTransformMakeRotation(CGFloat(M_PI))
@@ -69,8 +83,10 @@ func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAss
         }*/
         //instruction.setTransform(concat, atTime: kCMTimeZero)
     }
+    //instruction.setTransform(newTransform, atTime: kCMTimeZero)
     instruction.setTransform(newTransform, atTime: kCMTimeZero)
-    return instruction
+    print(newSize)
+    return (instruction, newSize)
 }
 
 func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInformation, progressHandler: (Double -> Void), completionHandler: ((NSURL, NSError?) -> Void)) {
@@ -96,18 +112,6 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     }
 
     progressHandler(1/7)
-    
-    let preferredSize = CGSize(width: 1440, height: 1080)
-    var size = movVideoTrack!.naturalSize
-    let maxDimension = max(size.height, size.width)
-    let minDimension = min(size.height, size.width)
-    var scale: CGFloat
-    if maxDimension / minDimension < preferredSize.width / preferredSize.height {
-        scale = preferredSize.height / minDimension
-    } else {
-        scale = preferredSize.width / maxDimension
-    }
-    size = CGSize(width: size.width * scale, height: size.height * scale)
     
     let movTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
     
@@ -136,20 +140,34 @@ func stdMovToLivephotoMov(assetID: String, movAsset: AVAsset, editInfo: EditInfo
     } catch {
         return completionHandler(NSURL(), NSError(domain: "Failed to generate video.", code: 1, userInfo: nil))
     }
+    /*if let t = movVideoTrack?.preferredTransform {
+        movTrack.preferredTransform = t
+    }*/
     
     progressHandler(2/7)
     
     let mainInstruction = AVMutableVideoCompositionInstruction()
     mainInstruction.timeRange = timeRange
     
-    let firstInstruction = videoCompositionInstructionForTrack(movTrack, asset: movAsset, size: size)
+    let preferredSize = CGSize(width: 1440, height: 1080)
+    var size = movVideoTrack!.naturalSize
+    /*let maxDimension = max(size.height, size.width)
+    let minDimension = min(size.height, size.width)
+    var scale: CGFloat
+    if maxDimension / minDimension < preferredSize.width / preferredSize.height {
+        scale = preferredSize.height / minDimension
+    } else {
+        scale = preferredSize.width / maxDimension
+    }
+    size = CGSize(width: size.width * scale, height: size.height * scale)*/
+    let (firstInstruction, newSize) = videoCompositionInstructionForTrack(movTrack, asset: movAsset, size: size)
     
     mainInstruction.layerInstructions = [firstInstruction]
     let mainComposition = AVMutableVideoComposition()
     mainComposition.instructions = [mainInstruction]
     let fps = min(Int32(movVideoTrack?.nominalFrameRate ?? 14.0), 14)
     mainComposition.frameDuration = CMTimeMake(1, fps)
-    mainComposition.renderSize = size
+    mainComposition.renderSize = newSize
     
     // 3 - Audio track
     if let movAudioTrack = movAsset.tracksWithMediaType(AVMediaTypeAudio).first {

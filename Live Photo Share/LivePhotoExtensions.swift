@@ -390,6 +390,14 @@ func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, ed
     progressHandler(0)
     let seconds = editInfo.centerImage * movAsset.duration.seconds
     let time = CMTime(seconds: seconds, preferredTimescale: 6000)
+    
+    let orientation: UIImageOrientation = { () -> UIImageOrientation in
+        if let assetTrack = movAsset.tracksWithMediaType(AVMediaTypeVideo).first {
+            let transform = assetTrack.preferredTransform
+            return orientationFromTransform(transform).orientation
+        }
+        return .Up
+    }()
     do {
         let properties = { () -> NSDictionary in
             if referenceImgURL != nil {
@@ -402,6 +410,8 @@ func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, ed
             let makerNote = NSMutableDictionary()
             makerNote.setObject(assetID, forKey: "17")
             metadata.setObject(makerNote, forKey: kCGImagePropertyMakerAppleDictionary as String)
+            
+            //metadata.setObject(4, forKey: kCGImagePropertyOrientation as String)
             return metadata
         }()
         let url = NSURL.fileURLWithPath(NSTemporaryDirectory().stringByAppendingString("\(assetID == "" ? NSUUID().UUIDString : assetID).JPG"))
@@ -410,8 +420,54 @@ func generateImg(assetID: String, movAsset: AVAsset, referenceImgURL: NSURL?, ed
         catch {}
         progressHandler(0.5)
         let imageDest = CGImageDestinationCreateWithURL(url, kUTTypeJPEG, 1, nil)!
-        let imageRef = try generator.copyCGImageAtTime(time, actualTime: nil)
+        let imageRef = try { () -> CGImage in
+            let originalCGImage = try generator.copyCGImageAtTime(time, actualTime: nil)
+            if orientation == .Up {
+                return originalCGImage
+            }
+            
+            let imageSize = CGSize(width: CGImageGetWidth(originalCGImage), height: CGImageGetHeight(originalCGImage))
+            var rotatedSize: CGSize
+            if orientation == .Right || orientation == .Left {
+                rotatedSize = CGSize(width: imageSize.height, height: imageSize.width)
+            } else {
+                rotatedSize = imageSize
+            }
+            
+            let rotatedCenterX = rotatedSize.width / 2.0
+            let rotatedCenterY = rotatedSize.height / 2.0
+            
+            UIGraphicsBeginImageContextWithOptions(rotatedSize, false, 1)
+            let rotatedContext = UIGraphicsGetCurrentContext()
+            if orientation == .Up || orientation == .Down { // 0 or 180 degrees
+                CGContextTranslateCTM(rotatedContext, rotatedCenterX, rotatedCenterY)
+                if (orientation == .Up) {
+                    CGContextScaleCTM(rotatedContext, 1, -1)
+                } else {
+                    CGContextScaleCTM(rotatedContext, -1, 1)
+                }
+                CGContextTranslateCTM(rotatedContext, -rotatedCenterX, -rotatedCenterY)
+            } else if orientation == .Right || orientation == .Left { // +/- 90 degrees
+                CGContextTranslateCTM(rotatedContext, rotatedCenterX, rotatedCenterY)
+                if orientation == .Right {
+                    CGContextRotateCTM(rotatedContext, CGFloat(M_PI_2))
+                } else {
+                    CGContextRotateCTM(rotatedContext, CGFloat(-M_PI_2))
+                }
+                CGContextScaleCTM(rotatedContext, 1, -1)
+                CGContextTranslateCTM(rotatedContext, -rotatedCenterY, -rotatedCenterX)
+            }
+            
+            let drawingRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
+            CGContextDrawImage(rotatedContext, drawingRect, originalCGImage)
+            let rotatedCGImage = CGBitmapContextCreateImage(rotatedContext)
+            
+            UIGraphicsEndImageContext()
+            
+            return rotatedCGImage!
+        }()
         CGImageDestinationAddImage(imageDest, imageRef, properties)
+        
         CGImageDestinationFinalize(imageDest)
         completionHandler(url, nil)
     } catch {

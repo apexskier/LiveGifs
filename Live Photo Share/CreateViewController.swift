@@ -27,7 +27,6 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
     var editingControlsController: VideoEditorControls?
 
     var progressIsUp = false
-    var saving = false
     
     override func viewDidLoad() {
         editingContainerView.hidden = true
@@ -215,10 +214,21 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
         dismissViewControllerAnimated(true, completion: {})
     }
     
+    func saveDone() {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.progressDown()
+            self.saveButton.enabled = true
+            self.clearButton.enabled = true
+            self.tabBarController?.tabBar.userInteractionEnabled = true
+        })
+    }
+    
     @IBAction func saveButtonTap(sender: AnyObject) {
         let movAsset = AVAsset(URL: videoURL!)
         let assetId = NSUUID().UUIDString
         saveButton.enabled = false
+        clearButton.enabled = false
+        self.tabBarController?.tabBar.userInteractionEnabled = false
         progressUp()
         stdMovToLivephotoMov(assetId, movAsset: movAsset, editInfo: editInformation, progressHandler: { progress in
             dispatch_async(dispatch_get_main_queue(), {
@@ -226,10 +236,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
             })
         }){ (newMovURL, error) in
             if error != nil {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.progressDown()
-                    self.saveButton.enabled = true
-                })
+                self.saveDone()
                 print(error!.usefulDescription)
                 dispatch_async(dispatch_get_main_queue(), {
                     let alert = UIAlertController(title: "Error", message: "Failed to edit movie.", preferredStyle: .Alert)
@@ -244,10 +251,7 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                     })
                 }) { (imgURL, error) in
                     if error != nil {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.progressDown()
-                            self.saveButton.enabled = true
-                        })
+                        self.saveDone()
                         print(error!.usefulDescription)
                         dispatch_async(dispatch_get_main_queue(), {
                             let alert = UIAlertController(title: "Error", message: "Failed to generate image.", preferredStyle: .Alert)
@@ -258,23 +262,14 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                     } else {
                         let movSavePath = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("SAVE_\(assetId).MOV")
                         //let imgSavePath = (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("SAVE_\(assetId).JPG")
-                        
                         QuickTimeMov(path: newMovURL.path!).write(movSavePath, assetIdentifier: assetId)
-                        
                         let newMovURL2 = NSURL(fileURLWithPath: movSavePath)
-                        
-                        self.saving = true
-                        
                         saveLivePhoto(movURL: newMovURL2, jpegURL: imgURL, progressHandler: { progress in
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.progressBar.setProgress(Float(progress) / 3.0 + 2/3, animated: true)
                             })
                         }) { error in
-                            self.progressBar.setProgress(1, animated: true)
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.progressDown()
-                                self.saveButton.enabled = true
-                            })
+                            self.saveDone()
                             if error != nil {
                                 print(error!.usefulDescription)
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -301,11 +296,10 @@ class CreateViewController: UIViewController, UIImagePickerControllerDelegate, U
                                             })
                                         }
                                     })
-                                    alert.addAction(share)
+                                    // TODO: alert.addAction(share)
                                     alert.addAction(okay)
                                     self.presentViewController(alert, animated: true) {}
                                 })
-                                // SUCCESS -- should be caught by PHPhotoLibraryChangeObserver
                             }
                         }
                     }
